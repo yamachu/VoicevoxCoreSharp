@@ -7,6 +7,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{4C7CC788-A86
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VoicevoxCoreSharp.Core", "src\VoicevoxCoreSharp.Core\VoicevoxCoreSharp.Core.csproj", "{D4BCDF64-381D-44D1-A44F-68B351C508ED}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{59135909-2A0A-42B3-B00F-6D730FA25823}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VoicevoxCoreSharp.Core.Tests", "tests\VoicevoxCoreSharp.Core.Tests\VoicevoxCoreSharp.Core.Tests.csproj", "{806285F7-6FA3-4BEA-A596-5DBD48A6941A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -20,8 +24,13 @@ Global
 		{D4BCDF64-381D-44D1-A44F-68B351C508ED}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D4BCDF64-381D-44D1-A44F-68B351C508ED}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D4BCDF64-381D-44D1-A44F-68B351C508ED}.Release|Any CPU.Build.0 = Release|Any CPU
+		{806285F7-6FA3-4BEA-A596-5DBD48A6941A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{806285F7-6FA3-4BEA-A596-5DBD48A6941A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{806285F7-6FA3-4BEA-A596-5DBD48A6941A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{806285F7-6FA3-4BEA-A596-5DBD48A6941A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{D4BCDF64-381D-44D1-A44F-68B351C508ED} = {4C7CC788-A86A-4A03-9957-A26BF35AE261}
+		{806285F7-6FA3-4BEA-A596-5DBD48A6941A} = {59135909-2A0A-42B3-B00F-6D730FA25823}
 	EndGlobalSection
 EndGlobal
