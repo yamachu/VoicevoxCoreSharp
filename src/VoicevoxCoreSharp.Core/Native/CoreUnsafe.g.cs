@@ -7,6 +7,7 @@
 using System;
 using System.Runtime.InteropServices;
 
+
 namespace VoicevoxCoreSharp.Core.Native
 {
     internal static unsafe partial class CoreUnsafe
@@ -17,6 +18,8 @@ namespace VoicevoxCoreSharp.Core.Native
         const string __DllName = "voicevox_core";
 #endif
         
+
+
 
         [DllImport(__DllName, EntryPoint = "voicevox_open_jtalk_rc_new", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern VoicevoxResultCode voicevox_open_jtalk_rc_new(byte* open_jtalk_dic_dir, OpenJtalkRc** out_open_jtalk);
