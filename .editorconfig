@@ -10,6 +10,12 @@ indent_style = space
 end_of_line = lf
 # (Please don't specify an indent_size here; that has too many unintended consequences.)
 
+[Makefile]
+indent_style = tab
+
+[*.mk]
+indent_style = tab
+
 # Code files
 [*.{cs,csx,vb,vbx}]
 indent_size = 4
