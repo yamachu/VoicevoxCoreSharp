@@ -17,10 +17,6 @@ namespace VoicevoxCoreSharp.Core.Enum
         /// </summary>
         RESULT_NOT_LOADED_OPENJTALK_DICT_ERROR = 1,
         /// <summary>
-        /// modelの読み込みに失敗した
-        /// </summary>
-        RESULT_LOAD_MODEL_ERROR = 2,
-        /// <summary>
         /// サポートされているデバイス情報取得に失敗した
         /// </summary>
         RESULT_GET_SUPPORTED_DEVICES_ERROR = 3,
@@ -28,10 +24,6 @@ namespace VoicevoxCoreSharp.Core.Enum
         /// GPUモードがサポートされていない
         /// </summary>
         RESULT_GPU_SUPPORT_ERROR = 4,
-        /// <summary>
-        /// メタ情報読み込みに失敗した
-        /// </summary>
-        RESULT_LOAD_METAS_ERROR = 5,
         /// <summary>
         /// 無効なstyle_idが指定された
         /// </summary>
@@ -65,17 +57,25 @@ namespace VoicevoxCoreSharp.Core.Enum
         /// </summary>
         RESULT_INVALID_ACCENT_PHRASE_ERROR = 15,
         /// <summary>
-        /// ファイルオープンエラー
+        /// ZIPファイルを開くことに失敗した
         /// </summary>
-        RESULT_OPEN_FILE_ERROR = 16,
+        RESULT_OPEN_ZIP_FILE_ERROR = 16,
         /// <summary>
-        /// Modelを読み込めなかった
+        /// ZIP内のファイルが読めなかった
         /// </summary>
-        RESULT_VVM_MODEL_READ_ERROR = 17,
+        RESULT_READ_ZIP_ENTRY_ERROR = 17,
         /// <summary>
-        /// すでに読み込まれているModelを読み込もうとした
+        /// すでに読み込まれている音声モデルを読み込もうとした
         /// </summary>
-        RESULT_ALREADY_LOADED_MODEL_ERROR = 18,
+        RESULT_MODEL_ALREADY_LOADED_ERROR = 18,
+        /// <summary>
+        /// すでに読み込まれているスタイルを読み込もうとした
+        /// </summary>
+        RESULT_STYLE_ALREADY_LOADED_ERROR = 26,
+        /// <summary>
+        /// 無効なモデルデータ
+        /// </summary>
+        RESULT_INVALID_MODEL_DATA_ERROR = 27,
         /// <summary>
         /// Modelが読み込まれていない
         /// </summary>
@@ -114,10 +114,8 @@ namespace VoicevoxCoreSharp.Core.Enum
             {
                 VoicevoxResultCode.VOICEVOX_RESULT_OK => ResultCode.RESULT_OK,
                 VoicevoxResultCode.VOICEVOX_RESULT_NOT_LOADED_OPENJTALK_DICT_ERROR => ResultCode.RESULT_NOT_LOADED_OPENJTALK_DICT_ERROR,
-                VoicevoxResultCode.VOICEVOX_RESULT_LOAD_MODEL_ERROR => ResultCode.RESULT_LOAD_MODEL_ERROR,
                 VoicevoxResultCode.VOICEVOX_RESULT_GET_SUPPORTED_DEVICES_ERROR => ResultCode.RESULT_GET_SUPPORTED_DEVICES_ERROR,
                 VoicevoxResultCode.VOICEVOX_RESULT_GPU_SUPPORT_ERROR => ResultCode.RESULT_GPU_SUPPORT_ERROR,
-                VoicevoxResultCode.VOICEVOX_RESULT_LOAD_METAS_ERROR => ResultCode.RESULT_LOAD_METAS_ERROR,
                 VoicevoxResultCode.VOICEVOX_RESULT_INVALID_STYLE_ID_ERROR => ResultCode.RESULT_INVALID_STYLE_ID_ERROR,
                 VoicevoxResultCode.VOICEVOX_RESULT_INVALID_MODEL_ID_ERROR => ResultCode.RESULT_INVALID_MODEL_ID_ERROR,
                 VoicevoxResultCode.VOICEVOX_RESULT_INFERENCE_ERROR => ResultCode.RESULT_INFERENCE_ERROR,
@@ -126,9 +124,11 @@ namespace VoicevoxCoreSharp.Core.Enum
                 VoicevoxResultCode.VOICEVOX_RESULT_PARSE_KANA_ERROR => ResultCode.RESULT_PARSE_KANA_ERROR,
                 VoicevoxResultCode.VOICEVOX_RESULT_INVALID_AUDIO_QUERY_ERROR => ResultCode.RESULT_INVALID_AUDIO_QUERY_ERROR,
                 VoicevoxResultCode.VOICEVOX_RESULT_INVALID_ACCENT_PHRASE_ERROR => ResultCode.RESULT_INVALID_ACCENT_PHRASE_ERROR,
-                VoicevoxResultCode.VOICEVOX_RESULT_OPEN_FILE_ERROR => ResultCode.RESULT_OPEN_FILE_ERROR,
-                VoicevoxResultCode.VOICEVOX_RESULT_VVM_MODEL_READ_ERROR => ResultCode.RESULT_VVM_MODEL_READ_ERROR,
-                VoicevoxResultCode.VOICEVOX_RESULT_ALREADY_LOADED_MODEL_ERROR => ResultCode.RESULT_ALREADY_LOADED_MODEL_ERROR,
+                VoicevoxResultCode.VOICEVOX_RESULT_OPEN_ZIP_FILE_ERROR => ResultCode.RESULT_OPEN_ZIP_FILE_ERROR,
+                VoicevoxResultCode.VOICEVOX_RESULT_READ_ZIP_ENTRY_ERROR => ResultCode.RESULT_READ_ZIP_ENTRY_ERROR,
+                VoicevoxResultCode.VOICEVOX_RESULT_MODEL_ALREADY_LOADED_ERROR => ResultCode.RESULT_MODEL_ALREADY_LOADED_ERROR,
+                VoicevoxResultCode.VOICEVOX_RESULT_STYLE_ALREADY_LOADED_ERROR => ResultCode.RESULT_STYLE_ALREADY_LOADED_ERROR,
+                VoicevoxResultCode.VOICEVOX_RESULT_INVALID_MODEL_DATA_ERROR => ResultCode.RESULT_INVALID_MODEL_DATA_ERROR,
                 VoicevoxResultCode.VOICEVOX_RESULT_UNLOADED_MODEL_ERROR => ResultCode.RESULT_UNLOADED_MODEL_ERROR,
                 VoicevoxResultCode.VOICEVOX_RESULT_LOAD_USER_DICT_ERROR => ResultCode.RESULT_LOAD_USER_DICT_ERROR,
                 VoicevoxResultCode.VOICEVOX_RESULT_SAVE_USER_DICT_ERROR => ResultCode.RESULT_SAVE_USER_DICT_ERROR,
@@ -146,10 +146,8 @@ namespace VoicevoxCoreSharp.Core.Enum
             {
                 ResultCode.RESULT_OK => VoicevoxResultCode.VOICEVOX_RESULT_OK,
                 ResultCode.RESULT_NOT_LOADED_OPENJTALK_DICT_ERROR => VoicevoxResultCode.VOICEVOX_RESULT_NOT_LOADED_OPENJTALK_DICT_ERROR,
-                ResultCode.RESULT_LOAD_MODEL_ERROR => VoicevoxResultCode.VOICEVOX_RESULT_LOAD_MODEL_ERROR,
                 ResultCode.RESULT_GET_SUPPORTED_DEVICES_ERROR => VoicevoxResultCode.VOICEVOX_RESULT_GET_SUPPORTED_DEVICES_ERROR,
                 ResultCode.RESULT_GPU_SUPPORT_ERROR => VoicevoxResultCode.VOICEVOX_RESULT_GPU_SUPPORT_ERROR,
-                ResultCode.RESULT_LOAD_METAS_ERROR => VoicevoxResultCode.VOICEVOX_RESULT_LOAD_METAS_ERROR,
                 ResultCode.RESULT_INVALID_STYLE_ID_ERROR => VoicevoxResultCode.VOICEVOX_RESULT_INVALID_STYLE_ID_ERROR,
                 ResultCode.RESULT_INVALID_MODEL_ID_ERROR => VoicevoxResultCode.VOICEVOX_RESULT_INVALID_MODEL_ID_ERROR,
                 ResultCode.RESULT_INFERENCE_ERROR => VoicevoxResultCode.VOICEVOX_RESULT_INFERENCE_ERROR,
@@ -158,9 +156,11 @@ namespace VoicevoxCoreSharp.Core.Enum
                 ResultCode.RESULT_PARSE_KANA_ERROR => VoicevoxResultCode.VOICEVOX_RESULT_PARSE_KANA_ERROR,
                 ResultCode.RESULT_INVALID_AUDIO_QUERY_ERROR => VoicevoxResultCode.VOICEVOX_RESULT_INVALID_AUDIO_QUERY_ERROR,
                 ResultCode.RESULT_INVALID_ACCENT_PHRASE_ERROR => VoicevoxResultCode.VOICEVOX_RESULT_INVALID_ACCENT_PHRASE_ERROR,
-                ResultCode.RESULT_OPEN_FILE_ERROR => VoicevoxResultCode.VOICEVOX_RESULT_OPEN_FILE_ERROR,
-                ResultCode.RESULT_VVM_MODEL_READ_ERROR => VoicevoxResultCode.VOICEVOX_RESULT_VVM_MODEL_READ_ERROR,
-                ResultCode.RESULT_ALREADY_LOADED_MODEL_ERROR => VoicevoxResultCode.VOICEVOX_RESULT_ALREADY_LOADED_MODEL_ERROR,
+                ResultCode.RESULT_OPEN_ZIP_FILE_ERROR => VoicevoxResultCode.VOICEVOX_RESULT_OPEN_ZIP_FILE_ERROR,
+                ResultCode.RESULT_READ_ZIP_ENTRY_ERROR => VoicevoxResultCode.VOICEVOX_RESULT_READ_ZIP_ENTRY_ERROR,
+                ResultCode.RESULT_MODEL_ALREADY_LOADED_ERROR => VoicevoxResultCode.VOICEVOX_RESULT_MODEL_ALREADY_LOADED_ERROR,
+                ResultCode.RESULT_STYLE_ALREADY_LOADED_ERROR => VoicevoxResultCode.VOICEVOX_RESULT_STYLE_ALREADY_LOADED_ERROR,
+                ResultCode.RESULT_INVALID_MODEL_DATA_ERROR => VoicevoxResultCode.VOICEVOX_RESULT_INVALID_MODEL_DATA_ERROR,
                 ResultCode.RESULT_UNLOADED_MODEL_ERROR => VoicevoxResultCode.VOICEVOX_RESULT_UNLOADED_MODEL_ERROR,
                 ResultCode.RESULT_LOAD_USER_DICT_ERROR => VoicevoxResultCode.VOICEVOX_RESULT_LOAD_USER_DICT_ERROR,
                 ResultCode.RESULT_SAVE_USER_DICT_ERROR => VoicevoxResultCode.VOICEVOX_RESULT_SAVE_USER_DICT_ERROR,
