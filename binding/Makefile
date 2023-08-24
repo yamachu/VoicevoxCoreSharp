@@ -1,4 +1,4 @@
-.PHONY: generate replace-hash
+.PHONY: generate replace-hash build/dev-library
 
 generate:
 	cargo build
@@ -7,3 +7,6 @@ generate:
 replace-hash:
 	$(eval VERSION := $(shell cat ../.git/modules/binding/voicevox_core/$(shell cat ../.git/modules/binding/voicevox_core/HEAD | cut -d' ' -f2)))
 	$(shell sed -i '.bak' 's/<VoicevoxCoreCommitHash>.*<\/VoicevoxCoreCommitHash>/<VoicevoxCoreCommitHash>$(VERSION)<\/VoicevoxCoreCommitHash>/' ../src/VoicevoxCoreSharp.Core/VoicevoxCoreSharp.Core.Metas.props)
+
+build/dev-library:
+	cd voicevox_core; cargo build --release -p voicevox_core_c_api
