@@ -70,7 +70,7 @@
     <Content Include="resources\voicevox_core.dll" TargetPath="runtimes\$(_MyRuntimeIdentifier)\native\voicevox_core.dll" Visible="false" CopyToOutputDirectory="PreserveNewest" Condition="$([MSBuild]::IsOsPlatform('Windows'))" />
 
     <Content Include="$(OutputPath)runtimes\$(_MyRuntimeIdentifier)\native\libonnxruntime.dylib" TargetPath="runtimes\$(_MyRuntimeIdentifier)\native\libonnxruntime.$(VoicevoxOnnxRuntimeVersion).dylib" Visible="false" CopyToOutputDirectory="PreserveNewest" Condition="$([MSBuild]::IsOsPlatform('OSX'))" />
-    <Content Include="$(OutputPath)runtimes\$(_MyRuntimeIdentifier)\native\libonnxruntime.so" TargetPath="runtimes\$(_MyRuntimeIdentifier)\native\libonnxruntime.$(VoicevoxOnnxRuntimeVersion).so" Visible="false" CopyToOutputDirectory="PreserveNewest" Condition="$([MSBuild]::IsOsPlatform('Linux'))" />
+    <Content Include="$(OutputPath)runtimes\$(_MyRuntimeIdentifier)\native\libonnxruntime.so" TargetPath="runtimes\$(_MyRuntimeIdentifier)\native\libonnxruntime.so.$(VoicevoxOnnxRuntimeVersion)" Visible="false" CopyToOutputDirectory="PreserveNewest" Condition="$([MSBuild]::IsOsPlatform('Linux'))" />
     <Content Include="$(OutputPath)runtimes\$(_MyRuntimeIdentifier)\native\onnxruntime.dll" TargetPath="runtimes\$(_MyRuntimeIdentifier)\native\onnxruntime.$(VoicevoxOnnxRuntimeVersion).dll" Visible="false" CopyToOutputDirectory="PreserveNewest" Condition="$([MSBuild]::IsOsPlatform('Windows'))" />
   </ItemGroup>
 
