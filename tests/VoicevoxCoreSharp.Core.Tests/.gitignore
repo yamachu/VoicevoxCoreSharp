@@ -1,2 +1,4 @@
 results/*
 !results/.gitkeep
+resources/*
+!resources/.gitkeep
