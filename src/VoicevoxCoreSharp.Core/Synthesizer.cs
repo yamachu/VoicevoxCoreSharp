@@ -100,7 +100,7 @@ namespace VoicevoxCoreSharp.Core
             {
                 unsafe
                 {
-                    var ptr = CoreUnsafe.voicevox_synthesizer_get_metas_json((VoicevoxSynthesizer*)Handle);
+                    var ptr = CoreUnsafe.voicevox_synthesizer_create_metas_json((VoicevoxSynthesizer*)Handle);
                     return StringConvertCompat.ToUTF8String(ptr);
                 }
             }
