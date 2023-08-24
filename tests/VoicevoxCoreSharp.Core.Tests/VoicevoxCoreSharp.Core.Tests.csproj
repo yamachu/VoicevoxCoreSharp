@@ -21,11 +21,57 @@
     </PackageReference>
   </ItemGroup>
 
+  <Choose>
+    <When Condition="$([MSBuild]::IsOsPlatform('OSX')) And '$([System.Runtime.InteropServices.RuntimeInformation]::OSArchitecture)' == 'Arm64'">
+      <PropertyGroup>
+        <!-- onnxruntime依存 -->
+        <_MyRuntimeIdentifier>osx.10.14-arm64</_MyRuntimeIdentifier>
+      </PropertyGroup>
+    </When>
+    <When Condition="$([MSBuild]::IsOsPlatform('OSX')) And '$([System.Runtime.InteropServices.RuntimeInformation]::OSArchitecture)' == 'X64'">
+      <PropertyGroup>
+        <_MyRuntimeIdentifier>osx.10.14-x64</_MyRuntimeIdentifier>
+      </PropertyGroup>
+    </When>
+    <When Condition="$([MSBuild]::IsOsPlatform('Linux')) And '$([System.Runtime.InteropServices.RuntimeInformation]::OSArchitecture)' == 'Arm64'">
+      <PropertyGroup>
+        <_MyRuntimeIdentifier>linux-arm64</_MyRuntimeIdentifier>
+      </PropertyGroup>
+    </When>
+    <When Condition="$([MSBuild]::IsOsPlatform('Linux')) And '$([System.Runtime.InteropServices.RuntimeInformation]::OSArchitecture)' == 'X64'">
+      <PropertyGroup>
+        <_MyRuntimeIdentifier>linux-x64</_MyRuntimeIdentifier>
+      </PropertyGroup>
+    </When>
+    <When Condition="$([MSBuild]::IsOsPlatform('Windows')) And '$([System.Runtime.InteropServices.RuntimeInformation]::OSArchitecture)' == 'X64' ">
+      <PropertyGroup>
+        <_MyRuntimeIdentifier>win-x64</_MyRuntimeIdentifier>
+      </PropertyGroup>
+    </When>
+    <When Condition="$([MSBuild]::IsOsPlatform('Windows')) And '$([System.Runtime.InteropServices.RuntimeInformation]::OSArchitecture)' == 'X86' ">
+      <PropertyGroup>
+        <_MyRuntimeIdentifier>win-x86</_MyRuntimeIdentifier>
+      </PropertyGroup>
+    </When>
+    <Otherwise>
+      <!-- Not supported OS or Architecture -->
+    </Otherwise>
+  </Choose>
+
   <ItemGroup>
     <ProjectReference Include="..\..\src\VoicevoxCoreSharp.Core\VoicevoxCoreSharp.Core.csproj" />
   </ItemGroup>
 
   <Import Project="..\..\src\VoicevoxCoreSharp.Core\VoicevoxCoreSharp.Core.Metas.props" />
-  <Import Project="..\..\src\VoicevoxCoreSharp.Core\VoicevoxCoreSharp.Core.Metas.targets" />
+
+  <ItemGroup>
+    <Content Include="resources\libvoicevox_core.dylib" TargetPath="runtimes\$(_MyRuntimeIdentifier)\native\libvoicevox_core.dylib" Visible="false" CopyToOutputDirectory="PreserveNewest" Condition="$([MSBuild]::IsOsPlatform('OSX'))" />
+    <Content Include="resources\libvoicevox_core.so" TargetPath="runtimes\$(_MyRuntimeIdentifier)\native\libvoicevox_core.so" Visible="false" CopyToOutputDirectory="PreserveNewest" Condition="$([MSBuild]::IsOsPlatform('Linux'))" />
+    <Content Include="resources\voicevox_core.dll" TargetPath="runtimes\$(_MyRuntimeIdentifier)\native\voicevox_core.dll" Visible="false" CopyToOutputDirectory="PreserveNewest" Condition="$([MSBuild]::IsOsPlatform('Windows'))" />
+
+    <Content Include="$(OutputPath)runtimes\$(_MyRuntimeIdentifier)\native\libonnxruntime.dylib" TargetPath="runtimes\$(_MyRuntimeIdentifier)\native\libonnxruntime.$(VoicevoxOnnxRuntimeVersion).dylib" Visible="false" CopyToOutputDirectory="PreserveNewest" Condition="$([MSBuild]::IsOsPlatform('OSX'))" />
+    <Content Include="$(OutputPath)runtimes\$(_MyRuntimeIdentifier)\native\libonnxruntime.so" TargetPath="runtimes\$(_MyRuntimeIdentifier)\native\libonnxruntime.so.$(VoicevoxOnnxRuntimeVersion)" Visible="false" CopyToOutputDirectory="PreserveNewest" Condition="$([MSBuild]::IsOsPlatform('Linux'))" />
+    <Content Include="$(OutputPath)runtimes\$(_MyRuntimeIdentifier)\native\onnxruntime.dll" TargetPath="runtimes\$(_MyRuntimeIdentifier)\native\onnxruntime.$(VoicevoxOnnxRuntimeVersion).dll" Visible="false" CopyToOutputDirectory="PreserveNewest" Condition="$([MSBuild]::IsOsPlatform('Windows'))" />
+  </ItemGroup>
 
 </Project>
