@@ -32,8 +32,6 @@ jobs:
     needs: build-native-dev-library
     steps:
     - uses: actions/checkout@v3
-      with:
-        submodules: true
     - uses: actions/setup-dotnet@v3
       with:
         dotnet-version: 6
