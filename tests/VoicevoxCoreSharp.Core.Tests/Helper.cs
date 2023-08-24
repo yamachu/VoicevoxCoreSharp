@@ -20,7 +20,7 @@ namespace VoicevoxCoreSharp.Core.Tests
 
         public static string GetBaseVoicevoxCoreDirectory()
         {
-            return Path.Combine(GetProjectDirectory(), "..", "binding", "voicevox_core");
+            return Path.Combine(GetProjectDirectory(), "..", "..", "binding", "voicevox_core");
         }
 
         public static string GetTestResultsDirectory()
