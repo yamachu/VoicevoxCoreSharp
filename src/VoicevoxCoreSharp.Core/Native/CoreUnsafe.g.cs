@@ -68,8 +68,8 @@ namespace VoicevoxCoreSharp.Core.Native
         [return: MarshalAs(UnmanagedType.U1)]
         public static extern bool voicevox_synthesizer_is_loaded_voice_model(VoicevoxSynthesizer* synthesizer, byte* model_id);
 
-        [DllImport(__DllName, EntryPoint = "voicevox_synthesizer_get_metas_json", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern byte* voicevox_synthesizer_get_metas_json(VoicevoxSynthesizer* synthesizer);
+        [DllImport(__DllName, EntryPoint = "voicevox_synthesizer_create_metas_json", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern byte* voicevox_synthesizer_create_metas_json(VoicevoxSynthesizer* synthesizer);
 
         [DllImport(__DllName, EntryPoint = "voicevox_create_supported_devices_json", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern VoicevoxResultCode voicevox_create_supported_devices_json(byte** output_supported_devices_json);
@@ -219,10 +219,8 @@ namespace VoicevoxCoreSharp.Core.Native
     {
         VOICEVOX_RESULT_OK = 0,
         VOICEVOX_RESULT_NOT_LOADED_OPENJTALK_DICT_ERROR = 1,
-        VOICEVOX_RESULT_LOAD_MODEL_ERROR = 2,
         VOICEVOX_RESULT_GET_SUPPORTED_DEVICES_ERROR = 3,
         VOICEVOX_RESULT_GPU_SUPPORT_ERROR = 4,
-        VOICEVOX_RESULT_LOAD_METAS_ERROR = 5,
         VOICEVOX_RESULT_INVALID_STYLE_ID_ERROR = 6,
         VOICEVOX_RESULT_INVALID_MODEL_ID_ERROR = 7,
         VOICEVOX_RESULT_INFERENCE_ERROR = 8,
@@ -231,9 +229,11 @@ namespace VoicevoxCoreSharp.Core.Native
         VOICEVOX_RESULT_PARSE_KANA_ERROR = 13,
         VOICEVOX_RESULT_INVALID_AUDIO_QUERY_ERROR = 14,
         VOICEVOX_RESULT_INVALID_ACCENT_PHRASE_ERROR = 15,
-        VOICEVOX_RESULT_OPEN_FILE_ERROR = 16,
-        VOICEVOX_RESULT_VVM_MODEL_READ_ERROR = 17,
-        VOICEVOX_RESULT_ALREADY_LOADED_MODEL_ERROR = 18,
+        VOICEVOX_RESULT_OPEN_ZIP_FILE_ERROR = 16,
+        VOICEVOX_RESULT_READ_ZIP_ENTRY_ERROR = 17,
+        VOICEVOX_RESULT_MODEL_ALREADY_LOADED_ERROR = 18,
+        VOICEVOX_RESULT_STYLE_ALREADY_LOADED_ERROR = 26,
+        VOICEVOX_RESULT_INVALID_MODEL_DATA_ERROR = 27,
         VOICEVOX_RESULT_UNLOADED_MODEL_ERROR = 19,
         VOICEVOX_RESULT_LOAD_USER_DICT_ERROR = 20,
         VOICEVOX_RESULT_SAVE_USER_DICT_ERROR = 21,
