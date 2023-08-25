@@ -19,7 +19,10 @@ jobs:
           path: voicevox_core_resources
           version: ${{ steps.get_tag.outputs.tag }}
       - run: cp ${{ steps.download-voicevox_core.outputs.entrypoint }} tests/VoicevoxCoreSharp.Core.Tests/resources/libvoicevox_core.so
-      - run: mkdir -p tests/VoicevoxCoreSharp.Core.Tests/resources/model; cp -r ${{ steps.download-voicevox_core.outputs.entrypoint }}/../model/0.vvm tests/VoicevoxCoreSharp.Core.Tests/resources/model/sample.vvm
+      # TOOD: Linux, bash前提のやつなのでいい感じにする
+      - run: mkdir -p tests/VoicevoxCoreSharp.Core.Tests/resources/model; cp -r ${VOICEVOX_CORE_RESOURCES%/libvoicevox_core.so}/model/0.vvm tests/VoicevoxCoreSharp.Core.Tests/resources/model/sample.vvm
+        env:
+          VOICEVOX_CORE_RESOURCES: ${{ steps.download-voicevox_core.outputs.entrypoint }}
       - uses: actions/cache/restore@v3
         id: restore-open-jtalk-dictionary
         with:
