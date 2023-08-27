@@ -70,7 +70,7 @@ jobs:
         run: |
           BODY=$([[ ${TEST_STATUS} == "failure" ]] && echo "✅ ${ACTION_URL}" || echo "❌ ${ACTION_URL}")
           gh pr comment ${PR_NUMBER} --edit-last -b "${BODY}"
-          [[ ${TEST_STATUS} == "failure" ]] && exit 1 || exit 0 ]]
+          [[ ${TEST_STATUS} == "failure" ]] && exit 1 || exit 0
         env:
           TEST_STATUS: ${{ steps.test_dotnet.outcome }}
           PR_NUMBER: ${{ github.event.issue.number }}
@@ -80,7 +80,7 @@ jobs:
         run: |
           BODY=$([[ ${TEST_STATUS} == "failure" ]] && echo "✅ ${ACTION_URL}" || echo "❌ ${ACTION_URL}")
           gh pr issue ${ISSUE_NUMBER} --edit-last -b "${BODY}"
-          [[ ${TEST_STATUS} == "failure" ]] && exit 1 || exit 0 ]]
+          [[ ${TEST_STATUS} == "failure" ]] && exit 1 || exit 0
         env:
           TEST_STATUS: ${{ steps.test_dotnet.outcome }}
           ISSUE_NUMBER: ${{ github.event.issue.number }}
