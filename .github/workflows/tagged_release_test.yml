@@ -28,13 +28,15 @@ jobs:
           ISSUE_NUMBER: ${{ github.event.issue.number }}
           ACTION_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
           GH_TOKEN: ${{ github.token }}
-      - if: ${{ github.event.issue.pull_request != null }}
-        run: gh pr checkout ${PR_NUMBER}
-        env:
-          PR_NUMBER: ${{ github.event.issue.number }}
-          GH_TOKEN: ${{ github.token }}
-      - if: ${{ github.event.issue.pull_request != null }}
-        run: git merge --no-ff origin/main
+      # FIXME: pull/:prNumber/merge ブランチにチェックアウトするのがベターか？
+      # release version毎にブランチを生やして、そこで再度互換チェックするかもしれないから要検討
+      # - if: ${{ github.event.issue.pull_request != null }}
+      #   run: gh pr checkout ${PR_NUMBER}
+      #   env:
+      #     PR_NUMBER: ${{ github.event.issue.number }}
+      #     GH_TOKEN: ${{ github.token }}
+      # - if: ${{ github.event.issue.pull_request != null }}
+      #   run: git merge --no-ff origin/main
       - id: download-voicevox_core
         uses: sevenc-nanashi/setup-voicevox@v0.1.0
         with:
