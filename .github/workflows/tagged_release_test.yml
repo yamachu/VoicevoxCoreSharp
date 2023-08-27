@@ -11,6 +11,7 @@ jobs:
         run: echo tag="${BODY#/test_release }" >> $GITHUB_OUTPUT
         env:
           BODY: ${{ github.event.comment.body }}
+      - uses: actions/checkout@v3
       - if: ${{ github.event.issue.pull_request != null }}
         run: gh pr comment ${PR_NUMBER} -b "Running ${ACTION_URL}"
         env:
@@ -23,7 +24,6 @@ jobs:
           ISSUE_NUMBER: ${{ github.event.issue.number }}
           ACTION_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
           GH_TOKEN: ${{ github.token }}
-      - uses: actions/checkout@v3
       - if: ${{ github.event.issue.pull_request != null }}
         run: gh pr checkout ${PR_NUMBER}
         env:
