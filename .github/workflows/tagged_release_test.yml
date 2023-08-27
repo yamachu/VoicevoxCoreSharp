@@ -76,7 +76,7 @@ jobs:
           PR_NUMBER: ${{ github.event.issue.number }}
           ACTION_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
           GH_TOKEN: ${{ github.token }}
-      - if: ${{ github.event.issue.pull_request != null }}
+      - if: ${{ github.event.issue.pull_request == null }}
         run: |
           BODY=$([[ ${TEST_STATUS} == "failure" ]] && echo "❌ ${ACTION_URL}" || echo "✅ ${ACTION_URL}")
           gh pr issue ${ISSUE_NUMBER} --edit-last -b "${BODY}"
