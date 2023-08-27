@@ -12,6 +12,12 @@ jobs:
         env:
           BODY: ${{ github.event.comment.body }}
       - uses: actions/checkout@v3
+      - if: ${{ github.event.issue.pull_request != null }}
+        run: gh pr checkout ${PR_NUMBER}
+        env:
+          PR_NUMBER: ${{ github.event.issue.number }}
+      - if: ${{ github.event.issue.pull_request != null }}
+        run: git merge --no-ff origin/main
       - id: download-voicevox_core
         uses: sevenc-nanashi/setup-voicevox@v0.1.0
         with:
