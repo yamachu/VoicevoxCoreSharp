@@ -1,0 +1,29 @@
+name: Build dev Rust library
+description: submoduleのVOICEVOX CORE Libraryをビルドする
+inputs:
+  cache-key:
+    description: cache key
+    required: true
+  cache-path:
+    description: cache path
+    required: true
+
+runs:
+  using: composite
+  steps:
+    - uses: actions/cache/restore@v3
+      id: restore-dev-library
+      with:
+        path: ${{ inputs.cache-path }}
+        key: ${{ inputs.cache-key }}
+    - if: ${{ steps.restore-dev-library.outputs.cache-hit != 'true' }}
+      uses: actions-rust-lang/setup-rust-toolchain@v1.5.0
+    - if: ${{ steps.restore-dev-library.outputs.cache-hit != 'true' }}
+      shell: bash
+      working-directory: ./binding
+      run: make build/dev-library
+    - if: ${{ steps.restore-dev-library.outputs.cache-hit != 'true' }}
+      uses: actions/cache/save@v3
+      with:
+        path: ${{ inputs.cache-path }}
+        key: ${{ inputs.cache-key }}

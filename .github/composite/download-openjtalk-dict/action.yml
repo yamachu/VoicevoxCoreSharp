@@ -1,0 +1,26 @@
+name: Download OpenJTalk dict
+description: OpenJTalkの辞書をダウンロードする
+inputs:
+  cache-key:
+    description: cache key
+    required: true
+  cache-path:
+    description: cache path
+    required: true
+
+runs:
+  using: composite
+  steps:
+    - uses: actions/cache/restore@v3
+      id: restore-open-jtalk-dictionary
+      with:
+        path: ${{ inputs.cache-path }}
+        key: ${{ inputs.cache-key }}
+    - if: ${{ steps.restore-open-jtalk-dictionary.outputs.cache-hit != 'true' }}
+      shell: bash
+      run: curl -sSLfo open_jtalk_dic_utf_8-1.11.tar.gz https://jaist.dl.sourceforge.net/project/open-jtalk/Dictionary/open_jtalk_dic-1.11/open_jtalk_dic_utf_8-1.11.tar.gz
+    - if: ${{ steps.restore-open-jtalk-dictionary.outputs.cache-hit != 'true' }}
+      uses: actions/cache/save@v3
+      with:
+        path: ${{ inputs.cache-path }}
+        key: ${{ inputs.cache-key }}
