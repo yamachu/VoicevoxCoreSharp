@@ -1,4 +1,5 @@
-on: 
+name: Release版Core互換性チェック
+on:
   issue_comment:
     types: [created]
   workflow_dispatch:
@@ -9,6 +10,8 @@ on:
         required: true
 
 jobs:
+  # PRのコメントに /test_release 0.15.0 と書くと、当該PRをmergeした状態で 0.15.0 のリリース版を使ってテスト出来る
+  # workflow_dispatch で release-tag を指定すると、指定したリリース版を指定したブランチのHEADを使ってテストする
   parse-tag:
     if: github.event_name == 'workflow_dispatch' || (contains(github.event.comment.body, '/test_release') && github.event.issue.pull_request != null)
     runs-on: ubuntu-latest
@@ -47,15 +50,6 @@ jobs:
           PR_NUMBER: ${{ github.event.issue.number }}
           ACTION_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
           GH_TOKEN: ${{ github.token }}
-      # FIXME: pull/:prNumber/merge ブランチにチェックアウトするのがベターか？
-      # release version毎にブランチを生やして、そこで再度互換チェックするかもしれないから要検討
-      # - if: ${{ github.event.issue.pull_request != null }}
-      #   run: gh pr checkout ${PR_NUMBER}
-      #   env:
-      #     PR_NUMBER: ${{ github.event.issue.number }}
-      #     GH_TOKEN: ${{ github.token }}
-      # - if: ${{ github.event.issue.pull_request != null }}
-      #   run: git merge --no-ff origin/main
       - id: download-voicevox_core
         uses: sevenc-nanashi/setup-voicevox@v0.1.0
         with:
