@@ -40,4 +40,4 @@ jobs:
         cp open_jtalk_dic_utf_8-1.11.tar.gz ./tests/VoicevoxCoreSharp.Core.Tests/resources
         tar zxf ./tests/VoicevoxCoreSharp.Core.Tests/resources/open_jtalk_dic_utf_8-1.11.tar.gz -C tests/VoicevoxCoreSharp.Core.Tests/resources/
     - run: cp -r binding/voicevox_core/model ./tests/VoicevoxCoreSharp.Core.Tests/resources
-    - run: dotnet test
+    - run: dotnet test VoicevoxCoreSharp-without-exmaples.slnf
