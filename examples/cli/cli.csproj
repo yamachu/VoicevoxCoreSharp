@@ -53,6 +53,10 @@
     </Otherwise>
   </Choose>
 
+  <!--
+    VoicevoxOnnxRuntimeVersion の Property を取得するために使用している
+    csproj 内で Property を設定すれば不要
+  -->
   <Import Project="..\..\src\VoicevoxCoreSharp.Core\VoicevoxCoreSharp.Core.Metas.props" />
 
   <!--
