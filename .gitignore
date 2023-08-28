@@ -480,3 +480,6 @@ $RECYCLE.BIN/
 
 # Vim temporary swap files
 *.swp
+
+!examples/UnitySample/**/*.meta
+!src/VoicevoxCoreSharp.Core.Unity/**/*.meta
