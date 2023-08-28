@@ -42,18 +42,10 @@ jobs:
       - run: mkdir -p tests/VoicevoxCoreSharp.Core.Tests/resources/model; cp -r ${VOICEVOX_CORE_RESOURCES%/libvoicevox_core.so}/model/0.vvm tests/VoicevoxCoreSharp.Core.Tests/resources/model/sample.vvm
         env:
           VOICEVOX_CORE_RESOURCES: ${{ steps.download-voicevox_core.outputs.entrypoint }}
-      - uses: actions/cache/restore@v3
-        id: restore-open-jtalk-dictionary
+      - uses: ./.github/composite/download-openjtalk-dict
         with:
-          path: open_jtalk_dic_utf_8-1.11.tar.gz
-          key: open_jtalk_dic_utf_8-1.11
-      - if: ${{ steps.restore-open-jtalk-dictionary.outputs.cache-hit != 'true' }}
-        run: curl -sSLfo open_jtalk_dic_utf_8-1.11.tar.gz https://jaist.dl.sourceforge.net/project/open-jtalk/Dictionary/open_jtalk_dic-1.11/open_jtalk_dic_utf_8-1.11.tar.gz
-      - if: ${{ steps.restore-open-jtalk-dictionary.outputs.cache-hit != 'true' }}
-        uses: actions/cache/save@v3
-        with:
-          path: open_jtalk_dic_utf_8-1.11.tar.gz
-          key: open_jtalk_dic_utf_8-1.11
+          cache-path: open_jtalk_dic_utf_8-1.11.tar.gz
+          cache-key: open_jtalk_dic_utf_8-1.11
       - run: |
           cp open_jtalk_dic_utf_8-1.11.tar.gz ./tests/VoicevoxCoreSharp.Core.Tests/resources
           tar zxf ./tests/VoicevoxCoreSharp.Core.Tests/resources/open_jtalk_dic_utf_8-1.11.tar.gz -C tests/VoicevoxCoreSharp.Core.Tests/resources/
