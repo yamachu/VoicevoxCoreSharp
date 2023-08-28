@@ -20,6 +20,7 @@ runs:
       uses: actions-rust-lang/setup-rust-toolchain@v1.5.0
     - if: ${{ steps.restore-dev-library.outputs.cache-hit != 'true' }}
       shell: bash
+      working-directory: ./binding
       run: make build/dev-library
     - if: ${{ steps.restore-dev-library.outputs.cache-hit != 'true' }}
       uses: actions/cache/save@v3
