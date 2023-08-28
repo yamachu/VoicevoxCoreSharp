@@ -1,0 +1,7 @@
+# 公式ダウンローダー
+download-*
+# ダウンローダーの出力ディレクトリ
+voicevox_core
+
+# defaultの出力音声ファイル
+audio.wav
