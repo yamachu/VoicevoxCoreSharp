@@ -41,3 +41,30 @@ jobs:
         tar zxf ./tests/VoicevoxCoreSharp.Core.Tests/resources/open_jtalk_dic_utf_8-1.11.tar.gz -C tests/VoicevoxCoreSharp.Core.Tests/resources/
     - run: cp -r binding/voicevox_core/model ./tests/VoicevoxCoreSharp.Core.Tests/resources
     - run: dotnet test VoicevoxCoreSharp-without-exmaples.slnf
+
+  run-dotnet-cli-example:
+    runs-on: ubuntu-latest
+    needs: build-native-dev-library
+    steps:
+    - uses: actions/checkout@v3
+      with:
+        submodules: true
+    - uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: 8
+    - uses: actions/cache/restore@v3
+      with:
+        path: ./binding/voicevox_core/target/release/libvoicevox_core.so
+        key: ${{ runner.os }}-dev-library-${{ hashFiles('**/Cargo.lock', '**/VoicevoxCoreSharp.Core.Metas.props') }}
+    - run: mkdir -p ./examples/cli/voicevox_core
+    - run: cp ./binding/voicevox_core/target/release/libvoicevox_core.so ./examples/cli/voicevox_core/libvoicevox_core.so
+    - uses: ./.github/composite/download-openjtalk-dict
+      with:
+        cache-path: open_jtalk_dic_utf_8-1.11.tar.gz
+        cache-key: open_jtalk_dic_utf_8-1.11
+    - run: |
+        cp open_jtalk_dic_utf_8-1.11.tar.gz ./examples/cli/voicevox_core
+        tar zxf ./examples/cli/voicevox_core/open_jtalk_dic_utf_8-1.11.tar.gz -C ./examples/cli/voicevox_core/
+    - run: cp -r binding/voicevox_core/model ./examples/cli/voicevox_core
+    - run: cd examples/cli; dotnet run -- こんにちは
+    - run: file examples/cli/audio.wav
