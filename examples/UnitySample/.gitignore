@@ -72,3 +72,14 @@ crashlytics-build.properties
 /[Aa]ssets/[Ss]treamingAssets/aa/*
 
 /Assets/Plugins/runtimes/osx.10.14-arm64/native/*.dylib
+
+/Assets/StreamingAssets/voicevox_core/*
+!/Assets/StreamingAssets/voicevox_core/*.meta
+
+!/Assets/StreamingAssets/voicevox_core/model
+/Assets/StreamingAssets/voicevox_core/model/*
+!/Assets/StreamingAssets/voicevox_core/model/*.meta
+
+!/Assets/StreamingAssets/voicevox_core/open_jtalk_dic_utf_8-1.11
+/Assets/StreamingAssets/voicevox_core/open_jtalk_dic_utf_8-1.11/*
+!/Assets/StreamingAssets/voicevox_core/open_jtalk_dic_utf_8-1.11/*.meta
