@@ -1,0 +1,88 @@
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using VoicevoxCoreSharp.Core;
+using VoicevoxCoreSharp.Core.Struct;
+using VoicevoxCoreSharp.Core.Enum;
+
+public class SampleVoicevoxCoreSharpScript : MonoBehaviour
+{
+    public string Text = "こんにちは";
+    public uint StyleId = 1;
+
+    // Start is called before the first frame update
+    void Start()
+    {
+        var openJTalkDictPath = System.IO.Path.Combine(Application.streamingAssetsPath, "voicevox_core/open_jtalk_dic_utf_8-1.11/");
+
+        Debug.Log("coreの初期化中");
+
+        var initializeOptions = InitializeOptions.Default();
+        var result = OpenJtalk.New(openJTalkDictPath, out var openJtalk);
+        if (result != ResultCode.RESULT_OK)
+        {
+            Debug.LogError(result.ToMessage());
+            return;
+        }
+
+        result = Synthesizer.New(openJtalk, initializeOptions, out var synthesizer);
+        if (result != ResultCode.RESULT_OK)
+        {
+            Debug.LogError(result.ToMessage());
+            return;
+        }
+
+        using (openJtalk) { }
+
+        result = VoiceModel.New(System.IO.Path.Combine(Application.streamingAssetsPath, "voicevox_core/model/0.vvm"), out var voiceModel);
+        if (result != ResultCode.RESULT_OK)
+        {
+            Debug.LogError(result.ToMessage());
+            return;
+        }
+
+        result = synthesizer.LoadVoiceModel(voiceModel);
+        if (result != ResultCode.RESULT_OK)
+        {
+            Debug.LogError(result.ToMessage());
+            return;
+        }
+
+        using (voiceModel) { }
+
+        Debug.Log("音声生成中...");
+
+        result = synthesizer.Tts(Text, StyleId, TtsOptions.Default(), out var outputWavSize, out var outputWav);
+        if (result != ResultCode.RESULT_OK)
+        {
+            Debug.LogError(result.ToMessage());
+            return;
+        }
+
+        using (synthesizer) { }
+
+        var clip = AudioClip.Create(Text, (int)outputWavSize, 1, 24000, false);
+        // WAVのヘッダとかが残ってるため、音声はプチっとかする
+        // ちゃんとした音声にするならいい感じにしてください
+        clip.SetData(ToWavHeaderSkippedFloatWavData(outputWav), 0);
+        AudioSource source = gameObject.AddComponent<AudioSource>();
+        source.PlayOneShot(clip);
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        
+    }
+
+    private float[] ToWavHeaderSkippedFloatWavData(byte[] original)
+    {
+        var wavData = new float[original.Length / 2];
+        for (var i = 0; i < wavData.Length; i++)
+        {
+            wavData[i] = (float)BitConverter.ToInt16(original, i * 2) / 32768.0f;
+        }
+        return wavData;
+    }
+}
