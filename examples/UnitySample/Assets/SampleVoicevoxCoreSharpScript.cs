@@ -63,6 +63,8 @@ public class SampleVoicevoxCoreSharpScript : MonoBehaviour
         using (synthesizer) { }
 
         var clip = AudioClip.Create(Text, (int)outputWavSize, 1, 24000, false);
+        // WAVのヘッダとかが残ってるため、音声はプチっとかする
+        // ちゃんとした音声にするならいい感じにしてください
         clip.SetData(ToWavHeaderSkippedFloatWavData(outputWav), 0);
         AudioSource source = gameObject.AddComponent<AudioSource>();
         source.PlayOneShot(clip);
