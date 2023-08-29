@@ -47,7 +47,14 @@ namespace VoicevoxCoreSharp.Core
                 fixed (byte* ptr = System.Text.Encoding.UTF8.GetBytes(openJtalkDicDir))
                 {
                     var result = CoreUnsafe.voicevox_open_jtalk_rc_new(ptr, &p).FromNative();
-                    openJtalk = new OpenJtalk(p);
+                    if (result == ResultCode.RESULT_OK)
+                    {
+                        openJtalk = new OpenJtalk(p);
+                    }
+                    else
+                    {
+                        openJtalk = new OpenJtalk(null);
+                    }
 
                     return result;
                 }

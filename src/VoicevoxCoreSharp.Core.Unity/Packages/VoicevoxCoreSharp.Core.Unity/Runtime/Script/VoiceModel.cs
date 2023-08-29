@@ -47,7 +47,14 @@ namespace VoicevoxCoreSharp.Core
                 fixed (byte* ptr = System.Text.Encoding.UTF8.GetBytes(modelPath))
                 {
                     var result = CoreUnsafe.voicevox_voice_model_new_from_path(ptr, &p).FromNative();
-                    voiceModel = new VoiceModel(p);
+                    if (result == ResultCode.RESULT_OK)
+                    {
+                        voiceModel = new VoiceModel(p);
+                    }
+                    else
+                    {
+                        voiceModel = new VoiceModel(null);
+                    }
 
                     return result;
                 }

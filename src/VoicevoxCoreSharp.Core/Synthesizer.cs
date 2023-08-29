@@ -47,7 +47,14 @@ namespace VoicevoxCoreSharp.Core
                 var synthesizerHandle = Marshal.AllocHGlobal(Marshal.SizeOf(typeof(VoicevoxSynthesizer)));
                 var p = (VoicevoxSynthesizer*)synthesizerHandle.ToPointer();
                 var result = CoreUnsafe.voicevox_synthesizer_new_with_initialize((OpenJtalkRc*)openJtalk.Handle, nativeOptions, &p).FromNative();
-                synthesizer = new Synthesizer(p);
+                if (result == ResultCode.RESULT_OK)
+                {
+                    synthesizer = new Synthesizer(p);
+                }
+                else
+                {
+                    synthesizer = new Synthesizer(null);
+                }
 
                 return result;
             }
