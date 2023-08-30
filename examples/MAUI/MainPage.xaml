@@ -1,0 +1,66 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:MAUI"
+             x:Class="MAUI.MainPage">
+
+    <ContentPage.BindingContext>
+        <local:MainPageViewModel />
+    </ContentPage.BindingContext>
+
+    <ScrollView>
+        <VerticalStackLayout
+            Spacing="25"
+            Padding="30,0"
+            VerticalOptions="Center">
+
+            <FlexLayout
+                Direction="Row"
+                AlignItems="Stretch"
+                HorizontalOptions="Fill">
+
+                <Entry
+                    Placeholder="OpenJTalkの辞書ディレクトリ…"
+                    IsReadOnly="True"
+                    Text="{Binding OpenJTalkDictPath}"
+                    FlexLayout.Grow="1" />
+
+                <Button
+                    Text="選択"
+                    Command="{Binding PickOpenJTalkDirectoryCommand}"
+                    HorizontalOptions="End" />
+
+            </FlexLayout>
+
+            <FlexLayout
+                Direction="Row"
+                AlignItems="Stretch"
+                HorizontalOptions="Fill">
+
+                <Entry
+                    Placeholder="VVMファイルがあるディレクトリ…"
+                    IsReadOnly="True"
+                    Text="{Binding VvmModelDirectoryPath}"
+                    FlexLayout.Grow="1" />
+
+                <Button
+                    Text="選択"
+                    Command="{Binding PickVVMDirectoryCommand}"
+                    HorizontalOptions="End" />
+
+            </FlexLayout>
+
+            <Entry
+                Text="{Binding SynthesisText}"
+                Placeholder="合成するテキスト…"
+                HorizontalOptions="Fill" />
+
+            <Button
+                Text="合成して再生"
+                Command="{Binding GenerateAndPlayCommand}"
+                HorizontalOptions="Center" />
+
+        </VerticalStackLayout>
+    </ScrollView>
+
+</ContentPage>
