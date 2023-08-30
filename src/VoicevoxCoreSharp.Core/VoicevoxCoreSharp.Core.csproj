@@ -9,8 +9,4 @@
 
   <Import Project="VoicevoxCoreSharp.Core.Metas.props" />
 
-  <ItemGroup>
-    <PackageReference Include="Microsoft.ML.OnnxRuntime" Version="$(VoicevoxOnnxRuntimeVersion)" />
-  </ItemGroup>
-
 </Project>
