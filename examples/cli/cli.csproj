@@ -4,8 +4,17 @@
     <ProjectReference Include="..\..\src\VoicevoxCoreSharp.Core\VoicevoxCoreSharp.Core.csproj" />
   </ItemGroup>
 
+  <!--
+    VoicevoxOnnxRuntimeVersion の Property を取得するために使用している
+    csproj 内で Property を設定すれば不要
+    またNugetからOnnxRuntimeを取得せずに、voicevox_core に同梱されているものを使用する場合は不要
+    その際は PackageReference から Microsoft.ML.OnnxRuntime を削除し、配置のための Content を変更すること
+  -->
+  <Import Project="..\..\src\VoicevoxCoreSharp.Core\VoicevoxCoreSharp.Core.Metas.props" />
+
   <ItemGroup>
     <PackageReference Include="Microsoft.Extensions.FileSystemGlobbing" Version="7.0.0" />
+    <PackageReference Include="Microsoft.ML.OnnxRuntime" Version="$(VoicevoxOnnxRuntimeVersion)" />
     <PackageReference Include="System.CommandLine" Version="2.0.0-beta4.22272.1" />
   </ItemGroup>
 
@@ -52,12 +61,6 @@
       <!-- Not supported OS or Architecture -->
     </Otherwise>
   </Choose>
-
-  <!--
-    VoicevoxOnnxRuntimeVersion の Property を取得するために使用している
-    csproj 内で Property を設定すれば不要
-  -->
-  <Import Project="..\..\src\VoicevoxCoreSharp.Core\VoicevoxCoreSharp.Core.Metas.props" />
 
   <!--
     Testsではnativeディレクトリに配置しているが、

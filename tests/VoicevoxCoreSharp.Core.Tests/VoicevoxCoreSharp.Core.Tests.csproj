@@ -8,7 +8,10 @@
     <IsTestProject>true</IsTestProject>
   </PropertyGroup>
 
+  <Import Project="..\..\src\VoicevoxCoreSharp.Core\VoicevoxCoreSharp.Core.Metas.props" />
+
   <ItemGroup>
+    <PackageReference Include="Microsoft.ML.OnnxRuntime" Version="$(VoicevoxOnnxRuntimeVersion)" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.6.0" />
     <PackageReference Include="xunit" Version="2.4.2" />
     <PackageReference Include="xunit.runner.visualstudio" Version="2.4.5">
@@ -61,8 +64,6 @@
   <ItemGroup>
     <ProjectReference Include="..\..\src\VoicevoxCoreSharp.Core\VoicevoxCoreSharp.Core.csproj" />
   </ItemGroup>
-
-  <Import Project="..\..\src\VoicevoxCoreSharp.Core\VoicevoxCoreSharp.Core.Metas.props" />
 
   <ItemGroup>
     <Content Include="resources\libvoicevox_core.dylib" TargetPath="runtimes\$(_MyRuntimeIdentifier)\native\libvoicevox_core.dylib" Visible="false" CopyToOutputDirectory="PreserveNewest" Condition="$([MSBuild]::IsOsPlatform('OSX'))" />
