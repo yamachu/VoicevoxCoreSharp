@@ -37,6 +37,8 @@ jobs:
       - if: ${{ steps.binding-diff.outputs.binding_has_update == 'true'}}
         run: exit 1 # .csファイルの更新が必要になるため、失敗させる
       - if: ${{ steps.submodule-diff.outputs.submodule_has_update == 'true'}}
+        env:
+          GH_TOKEN: ${{ github.token }}
         run: |
           git add src/VoicevoxCoreSharp.Core
           git commit -m "make generate"
