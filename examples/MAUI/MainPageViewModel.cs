@@ -6,6 +6,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 
 using VoicevoxCoreSharp.Core;
+using VoicevoxCoreSharp.Core.Experimental;
 using VoicevoxCoreSharp.Core.Enum;
 using VoicevoxCoreSharp.Core.Struct;
 using Plugin.Maui.Audio;
@@ -41,13 +42,13 @@ public partial class MainPageViewModel : ObservableObject
         {
             return;
         }
-        var openResult = OpenJtalk.New(result.Folder.Path, out var openJTalk);
+        var (openResult, openJTalk) = await AsyncOpenJtalk.NewAsync(result.Folder.Path);
         if (openResult != ResultCode.RESULT_OK)
         {
             return;
         }
 
-        openResult = Synthesizer.New(openJTalk, InitializeOptions.Default(), out var synthesizer);
+        (openResult, var synthesizer) = await AsyncSynthesizer.NewAsync(openJTalk, InitializeOptions.Default());
         if (openResult != ResultCode.RESULT_OK)
         {
             using (openJTalk) { }
@@ -72,13 +73,13 @@ public partial class MainPageViewModel : ObservableObject
 
         foreach (var path in matcher.GetResultsInFullPath(result.Folder.Path))
         {
-            var openResult = VoiceModel.New(path, out var voiceModel);
+            var (openResult, voiceModel) = await AsyncVoiceModel.NewAsync(path);
             if (openResult != ResultCode.RESULT_OK)
             {
                 return;
             }
 
-            openResult = Synthesizer.LoadVoiceModel(voiceModel);
+            openResult = await Synthesizer.LoadVoiceModelAsync(voiceModel);
             if (openResult != ResultCode.RESULT_OK)
             {
                 using (voiceModel) { }
@@ -92,10 +93,10 @@ public partial class MainPageViewModel : ObservableObject
     }
 
     [RelayCommand(CanExecute = nameof(CanGenerateAndPlay))]
-    private void GenerateAndPlay()
+    private async Task GenerateAndPlay()
     {
         // TODO: Select StyleID
-        var result = Synthesizer.Tts(SynthesisText, 0, TtsOptions.Default(), out var outputWavLength, out var outputWav);
+        var (result, outputWavLength, outputWav) = await Synthesizer.TtsAsync(SynthesisText, 0, TtsOptions.Default());
         if (result != ResultCode.RESULT_OK)
         {
             return;
@@ -109,5 +110,5 @@ public partial class MainPageViewModel : ObservableObject
 
     private bool CanPickVVMDirectory() => Synthesizer != null;
 
-    private bool CanGenerateAndPlay() => Synthesizer != null && !string.IsNullOrWhiteSpace(SynthesisText);
+    private bool CanGenerateAndPlay() => Synthesizer != null && !string.IsNullOrWhiteSpace(SynthesisText) && VvmModelDirectoryPath != "";
 }
