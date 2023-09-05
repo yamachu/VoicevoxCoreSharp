@@ -5,6 +5,14 @@
     <Nullable>enable</Nullable>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <LangVersion>9.0</LangVersion>
+
+    <!-- Over .NET 8 -->
+    <IsAotCompatible>true</IsAotCompatible>
+    <!-- Previous .NET 8 -->
+    <IsTrimmable>true</IsTrimmable>
+    <EnableTrimAnalyzer>true</EnableTrimAnalyzer>
+    <EnableSingleFileAnalyzer>true</EnableSingleFileAnalyzer>
+    <EnableAotAnalyzer>true</EnableAotAnalyzer>
   </PropertyGroup>
 
   <Import Project="VoicevoxCoreSharp.Core.Metas.props" />

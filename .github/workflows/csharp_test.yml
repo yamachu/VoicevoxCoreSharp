@@ -66,5 +66,5 @@ jobs:
         cp open_jtalk_dic_utf_8-1.11.tar.gz ./examples/cli/voicevox_core
         tar zxf ./examples/cli/voicevox_core/open_jtalk_dic_utf_8-1.11.tar.gz -C ./examples/cli/voicevox_core/
     - run: cp -r binding/voicevox_core/model ./examples/cli/voicevox_core
-    - run: cd examples/cli; dotnet run -- こんにちは
+    - run: cd examples/cli; dotnet run --property:UseNugetOnnxRuntime=true -- こんにちは
     - run: file examples/cli/audio.wav
