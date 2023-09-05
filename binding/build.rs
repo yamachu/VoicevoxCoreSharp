@@ -1,4 +1,3 @@
-use glob::glob;
 use std::error::Error;
 
 fn main() -> Result<(), Box<dyn Error>> {
@@ -29,23 +28,14 @@ fn main() -> Result<(), Box<dyn Error>> {
     //     )
     //     .unwrap();
 
-    // TODO: Rustのdocsを反映するにはcsbindgenから直接生成する必要がある
-    let core_added_builder = glob("./voicevox_core/crates/voicevox_core/src/**/*.rs")
-        .into_iter()
-        .fold(csbindgen::Builder::default(), |builder, paths| {
-            paths.into_iter().fold(builder, |builder, path| match path {
-                Ok(path) => builder.input_extern_file(path),
-                Err(_) => builder,
-            })
-        });
-    glob("./voicevox_core/crates/voicevox_core_c_api/src/**/*.rs")
-        .into_iter()
-        .fold(core_added_builder, |builder, paths| {
-            paths.into_iter().fold(builder, |builder, path| match path {
-                Ok(path) => builder.input_extern_file(path),
-                Err(_) => builder,
-            })
-        })
+    csbindgen::Builder::default()
+        .input_extern_file("./voicevox_core/crates/voicevox_core_c_api/src/result_code.rs")
+        .input_extern_file("./voicevox_core/crates/voicevox_core_c_api/src/lib.rs")
+        // 中身を C側 で触らない struct をここに列挙する
+        .rust_as_empty_struct("OpenJtalkRc")
+        .rust_as_empty_struct("VoicevoxSynthesizer")
+        .rust_as_empty_struct("VoicevoxUserDict")
+        .rust_as_empty_struct("VoicevoxVoiceModel")
         .csharp_dll_name("voicevox_core")
         .csharp_class_name("CoreUnsafe")
         .csharp_namespace("VoicevoxCoreSharp.Core.Native")

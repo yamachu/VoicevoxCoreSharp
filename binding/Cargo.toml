@@ -10,4 +10,4 @@ edition = "2021"
 [build-dependencies]
 csbindgen = { git = "https://github.com/yamachu/csbindgen", rev = "68ae91720020104b2e38b4b22543585c6e9b7689" }  # "1.7.5"
 bindgen = "0.64.0"
-glob = "0.3.1"
+# glob = "0.3.1"
