@@ -20,6 +20,7 @@ namespace VoicevoxCoreSharp.Core
             unsafe
             {
                 CoreUnsafe.voicevox_voice_model_delete((VoicevoxVoiceModel*)handle.ToPointer());
+                handle = IntPtr.Zero;
             }
             return true;
         }
@@ -42,8 +43,7 @@ namespace VoicevoxCoreSharp.Core
         {
             unsafe
             {
-                var modelHandle = Marshal.AllocHGlobal(Marshal.SizeOf(typeof(VoicevoxVoiceModel)));
-                var p = (VoicevoxVoiceModel*)modelHandle.ToPointer();
+                var p = (VoicevoxVoiceModel*)IntPtr.Zero.ToPointer();
                 fixed (byte* ptr = System.Text.Encoding.UTF8.GetBytes(modelPath))
                 {
                     var result = CoreUnsafe.voicevox_voice_model_new_from_path(ptr, &p).FromNative();

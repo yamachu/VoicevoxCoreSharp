@@ -28,6 +28,7 @@ namespace VoicevoxCoreSharp.Core
             unsafe
             {
                 CoreUnsafe.voicevox_user_dict_delete((VoicevoxUserDict*)handle.ToPointer());
+                handle = IntPtr.Zero;
             }
             return true;
         }
