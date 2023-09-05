@@ -20,6 +20,7 @@ namespace VoicevoxCoreSharp.Core
             unsafe
             {
                 CoreUnsafe.voicevox_open_jtalk_rc_delete((OpenJtalkRc*)handle.ToPointer());
+                handle = IntPtr.Zero;
             }
             return true;
         }
@@ -42,8 +43,7 @@ namespace VoicevoxCoreSharp.Core
         {
             unsafe
             {
-                var rcHandle = Marshal.AllocHGlobal(Marshal.SizeOf(typeof(OpenJtalkRc)));
-                var p = (OpenJtalkRc*)rcHandle.ToPointer();
+                var p = (OpenJtalkRc*)IntPtr.Zero.ToPointer();
                 fixed (byte* ptr = System.Text.Encoding.UTF8.GetBytes(openJtalkDicDir))
                 {
                     var result = CoreUnsafe.voicevox_open_jtalk_rc_new(ptr, &p).FromNative();

@@ -20,6 +20,7 @@ namespace VoicevoxCoreSharp.Core
             unsafe
             {
                 CoreUnsafe.voicevox_synthesizer_delete((VoicevoxSynthesizer*)handle.ToPointer());
+                handle = IntPtr.Zero;
             }
             return true;
         }
@@ -44,8 +45,7 @@ namespace VoicevoxCoreSharp.Core
             {
                 var nativeOptions = options.ToNative();
 
-                var synthesizerHandle = Marshal.AllocHGlobal(Marshal.SizeOf(typeof(VoicevoxSynthesizer)));
-                var p = (VoicevoxSynthesizer*)synthesizerHandle.ToPointer();
+                var p = (VoicevoxSynthesizer*)IntPtr.Zero.ToPointer();
                 var result = CoreUnsafe.voicevox_synthesizer_new_with_initialize((OpenJtalkRc*)openJtalk.Handle, nativeOptions, &p).FromNative();
                 if (result == ResultCode.RESULT_OK)
                 {
