@@ -21,147 +21,115 @@ namespace VoicevoxCoreSharp.Core.Native
 
 
 
+        [DllImport(__DllName, EntryPoint = "initialize", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        [return: MarshalAs(UnmanagedType.U1)]
+        public static extern bool initialize([MarshalAs(UnmanagedType.U1)] bool use_gpu, int cpu_num_threads, [MarshalAs(UnmanagedType.U1)] bool load_all_models);
+
+        [DllImport(__DllName, EntryPoint = "load_model", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        [return: MarshalAs(UnmanagedType.U1)]
+        public static extern bool load_model(long style_id);
+
+        [DllImport(__DllName, EntryPoint = "is_model_loaded", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        [return: MarshalAs(UnmanagedType.U1)]
+        public static extern bool is_model_loaded(long speaker_id);
+
+        [DllImport(__DllName, EntryPoint = "finalize", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern void finalize();
+
+        [DllImport(__DllName, EntryPoint = "metas", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern byte* metas();
+
+        [DllImport(__DllName, EntryPoint = "last_error_message", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern byte* last_error_message();
+
+        [DllImport(__DllName, EntryPoint = "supported_devices", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern byte* supported_devices();
+
+        [DllImport(__DllName, EntryPoint = "yukarin_s_forward", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        [return: MarshalAs(UnmanagedType.U1)]
+        public static extern bool yukarin_s_forward(long length, long* phoneme_list, long* speaker_id, float* output);
+
+        [DllImport(__DllName, EntryPoint = "yukarin_sa_forward", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        [return: MarshalAs(UnmanagedType.U1)]
+        public static extern bool yukarin_sa_forward(long length, long* vowel_phoneme_list, long* consonant_phoneme_list, long* start_accent_list, long* end_accent_list, long* start_accent_phrase_list, long* end_accent_phrase_list, long* speaker_id, float* output);
+
+        [DllImport(__DllName, EntryPoint = "decode_forward", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        [return: MarshalAs(UnmanagedType.U1)]
+        public static extern bool decode_forward(long length, long phoneme_size, float* f0, float* phoneme, long* speaker_id, float* output);
+
+        /// <summary>::OpenJtalkRc を&lt;b&gt;構築&lt;/b&gt;(_construct_)する。  解放は ::voicevox_open_jtalk_rc_delete で行う。  @param [in] open_jtalk_dic_dir 辞書ディレクトリを指すUTF-8のパス @param [out] out_open_jtalk 構築先  @returns 結果コード  \\example{ ```c OpenJtalkRc *open_jtalk; voicevox_open_jtalk_rc_new(\"./open_jtalk_dic_utf_8-1.11\", &amp;open_jtalk); ``` }  \\safety{ - `open_jtalk_dic_dir`はヌル終端文字列を指し、かつ&lt;a href=\"#voicevox-core-safety\"&gt;読み込みについて有効&lt;/a&gt;でなければならない。 - `out_open_jtalk`は&lt;a href=\"#voicevox-core-safety\"&gt;書き込みについて有効&lt;/a&gt;でなければならない。 }</summary>
         [DllImport(__DllName, EntryPoint = "voicevox_open_jtalk_rc_new", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern VoicevoxResultCode voicevox_open_jtalk_rc_new(byte* open_jtalk_dic_dir, OpenJtalkRc** out_open_jtalk);
 
-        [DllImport(__DllName, EntryPoint = "voicevox_open_jtalk_rc_use_user_dict", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern VoicevoxResultCode voicevox_open_jtalk_rc_use_user_dict(OpenJtalkRc* open_jtalk, VoicevoxUserDict* user_dict);
-
+        /// <summary>::OpenJtalkRc を&lt;b&gt;破棄&lt;/b&gt;(_destruct_)する。  @param [in] open_jtalk 破棄対象  \\example{ ```c voicevox_open_jtalk_rc_delete(open_jtalk); ``` }  \\safety{ - `open_jtalk`は ::voicevox_open_jtalk_rc_new で得たものでなければならず、また既にこの関数で解放されていてはいけない。 - `open_jtalk`は以後&lt;b&gt;ダングリングポインタ&lt;/b&gt;(_dangling pointer_)として扱われなくてはならない。 }</summary>
         [DllImport(__DllName, EntryPoint = "voicevox_open_jtalk_rc_delete", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern void voicevox_open_jtalk_rc_delete(OpenJtalkRc* open_jtalk);
 
+        /// <summary>デフォルトの初期化オプションを生成する @return デフォルト値が設定された初期化オプション</summary>
         [DllImport(__DllName, EntryPoint = "voicevox_make_default_initialize_options", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern VoicevoxInitializeOptions voicevox_make_default_initialize_options();
 
+        /// <summary>voicevoxのバージョンを取得する。 @return SemVerでフォーマットされたバージョン。</summary>
         [DllImport(__DllName, EntryPoint = "voicevox_get_version", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern byte* voicevox_get_version();
 
+        /// <summary>VVMファイルから ::VoicevoxVoiceModel を&lt;b&gt;構築&lt;/b&gt;(_construct_)する。  @param [in] path vvmファイルへのUTF-8のファイルパス @param [out] out_model 構築先  @returns 結果コード  \\safety{ - `path`はヌル終端文字列を指し、かつ&lt;a href=\"#voicevox-core-safety\"&gt;読み込みについて有効&lt;/a&gt;でなければならない。 - `out_model`は&lt;a href=\"#voicevox-core-safety\"&gt;書き込みについて有効&lt;/a&gt;でなければならない。 }</summary>
         [DllImport(__DllName, EntryPoint = "voicevox_voice_model_new_from_path", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern VoicevoxResultCode voicevox_voice_model_new_from_path(byte* path, VoicevoxVoiceModel** out_model);
 
-        [DllImport(__DllName, EntryPoint = "voicevox_voice_model_id", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern byte* voicevox_voice_model_id(VoicevoxVoiceModel* model);
-
-        [DllImport(__DllName, EntryPoint = "voicevox_voice_model_get_metas_json", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern byte* voicevox_voice_model_get_metas_json(VoicevoxVoiceModel* model);
-
+        /// <summary>::VoicevoxVoiceModel を&lt;b&gt;破棄&lt;/b&gt;(_destruct_)する。  @param [in] model 破棄対象  \\safety{ - `model`は ::voicevox_voice_model_new_from_path で得たものでなければならず、また既にこの関数で解放されていてはいけない。 - `model`は以後&lt;b&gt;ダングリングポインタ&lt;/b&gt;(_dangling pointer_)として扱われなくてはならない。 }</summary>
         [DllImport(__DllName, EntryPoint = "voicevox_voice_model_delete", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern void voicevox_voice_model_delete(VoicevoxVoiceModel* model);
 
-        [DllImport(__DllName, EntryPoint = "voicevox_synthesizer_new_with_initialize", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern VoicevoxResultCode voicevox_synthesizer_new_with_initialize(OpenJtalkRc* open_jtalk, VoicevoxInitializeOptions options, VoicevoxSynthesizer** out_synthesizer);
-
+        /// <summary>::VoicevoxSynthesizer を&lt;b&gt;破棄&lt;/b&gt;(_destruct_)する。  @param [in] synthesizer 破棄対象  \\safety{ - `synthesizer`は ::voicevox_synthesizer_new_with_initialize で得たものでなければならず、また既にこの関数で解放されていてはいけない。 - `synthesizer`は以後&lt;b&gt;ダングリングポインタ&lt;/b&gt;(_dangling pointer_)として扱われなくてはならない。 }</summary>
         [DllImport(__DllName, EntryPoint = "voicevox_synthesizer_delete", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern void voicevox_synthesizer_delete(VoicevoxSynthesizer* synthesizer);
 
-        [DllImport(__DllName, EntryPoint = "voicevox_synthesizer_load_voice_model", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern VoicevoxResultCode voicevox_synthesizer_load_voice_model(VoicevoxSynthesizer* synthesizer, VoicevoxVoiceModel* model);
-
-        [DllImport(__DllName, EntryPoint = "voicevox_synthesizer_unload_voice_model", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern VoicevoxResultCode voicevox_synthesizer_unload_voice_model(VoicevoxSynthesizer* synthesizer, byte* model_id);
-
-        [DllImport(__DllName, EntryPoint = "voicevox_synthesizer_is_gpu_mode", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        [return: MarshalAs(UnmanagedType.U1)]
-        public static extern bool voicevox_synthesizer_is_gpu_mode(VoicevoxSynthesizer* synthesizer);
-
-        [DllImport(__DllName, EntryPoint = "voicevox_synthesizer_is_loaded_voice_model", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        [return: MarshalAs(UnmanagedType.U1)]
-        public static extern bool voicevox_synthesizer_is_loaded_voice_model(VoicevoxSynthesizer* synthesizer, byte* model_id);
-
-        [DllImport(__DllName, EntryPoint = "voicevox_synthesizer_create_metas_json", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern byte* voicevox_synthesizer_create_metas_json(VoicevoxSynthesizer* synthesizer);
-
+        /// <summary>このライブラリで利用可能なデバイスの情報を、JSONで取得する。  JSONの解放は ::voicevox_json_free で行う。  あくまで本ライブラリが対応しているデバイスの情報であることに注意。GPUが使える環境ではなかったとしても`cuda`や`dml`は`true`を示しうる。  @param [out] output_supported_devices_json サポートデバイス情報のJSON文字列  @returns 結果コード  \\example{ ```c char *supported_devices; VoicevoxResultCode result = voicevox_create_supported_devices_json(&amp;supported_devices); ``` }  \\safety{ - `output_supported_devices_json`は&lt;a href=\"#voicevox-core-safety\"&gt;書き込みについて有効&lt;/a&gt;でなければならない。 }</summary>
         [DllImport(__DllName, EntryPoint = "voicevox_create_supported_devices_json", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern VoicevoxResultCode voicevox_create_supported_devices_json(byte** output_supported_devices_json);
 
+        /// <summary>デフォルトの AudioQuery のオプションを生成する @return デフォルト値が設定された AudioQuery オプション</summary>
         [DllImport(__DllName, EntryPoint = "voicevox_make_default_audio_query_options", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern VoicevoxAudioQueryOptions voicevox_make_default_audio_query_options();
 
-        [DllImport(__DllName, EntryPoint = "voicevox_synthesizer_create_audio_query", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern VoicevoxResultCode voicevox_synthesizer_create_audio_query(VoicevoxSynthesizer* synthesizer, byte* text, uint style_id, VoicevoxAudioQueryOptions options, byte** output_audio_query_json);
-
+        /// <summary>デフォルトの `accent_phrases` のオプションを生成する @return デフォルト値が設定された `accent_phrases` のオプション</summary>
         [DllImport(__DllName, EntryPoint = "voicevox_make_default_accent_phrases_options", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern VoicevoxAccentPhrasesOptions voicevox_make_default_accent_phrases_options();
 
-        [DllImport(__DllName, EntryPoint = "voicevox_synthesizer_create_accent_phrases", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern VoicevoxResultCode voicevox_synthesizer_create_accent_phrases(VoicevoxSynthesizer* synthesizer, byte* text, uint style_id, VoicevoxAccentPhrasesOptions options, byte** output_accent_phrases_json);
-
-        [DllImport(__DllName, EntryPoint = "voicevox_synthesizer_replace_mora_data", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern VoicevoxResultCode voicevox_synthesizer_replace_mora_data(VoicevoxSynthesizer* synthesizer, byte* accent_phrases_json, uint style_id, byte** output_accent_phrases_json);
-
-        [DllImport(__DllName, EntryPoint = "voicevox_synthesizer_replace_phoneme_length", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern VoicevoxResultCode voicevox_synthesizer_replace_phoneme_length(VoicevoxSynthesizer* synthesizer, byte* accent_phrases_json, uint style_id, byte** output_accent_phrases_json);
-
-        [DllImport(__DllName, EntryPoint = "voicevox_synthesizer_replace_mora_pitch", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern VoicevoxResultCode voicevox_synthesizer_replace_mora_pitch(VoicevoxSynthesizer* synthesizer, byte* accent_phrases_json, uint style_id, byte** output_accent_phrases_json);
-
+        /// <summary>デフォルトの `voicevox_synthesizer_synthesis` のオプションを生成する @return デフォルト値が設定された `voicevox_synthesizer_synthesis` のオプション</summary>
         [DllImport(__DllName, EntryPoint = "voicevox_make_default_synthesis_options", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern VoicevoxSynthesisOptions voicevox_make_default_synthesis_options();
 
-        [DllImport(__DllName, EntryPoint = "voicevox_synthesizer_synthesis", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern VoicevoxResultCode voicevox_synthesizer_synthesis(VoicevoxSynthesizer* synthesizer, byte* audio_query_json, uint style_id, VoicevoxSynthesisOptions options, nuint* output_wav_length, byte** output_wav);
-
+        /// <summary>デフォルトのテキスト音声合成オプションを生成する @return テキスト音声合成オプション</summary>
         [DllImport(__DllName, EntryPoint = "voicevox_make_default_tts_options", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern VoicevoxTtsOptions voicevox_make_default_tts_options();
 
-        [DllImport(__DllName, EntryPoint = "voicevox_synthesizer_tts", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern VoicevoxResultCode voicevox_synthesizer_tts(VoicevoxSynthesizer* synthesizer, byte* text, uint style_id, VoicevoxTtsOptions options, nuint* output_wav_length, byte** output_wav);
-
+        /// <summary>JSON文字列を解放する。  @param [in] json 解放するJSON文字列  \\safety{ - `json`は以下のAPIで得られたポインタでなくてはいけない。 - ::voicevox_create_supported_devices_json - ::voicevox_synthesizer_create_metas_json - ::voicevox_synthesizer_create_audio_query - ::voicevox_synthesizer_create_accent_phrases - ::voicevox_synthesizer_replace_mora_data - ::voicevox_synthesizer_replace_phoneme_length - ::voicevox_synthesizer_replace_mora_pitch - ::voicevox_user_dict_to_json - 文字列の長さは生成時より変更されていてはならない。 - `json`は&lt;a href=\"#voicevox-core-safety\"&gt;読み込みと書き込みについて有効&lt;/a&gt;でなければならない。 - `json`は以後&lt;b&gt;ダングリングポインタ&lt;/b&gt;(_dangling pointer_)として扱われなくてはならない。 }</summary>
         [DllImport(__DllName, EntryPoint = "voicevox_json_free", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern void voicevox_json_free(byte* json);
 
+        /// <summary>WAVデータを解放する。  @param [in] wav 解放するWAVデータ  \\safety{ - `wav`は以下のAPIで得られたポインタでなくてはいけない。 - ::voicevox_synthesizer_synthesis - ::voicevox_synthesizer_tts - `wav`は&lt;a href=\"#voicevox-core-safety\"&gt;読み込みと書き込みについて有効&lt;/a&gt;でなければならない。 - `wav`は以後&lt;b&gt;ダングリングポインタ&lt;/b&gt;(_dangling pointer_)として扱われなくてはならない。 }</summary>
         [DllImport(__DllName, EntryPoint = "voicevox_wav_free", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern void voicevox_wav_free(byte* wav);
 
+        /// <summary>結果コードに対応したメッセージ文字列を取得する。  @param [in] result_code 結果コード  @returns 結果コードに対応したメッセージ文字列  \\examples{ ```c const char *actual = voicevox_error_result_to_message(VOICEVOX_RESULT_OK); const char *EXPECTED = \"エラーが発生しませんでした\"; assert(strcmp(actual, EXPECTED) == 0); ```  ```c const char *actual voicevox_error_result_to_message(VOICEVOX_RESULT_LOAD_MODEL_ERROR); const char *EXPECTED = \"modelデータ読み込みに失敗しました\"; assert(strcmp(actual, EXPECTED) == 0); ``` }</summary>
         [DllImport(__DllName, EntryPoint = "voicevox_error_result_to_message", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern byte* voicevox_error_result_to_message(VoicevoxResultCode result_code);
 
+        /// <summary>::VoicevoxUserDictWord を最低限のパラメータで作成する。  @param [in] surface 表記 @param [in] pronunciation 読み @returns ::VoicevoxUserDictWord</summary>
         [DllImport(__DllName, EntryPoint = "voicevox_user_dict_word_make", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern VoicevoxUserDictWord voicevox_user_dict_word_make(byte* surface, byte* pronunciation);
 
+        /// <summary>ユーザー辞書をb&gt;構築&lt;/b&gt;(_construct_)する。  @returns ::VoicevoxUserDict</summary>
         [DllImport(__DllName, EntryPoint = "voicevox_user_dict_new", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern VoicevoxUserDict* voicevox_user_dict_new();
 
-        [DllImport(__DllName, EntryPoint = "voicevox_user_dict_load", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern VoicevoxResultCode voicevox_user_dict_load(VoicevoxUserDict* user_dict, byte* dict_path);
-
-        [DllImport(__DllName, EntryPoint = "voicevox_user_dict_to_json", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern VoicevoxResultCode voicevox_user_dict_to_json(VoicevoxUserDict* user_dict, byte** output_json);
-
-        [DllImport(__DllName, EntryPoint = "voicevox_user_dict_import", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern VoicevoxResultCode voicevox_user_dict_import(VoicevoxUserDict* user_dict, VoicevoxUserDict* other_dict);
-
-        [DllImport(__DllName, EntryPoint = "voicevox_user_dict_save", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern VoicevoxResultCode voicevox_user_dict_save(VoicevoxUserDict* user_dict, byte* path);
-
+        /// <summary>ユーザー辞書を&lt;b&gt;破棄&lt;/b&gt;(_destruct_)する。  @param [in] user_dict 破棄対象  \\safety{ - `user_dict`は ::voicevox_user_dict_new で得たものでなければならず、また既にこの関数で解放されていてはいけない。 }</summary>
         [DllImport(__DllName, EntryPoint = "voicevox_user_dict_delete", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern void voicevox_user_dict_delete(VoicevoxUserDict* user_dict);
 
 
-    }
-
-    [StructLayout(LayoutKind.Sequential)]
-    internal unsafe partial struct OpenJtalkRc
-    {
-        public fixed byte _unused[1];
-    }
-
-    [StructLayout(LayoutKind.Sequential)]
-    internal unsafe partial struct VoicevoxSynthesizer
-    {
-        public fixed byte _unused[1];
-    }
-
-    [StructLayout(LayoutKind.Sequential)]
-    internal unsafe partial struct VoicevoxUserDict
-    {
-        public fixed byte _unused[1];
-    }
-
-    [StructLayout(LayoutKind.Sequential)]
-    internal unsafe partial struct VoicevoxVoiceModel
-    {
-        public fixed byte _unused[1];
     }
 
     [StructLayout(LayoutKind.Sequential)]
@@ -215,6 +183,15 @@ namespace VoicevoxCoreSharp.Core.Native
         VOICEVOX_ACCELERATION_MODE_GPU = 2,
     }
 
+    internal enum VoicevoxUserDictWordType : int
+    {
+        VOICEVOX_USER_DICT_WORD_TYPE_PROPER_NOUN = 0,
+        VOICEVOX_USER_DICT_WORD_TYPE_COMMON_NOUN = 1,
+        VOICEVOX_USER_DICT_WORD_TYPE_VERB = 2,
+        VOICEVOX_USER_DICT_WORD_TYPE_ADJECTIVE = 3,
+        VOICEVOX_USER_DICT_WORD_TYPE_SUFFIX = 4,
+    }
+
     internal enum VoicevoxResultCode : int
     {
         VOICEVOX_RESULT_OK = 0,
@@ -241,15 +218,6 @@ namespace VoicevoxCoreSharp.Core.Native
         VOICEVOX_RESULT_USE_USER_DICT_ERROR = 23,
         VOICEVOX_RESULT_INVALID_USER_DICT_WORD_ERROR = 24,
         VOICEVOX_RESULT_INVALID_UUID_ERROR = 25,
-    }
-
-    internal enum VoicevoxUserDictWordType : int
-    {
-        VOICEVOX_USER_DICT_WORD_TYPE_PROPER_NOUN = 0,
-        VOICEVOX_USER_DICT_WORD_TYPE_COMMON_NOUN = 1,
-        VOICEVOX_USER_DICT_WORD_TYPE_VERB = 2,
-        VOICEVOX_USER_DICT_WORD_TYPE_ADJECTIVE = 3,
-        VOICEVOX_USER_DICT_WORD_TYPE_SUFFIX = 4,
     }
 
 
