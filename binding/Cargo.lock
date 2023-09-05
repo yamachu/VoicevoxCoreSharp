@@ -76,7 +76,7 @@ dependencies = [
 [[package]]
 name = "csbindgen"
 version = "1.7.5"
-source = "git+https://github.com/yamachu/csbindgen?rev=68ae91720020104b2e38b4b22543585c6e9b7689#68ae91720020104b2e38b4b22543585c6e9b7689"
+source = "git+https://github.com/yamachu/csbindgen?rev=b68f476daf213f90b324bdfa11a850810ea46861#b68f476daf213f90b324bdfa11a850810ea46861"
 dependencies = [
  "regex",
  "syn",
