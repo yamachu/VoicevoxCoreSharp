@@ -109,5 +109,5 @@ public partial class MainPageViewModel : ObservableObject
 
     private bool CanPickVVMDirectory() => Synthesizer != null;
 
-    private bool CanGenerateAndPlay() => Synthesizer != null && !string.IsNullOrWhiteSpace(SynthesisText);
+    private bool CanGenerateAndPlay() => Synthesizer != null && !string.IsNullOrWhiteSpace(SynthesisText) && !string.IsNullOrWhiteSpace(VvmModelDirectoryPath);
 }
