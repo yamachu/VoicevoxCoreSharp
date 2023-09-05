@@ -71,18 +71,20 @@
     .NET 8 Preview 5 からRIDに関する扱いが変わったため、OutputPathRootに配置している。
     see: https://learn.microsoft.com/en-us/dotnet/core/compatibility/deployment/8.0/rid-asset-list
   -->
-  <ItemGroup>
+  <ItemGroup Label="Copy libvoicevox_core">
     <Content Include="voicevox_core\libvoicevox_core.dylib" TargetPath="libvoicevox_core.dylib" Visible="false" CopyToOutputDirectory="PreserveNewest" Condition="$([MSBuild]::IsOsPlatform('OSX'))" />
     <Content Include="voicevox_core\libvoicevox_core.so" TargetPath="libvoicevox_core.so" Visible="false" CopyToOutputDirectory="PreserveNewest" Condition="$([MSBuild]::IsOsPlatform('Linux'))" />
     <Content Include="voicevox_core\voicevox_core.dll" TargetPath="voicevox_core.dll" Visible="false" CopyToOutputDirectory="PreserveNewest" Condition="$([MSBuild]::IsOsPlatform('Windows'))" />
-
-    <Content Include="voicevox_core\libonnxruntime.$(VoicevoxOnnxRuntimeVersion).dylib" TargetPath="libonnxruntime.$(VoicevoxOnnxRuntimeVersion).dylib" Visible="false" CopyToOutputDirectory="PreserveNewest" Condition="$([MSBuild]::IsOsPlatform('OSX')) And $(UseNugetOnnxRuntime) != 'true'" />
-    <Content Include="voicevox_core\libonnxruntime.so.$(VoicevoxOnnxRuntimeVersion)" TargetPath="libonnxruntime.so.$(VoicevoxOnnxRuntimeVersion)" Visible="false" CopyToOutputDirectory="PreserveNewest" Condition="$([MSBuild]::IsOsPlatform('Linux')) And $(UseNugetOnnxRuntime) != 'true'" />
-    <Content Include="onnxruntime.$(VoicevoxOnnxRuntimeVersion).dll" TargetPath="onnxruntime.$(VoicevoxOnnxRuntimeVersion).dll" Visible="false" CopyToOutputDirectory="PreserveNewest" Condition="$([MSBuild]::IsOsPlatform('Windows')) And $(UseNugetOnnxRuntime) != 'true'" />
-
-    <Content Include="$(OutputPath)runtimes\$(_MyRuntimeIdentifier)\native\libonnxruntime.dylib" TargetPath="libonnxruntime.$(VoicevoxOnnxRuntimeVersion).dylib" Visible="false" CopyToOutputDirectory="PreserveNewest" Condition="$([MSBuild]::IsOsPlatform('OSX')) And $(UseNugetOnnxRuntime) == 'true'" />
-    <Content Include="$(OutputPath)runtimes\$(_MyRuntimeIdentifier)\native\libonnxruntime.so" TargetPath="libonnxruntime.so.$(VoicevoxOnnxRuntimeVersion)" Visible="false" CopyToOutputDirectory="PreserveNewest" Condition="$([MSBuild]::IsOsPlatform('Linux')) And $(UseNugetOnnxRuntime) == 'true'" />
-    <Content Include="$(OutputPath)runtimes\$(_MyRuntimeIdentifier)\native\onnxruntime.dll" TargetPath="onnxruntime.$(VoicevoxOnnxRuntimeVersion).dll" Visible="false" CopyToOutputDirectory="PreserveNewest" Condition="$([MSBuild]::IsOsPlatform('Windows')) And $(UseNugetOnnxRuntime) == 'true'" />
+  </ItemGroup>
+  <ItemGroup Label="Copy own libonnxruntime" Condition="$(UseNugetOnnxRuntime) != 'true'">
+    <Content Include="voicevox_core\libonnxruntime.$(VoicevoxOnnxRuntimeVersion).dylib" TargetPath="libonnxruntime.$(VoicevoxOnnxRuntimeVersion).dylib" Visible="false" CopyToOutputDirectory="PreserveNewest" Condition="$([MSBuild]::IsOsPlatform('OSX'))" />
+    <Content Include="voicevox_core\libonnxruntime.so.$(VoicevoxOnnxRuntimeVersion)" TargetPath="libonnxruntime.so.$(VoicevoxOnnxRuntimeVersion)" Visible="false" CopyToOutputDirectory="PreserveNewest" Condition="$([MSBuild]::IsOsPlatform('Linux'))" />
+    <Content Include="onnxruntime.$(VoicevoxOnnxRuntimeVersion).dll" TargetPath="onnxruntime.$(VoicevoxOnnxRuntimeVersion).dll" Visible="false" CopyToOutputDirectory="PreserveNewest" Condition="$([MSBuild]::IsOsPlatform('Windows'))" />
+  </ItemGroup>
+  <ItemGroup Label="Copy Nuget provided libonnxruntime" Condition="$(UseNugetOnnxRuntime) == 'true'">
+    <Content Include="$(OutputPath)runtimes\$(_MyRuntimeIdentifier)\native\libonnxruntime.dylib" TargetPath="libonnxruntime.$(VoicevoxOnnxRuntimeVersion).dylib" Visible="false" CopyToOutputDirectory="PreserveNewest" Condition="$([MSBuild]::IsOsPlatform('OSX'))" />
+    <Content Include="$(OutputPath)runtimes\$(_MyRuntimeIdentifier)\native\libonnxruntime.so" TargetPath="libonnxruntime.so.$(VoicevoxOnnxRuntimeVersion)" Visible="false" CopyToOutputDirectory="PreserveNewest" Condition="$([MSBuild]::IsOsPlatform('Linux'))" />
+    <Content Include="$(OutputPath)runtimes\$(_MyRuntimeIdentifier)\native\onnxruntime.dll" TargetPath="onnxruntime.$(VoicevoxOnnxRuntimeVersion).dll" Visible="false" CopyToOutputDirectory="PreserveNewest" Condition="$([MSBuild]::IsOsPlatform('Windows'))" />
   </ItemGroup>
 
 </Project>
