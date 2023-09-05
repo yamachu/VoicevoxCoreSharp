@@ -163,6 +163,14 @@ namespace VoicevoxCoreSharp.Core.Native
         [DllImport(__DllName, EntryPoint = "voicevox_user_dict_add_word", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern VoicevoxResultCode voicevox_user_dict_add_word(VoicevoxUserDict* user_dict, VoicevoxUserDictWord* word, void/* byte[] */* output_word_uuid);
 
+        /// <summary>ユーザー辞書の単語を更新する。  @param [in] user_dict ユーザー辞書 @param [in] word_uuid 更新する単語のUUID @param [in] word 新しい単語のデータ @returns 結果コード  \\safety{ - `user_dict`は ::voicevox_user_dict_new で得たものでなければならず、また ::voicevox_user_dict_delete で解放されていてはいけない。 - `word_uuid`は&lt;a href=\"#voicevox-core-safety\"&gt;読み込みについて有効&lt;/a&gt;でなければならない。 - `word-&gt;surface`と`word-&gt;pronunciation`はヌル終端文字列を指し、かつ&lt;a href=\"#voicevox-core-safety\"&gt;読み込みについて有効&lt;/a&gt;でなければならない。 }</summary>
+        [DllImport(__DllName, EntryPoint = "voicevox_user_dict_update_word", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern VoicevoxResultCode voicevox_user_dict_update_word(VoicevoxUserDict* user_dict, void/* byte[] */* word_uuid, VoicevoxUserDictWord* word);
+
+        /// <summary>ユーザー辞書から単語を削除する。  @param [in] user_dict ユーザー辞書 @param [in] word_uuid 削除する単語のUUID @returns 結果コード  \\safety{ - `user_dict`は ::voicevox_user_dict_new で得たものでなければならず、また ::voicevox_user_dict_delete で解放されていてはいけない。 - `word_uuid`は&lt;a href=\"#voicevox-core-safety\"&gt;読み込みについて有効&lt;/a&gt;でなければならない。 }</summary>
+        [DllImport(__DllName, EntryPoint = "voicevox_user_dict_remove_word", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern VoicevoxResultCode voicevox_user_dict_remove_word(VoicevoxUserDict* user_dict, void/* byte[] */* word_uuid);
+
         /// <summary>ユーザー辞書の単語をJSON形式で出力する。  生成したJSON文字列を解放するには ::voicevox_json_free を使う。  @param [in] user_dict ユーザー辞書 @param [out] output_json 出力先 @returns 結果コード  \\safety{ - `user_dict`は ::voicevox_user_dict_new で得たものでなければならず、また ::voicevox_user_dict_delete で解放されていてはいけない。 - `output_json`は&lt;a href=\"#voicevox-core-safety\"&gt;書き込みについて有効&lt;/a&gt;でなければならない。 }</summary>
         [DllImport(__DllName, EntryPoint = "voicevox_user_dict_to_json", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern VoicevoxResultCode voicevox_user_dict_to_json(VoicevoxUserDict* user_dict, byte** output_json);
