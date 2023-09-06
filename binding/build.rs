@@ -31,11 +31,6 @@ fn main() -> Result<(), Box<dyn Error>> {
     csbindgen::Builder::default()
         .input_extern_file("./voicevox_core/crates/voicevox_core_c_api/src/result_code.rs")
         .input_extern_file("./voicevox_core/crates/voicevox_core_c_api/src/lib.rs")
-        // 中身を C側 で触らない struct をここに列挙する
-        .rust_as_empty_struct("OpenJtalkRc")
-        .rust_as_empty_struct("VoicevoxSynthesizer")
-        .rust_as_empty_struct("VoicevoxUserDict")
-        .rust_as_empty_struct("VoicevoxVoiceModel")
         .csharp_dll_name("voicevox_core")
         .csharp_class_name("CoreUnsafe")
         .csharp_namespace("VoicevoxCoreSharp.Core.Native")
