@@ -8,6 +8,6 @@ edition = "2021"
 [dependencies]
 
 [build-dependencies]
-csbindgen = { git = "https://github.com/yamachu/csbindgen", rev = "3498212" }  # "1.7.5"
+csbindgen = "1.8.0"
 bindgen = "0.64.0"
 # glob = "0.3.1"
