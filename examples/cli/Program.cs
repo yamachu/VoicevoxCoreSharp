@@ -1,10 +1,9 @@
 ﻿using System.CommandLine;
 using System.CommandLine.Parsing;
 using Microsoft.Extensions.FileSystemGlobbing;
-
 using VoicevoxCoreSharp.Core;
-using VoicevoxCoreSharp.Core.Struct;
 using VoicevoxCoreSharp.Core.Enum;
+using VoicevoxCoreSharp.Core.Struct;
 
 const string OutputWavName = "audio.wav";
 const uint StyleId = 0;
