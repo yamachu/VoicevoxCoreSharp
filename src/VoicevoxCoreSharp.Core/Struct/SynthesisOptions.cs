@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using VoicevoxCoreSharp.Core.Native;
 
 namespace VoicevoxCoreSharp.Core.Struct

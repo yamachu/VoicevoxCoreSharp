@@ -1,13 +1,14 @@
-﻿namespace MAUI;
+namespace MAUI;
 
+using Microsoft.Extensions.FileSystemGlobbing;
 using CommunityToolkit.Maui.Storage;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using Microsoft.Extensions.FileSystemGlobbing;
-using Plugin.Maui.Audio;
+
 using VoicevoxCoreSharp.Core;
 using VoicevoxCoreSharp.Core.Enum;
 using VoicevoxCoreSharp.Core.Struct;
+using Plugin.Maui.Audio;
 
 public partial class MainPageViewModel : ObservableObject
 {

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Runtime.InteropServices;
 using VoicevoxCoreSharp.Core.Enum;
 using VoicevoxCoreSharp.Core.Native;
