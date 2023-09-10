@@ -1,7 +1,7 @@
 .PHONY: format
 
 format:
-	dotnet format VoicevoxCoreSharp.sln
+	dotnet format VoicevoxCoreSharp-without-exmaples.slnf
 
 format/check:
-	dotnet format VoicevoxCoreSharp.sln --verify-no-changes
+	dotnet format VoicevoxCoreSharp-without-exmaples.slnf --verify-no-changes
