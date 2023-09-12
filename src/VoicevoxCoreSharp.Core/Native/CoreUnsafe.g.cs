@@ -200,7 +200,6 @@ namespace VoicevoxCoreSharp.Core.Native
     {
         public VoicevoxAccelerationMode acceleration_mode;
         public ushort cpu_num_threads;
-        [MarshalAs(UnmanagedType.U1)] public bool load_all_models;
     }
 
     [StructLayout(LayoutKind.Sequential)]
