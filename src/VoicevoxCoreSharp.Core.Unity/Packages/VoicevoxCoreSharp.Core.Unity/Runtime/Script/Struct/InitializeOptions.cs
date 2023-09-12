@@ -18,10 +18,6 @@ namespace VoicevoxCoreSharp.Core.Struct
         /// 0を指定すると環境に合わせたCPUが利用される
         /// </summary>
         public ushort CpuNumThreads { get; set; }
-        /// <summary>
-        /// 全てのモデルを読み込む
-        /// </summary>
-        public bool LoadAllModels { get; set; }
 
         public static InitializeOptions Default()
         {
