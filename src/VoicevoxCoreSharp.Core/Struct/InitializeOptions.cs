@@ -42,7 +42,6 @@ namespace VoicevoxCoreSharp.Core.Struct
             {
                 acceleration_mode = initializeOptions.AccelerationMode.ToNative(),
                 cpu_num_threads = initializeOptions.CpuNumThreads,
-                load_all_models = initializeOptions.LoadAllModels
             };
         }
 
@@ -52,7 +51,6 @@ namespace VoicevoxCoreSharp.Core.Struct
             {
                 AccelerationMode = initializeOptions.acceleration_mode.FromNative(),
                 CpuNumThreads = initializeOptions.cpu_num_threads,
-                LoadAllModels = initializeOptions.load_all_models
             };
         }
     }
