@@ -5,6 +5,7 @@ using Microsoft.Extensions.FileSystemGlobbing;
 using VoicevoxCoreSharp.Core;
 using VoicevoxCoreSharp.Core.Struct;
 using VoicevoxCoreSharp.Core.Enum;
+using VoicevoxCoreSharp.Core.Helper;
 
 const string OutputWavName = "audio.wav";
 const uint StyleId = 0;
@@ -63,6 +64,11 @@ static int RunTts(string text)
         return 1;
     }
 
+
+    var wav = Wav.FromBytes(outputWav);
+    var a = wav.ToIntArray();
+    var b = wav.ToByteArray();
+
     Console.WriteLine("音声ファイル保存中...");
 
     using var writer = new BinaryWriter(File.OpenWrite(OutputWavName));
@@ -78,15 +84,18 @@ static int RunTts(string text)
 var returnCode = 0;
 var text = new Argument<string>("文章");
 
-var command = new RootCommand
-{
-    text
-};
-command.SetHandler((context) =>
-{
-    var textValue = context.ParseResult.GetValueForArgument(text);
-    returnCode = RunTts(textValue);
-});
-returnCode = command.Invoke(args);
+RunTts("こんにちは");
 
-Environment.Exit(returnCode);
+// var command = new RootCommand
+// {
+//     text
+// };
+// command.SetHandler((context) =>
+// {
+//     // var textValue = context.ParseResult.GetValueForArgument(text);
+//     var textValue = "こんにちは";
+//     returnCode = RunTts(textValue);
+// });
+// returnCode = command.Invoke(args);
+
+// Environment.Exit(returnCode);

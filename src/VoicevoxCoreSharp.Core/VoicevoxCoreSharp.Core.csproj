@@ -15,6 +15,10 @@
     <EnableAotAnalyzer>true</EnableAotAnalyzer>
   </PropertyGroup>
 
+  <ItemGroup>
+    <PackageReference Include="System.Memory" Version="*" />
+  </ItemGroup>
+
   <Import Project="VoicevoxCoreSharp.Core.Metas.props" />
 
 </Project>

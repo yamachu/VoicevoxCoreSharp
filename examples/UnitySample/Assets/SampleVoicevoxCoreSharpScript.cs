@@ -5,6 +5,7 @@ using UnityEngine;
 using VoicevoxCoreSharp.Core;
 using VoicevoxCoreSharp.Core.Struct;
 using VoicevoxCoreSharp.Core.Enum;
+using VoicevoxCoreSharp.Core.Helper;
 
 public class SampleVoicevoxCoreSharpScript : MonoBehaviour
 {
@@ -62,10 +63,13 @@ public class SampleVoicevoxCoreSharpScript : MonoBehaviour
 
         using (synthesizer) { }
 
-        var clip = AudioClip.Create(Text, (int)outputWavSize, 1, 24000, false);
-        // WAVのヘッダとかが残ってるため、音声はプチっとかする
-        // ちゃんとした音声にするならいい感じにしてください
-        clip.SetData(ToWavHeaderSkippedFloatWavData(outputWav), 0);
+        var wav = Wav.FromBytes(outputWav);
+        var wavData = wav.ToIntArray();
+
+        Debug.Log($"{wav.WavSize} {wav.FormatChunkSize} {wav.FormatId} {wav.Channel} {wav.SampleRate} {wav.BytePerSec} {wav.BlockSize} {wav.BitDepth} {wav.DataChunkSize} {wav.Channel} {wav.SampleRate} {wav.BitDepth}");
+        var clip = AudioClip.Create(Text, (int)wavData.Length / 2, (int)wav.Channel, (int)wav.SampleRate, false);
+        // clip.SetData(ToWavHeaderSkippedFloatWavData(wavData), 0);
+        clip.SetData(Array.ConvertAll(wavData, b => (float)b / 32768.0f), 0);
         AudioSource source = gameObject.AddComponent<AudioSource>();
         source.PlayOneShot(clip);
     }
@@ -73,7 +77,7 @@ public class SampleVoicevoxCoreSharpScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 
     private float[] ToWavHeaderSkippedFloatWavData(byte[] original)
