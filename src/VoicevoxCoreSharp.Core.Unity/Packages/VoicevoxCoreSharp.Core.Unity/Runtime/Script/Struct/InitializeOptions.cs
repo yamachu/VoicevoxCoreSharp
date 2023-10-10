@@ -18,10 +18,6 @@ namespace VoicevoxCoreSharp.Core.Struct
         /// 0を指定すると環境に合わせたCPUが利用される
         /// </summary>
         public ushort CpuNumThreads { get; set; }
-        /// <summary>
-        /// 全てのモデルを読み込む
-        /// </summary>
-        public bool LoadAllModels { get; set; }
 
         public static InitializeOptions Default()
         {
@@ -42,7 +38,6 @@ namespace VoicevoxCoreSharp.Core.Struct
             {
                 acceleration_mode = initializeOptions.AccelerationMode.ToNative(),
                 cpu_num_threads = initializeOptions.CpuNumThreads,
-                load_all_models = initializeOptions.LoadAllModels
             };
         }
 
@@ -52,7 +47,6 @@ namespace VoicevoxCoreSharp.Core.Struct
             {
                 AccelerationMode = initializeOptions.acceleration_mode.FromNative(),
                 CpuNumThreads = initializeOptions.cpu_num_threads,
-                LoadAllModels = initializeOptions.load_all_models
             };
         }
     }

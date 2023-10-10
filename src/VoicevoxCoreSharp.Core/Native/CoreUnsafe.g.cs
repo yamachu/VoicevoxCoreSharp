@@ -91,21 +91,21 @@ namespace VoicevoxCoreSharp.Core.Native
         [DllImport(__DllName, EntryPoint = "voicevox_create_supported_devices_json", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern VoicevoxResultCode voicevox_create_supported_devices_json(byte** output_supported_devices_json);
 
-        /// <summary>デフォルトの AudioQuery のオプションを生成する @return デフォルト値が設定された AudioQuery オプション</summary>
-        [DllImport(__DllName, EntryPoint = "voicevox_make_default_audio_query_options", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern VoicevoxAudioQueryOptions voicevox_make_default_audio_query_options();
+        /// <summary>AquesTalk風記法から、AudioQueryをJSONとして生成する。  生成したJSON文字列を解放するには ::voicevox_json_free を使う。  @param [in] synthesizer 音声シンセサイザ @param [in] kana AquesTalk風記法 @param [in] style_id スタイルID @param [out] output_audio_query_json 生成先  @returns 結果コード  \\example{ ```c char *audio_query; voicevox_synthesizer_create_audio_query_from_kana(synthesizer, \"コンニチワ'\", 2, // \"四国めたん (ノーマル)\ &amp;audio_query); ``` }  \\safety{ - `synthesizer`は ::voicevox_synthesizer_new_with_initialize で得たものでなければならず、また ::voicevox_synthesizer_delete で解放されていてはいけない。 - `kana`はヌル終端文字列を指し、かつ&lt;a href=\"#voicevox-core-safety\"&gt;読み込みについて有効&lt;/a&gt;でなければならない。 - `output_audio_query_json`は&lt;a href=\"#voicevox-core-safety\"&gt;書き込みについて有効&lt;/a&gt;でなければならない。 }</summary>
+        [DllImport(__DllName, EntryPoint = "voicevox_synthesizer_create_audio_query_from_kana", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern VoicevoxResultCode voicevox_synthesizer_create_audio_query_from_kana(VoicevoxSynthesizer* synthesizer, byte* kana, uint style_id, byte** output_audio_query_json);
 
-        /// <summary>AudioQueryをJSONとして生成する。  生成したJSON文字列を解放するには ::voicevox_json_free を使う。  @param [in] synthesizer 音声シンセサイザ @param [in] text UTF-8の日本語テキストまたはAquesTalk風記法 @param [in] style_id スタイルID @param [in] options オプション @param [out] output_audio_query_json 生成先  @returns 結果コード  \\examples{ ```c char *audio_query; voicevox_synthesizer_create_audio_query(synthesizer, \"こんにちは\",  // 日本語テキスト 2,  // \"四国めたん (ノーマル)\ (VoicevoxAudioQueryOptions){.kana = false}, &amp;audio_query); ```  ```c char *audio_query; voicevox_synthesizer_create_audio_query(synthesizer, \"コンニチワ'\",  // AquesTalk風記法 2,  // \"四国めたん (ノーマル)\ (VoicevoxAudioQueryOptions){.kana = true}, &amp;audio_query); ``` }   \\safety{ - `synthesizer`は ::voicevox_synthesizer_new_with_initialize で得たものでなければならず、また ::voicevox_synthesizer_delete で解放されていてはいけない。 - `text`はヌル終端文字列を指し、かつ&lt;a href=\"#voicevox-core-safety\"&gt;読み込みについて有効&lt;/a&gt;でなければならない。 - `output_audio_query_json`は&lt;a href=\"#voicevox-core-safety\"&gt;書き込みについて有効&lt;/a&gt;でなければならない。 }</summary>
+        /// <summary>日本語テキストから、AudioQueryをJSONとして生成する。  生成したJSON文字列を解放するには ::voicevox_json_free を使う。  @param [in] synthesizer 音声シンセサイザ @param [in] text UTF-8の日本語テキスト @param [in] style_id スタイルID @param [out] output_audio_query_json 生成先  @returns 結果コード  \\example{ ```c char *audio_query; voicevox_synthesizer_create_audio_query(synthesizer, \"こんにちは\", 2, // \"四国めたん (ノーマル)\ &amp;audio_query); ``` }  \\safety{ - `synthesizer`は ::voicevox_synthesizer_new_with_initialize で得たものでなければならず、また ::voicevox_synthesizer_delete で解放されていてはいけない。 - `text`はヌル終端文字列を指し、かつ&lt;a href=\"#voicevox-core-safety\"&gt;読み込みについて有効&lt;/a&gt;でなければならない。 - `output_audio_query_json`は&lt;a href=\"#voicevox-core-safety\"&gt;書き込みについて有効&lt;/a&gt;でなければならない。 }</summary>
         [DllImport(__DllName, EntryPoint = "voicevox_synthesizer_create_audio_query", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern VoicevoxResultCode voicevox_synthesizer_create_audio_query(VoicevoxSynthesizer* synthesizer, byte* text, uint style_id, VoicevoxAudioQueryOptions options, byte** output_audio_query_json);
+        public static extern VoicevoxResultCode voicevox_synthesizer_create_audio_query(VoicevoxSynthesizer* synthesizer, byte* text, uint style_id, byte** output_audio_query_json);
 
-        /// <summary>デフォルトの `accent_phrases` のオプションを生成する @return デフォルト値が設定された `accent_phrases` のオプション</summary>
-        [DllImport(__DllName, EntryPoint = "voicevox_make_default_accent_phrases_options", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern VoicevoxAccentPhrasesOptions voicevox_make_default_accent_phrases_options();
+        /// <summary>AquesTalk風記法から、AccentPhrase (アクセント句)の配列をJSON形式で生成する。  生成したJSON文字列を解放するには ::voicevox_json_free を使う。  @param [in] synthesizer 音声シンセサイザ @param [in] kana AquesTalk風記法 @param [in] style_id スタイルID @param [out] output_accent_phrases_json 生成先  @returns 結果コード  \\example{ ```c char *accent_phrases; voicevox_synthesizer_create_accent_phrases_from_kana( synthesizer, \"コンニチワ'\", 2, // \"四国めたん (ノーマル)\ &amp;accent_phrases); ``` }  \\safety{ - `synthesizer`は ::voicevox_synthesizer_new_with_initialize で得たものでなければならず、また ::voicevox_synthesizer_delete で解放されていてはいけない。 - `kana`はヌル終端文字列を指し、かつ&lt;a href=\"#voicevox-core-safety\"&gt;読み込みについて有効&lt;/a&gt;でなければならない。 - `output_audio_query_json`は&lt;a href=\"#voicevox-core-safety\"&gt;書き込みについて有効&lt;/a&gt;でなければならない。 }</summary>
+        [DllImport(__DllName, EntryPoint = "voicevox_synthesizer_create_accent_phrases_from_kana", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern VoicevoxResultCode voicevox_synthesizer_create_accent_phrases_from_kana(VoicevoxSynthesizer* synthesizer, byte* kana, uint style_id, byte** output_accent_phrases_json);
 
-        /// <summary>AccentPhrase (アクセント句)の配列をJSON形式で生成する。  生成したJSON文字列を解放するには ::voicevox_json_free を使う。  @param [in] synthesizer 音声シンセサイザ @param [in] text UTF-8の日本語テキストまたはAquesTalk風記法 @param [in] style_id スタイルID @param [in] options オプション @param [out] output_accent_phrases_json 生成先  @returns 結果コード  \\examples{ ```c char *accent_phrases; voicevox_synthesizer_create_accent_phrases( synthesizer, \"こんにちは\",  // 日本語テキスト 2,             // \"四国めたん (ノーマル)\ voicevox_default_accent_phrases_options, &amp;accent_phrases); ```  ```c char *accent_phrases; voicevox_synthesizer_create_accent_phrases( synthesizer, \"コンニチワ'\",  // AquesTalk風記法 2,              // \"四国めたん (ノーマル)\ (VoicevoxAccentPhrasesOptions){.kana = true}, &amp;accent_phrases); ``` }  \\safety{ - `synthesizer`は ::voicevox_synthesizer_new_with_initialize で得たものでなければならず、また ::voicevox_synthesizer_delete で解放されていてはいけない。 - `text`はヌル終端文字列を指し、かつ&lt;a href=\"#voicevox-core-safety\"&gt;読み込みについて有効&lt;/a&gt;でなければならない。 - `output_audio_query_json`は&lt;a href=\"#voicevox-core-safety\"&gt;書き込みについて有効&lt;/a&gt;でなければならない。 }</summary>
+        /// <summary>日本語テキストから、AccentPhrase (アクセント句)の配列をJSON形式で生成する。  生成したJSON文字列を解放するには ::voicevox_json_free を使う。  @param [in] synthesizer 音声シンセサイザ @param [in] text UTF-8の日本語テキスト @param [in] style_id スタイルID @param [out] output_accent_phrases_json 生成先  @returns 結果コード  \\example{ ```c char *accent_phrases; voicevox_synthesizer_create_accent_phrases(synthesizer, \"こんにちは\", 2, // \"四国めたん (ノーマル)\ &amp;accent_phrases); ``` }  \\safety{ - `synthesizer`は ::voicevox_synthesizer_new_with_initialize で得たものでなければならず、また ::voicevox_synthesizer_delete で解放されていてはいけない。 - `text`はヌル終端文字列を指し、かつ&lt;a href=\"#voicevox-core-safety\"&gt;読み込みについて有効&lt;/a&gt;でなければならない。 - `output_audio_query_json`は&lt;a href=\"#voicevox-core-safety\"&gt;書き込みについて有効&lt;/a&gt;でなければならない。 }</summary>
         [DllImport(__DllName, EntryPoint = "voicevox_synthesizer_create_accent_phrases", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern VoicevoxResultCode voicevox_synthesizer_create_accent_phrases(VoicevoxSynthesizer* synthesizer, byte* text, uint style_id, VoicevoxAccentPhrasesOptions options, byte** output_accent_phrases_json);
+        public static extern VoicevoxResultCode voicevox_synthesizer_create_accent_phrases(VoicevoxSynthesizer* synthesizer, byte* text, uint style_id, byte** output_accent_phrases_json);
 
         /// <summary>AccentPhraseの配列の音高・音素長を、特定の声で生成しなおす。  生成したJSON文字列を解放するには ::voicevox_json_free を使う。  @param [in] synthesizer 音声シンセサイザ @param [in] accent_phrases_json AccentPhraseの配列のJSON文字列 @param [in] style_id スタイルID @param [out] output_accent_phrases_json 生成先  @returns 結果コード  \\safety{ - `synthesizer`は ::voicevox_synthesizer_new_with_initialize で得たものでなければならず、また ::voicevox_synthesizer_delete で解放されていてはいけない。 - `accent_phrases_json`はヌル終端文字列を指し、かつ&lt;a href=\"#voicevox-core-safety\"&gt;読み込みについて有効&lt;/a&gt;でなければならない。 - `output_audio_query_json`は&lt;a href=\"#voicevox-core-safety\"&gt;書き込みについて有効&lt;/a&gt;でなければならない。 }</summary>
         [DllImport(__DllName, EntryPoint = "voicevox_synthesizer_replace_mora_data", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
@@ -131,7 +131,11 @@ namespace VoicevoxCoreSharp.Core.Native
         [DllImport(__DllName, EntryPoint = "voicevox_make_default_tts_options", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern VoicevoxTtsOptions voicevox_make_default_tts_options();
 
-        /// <summary>テキスト音声合成を行う。  生成したWAVデータを解放するには ::voicevox_wav_free を使う。  @param [in] synthesizer @param [in] text UTF-8の日本語テキストまたはAquesTalk風記法 @param [in] style_id スタイルID @param [in] options オプション @param [out] output_wav_length 出力のバイト長 @param [out] output_wav 出力先  @returns 結果コード  \\safety{ - `synthesizer`は ::voicevox_synthesizer_new_with_initialize で得たものでなければならず、また ::voicevox_synthesizer_delete で解放されていてはいけない。 - `text`はヌル終端文字列を指し、かつ&lt;a href=\"#voicevox-core-safety\"&gt;読み込みについて有効&lt;/a&gt;でなければならない。 - `output_wav_length`は&lt;a href=\"#voicevox-core-safety\"&gt;書き込みについて有効&lt;/a&gt;でなければならない。 - `output_wav`は&lt;a href=\"#voicevox-core-safety\"&gt;書き込みについて有効&lt;/a&gt;でなければならない。 }</summary>
+        /// <summary>AquesTalk風記法から音声合成を行う。  生成したWAVデータを解放するには ::voicevox_wav_free を使う。  @param [in] synthesizer @param [in] kana AquesTalk風記法 @param [in] style_id スタイルID @param [in] options オプション @param [out] output_wav_length 出力のバイト長 @param [out] output_wav 出力先  @returns 結果コード  \\safety{ - `synthesizer`は ::voicevox_synthesizer_new_with_initialize で得たものでなければならず、また ::voicevox_synthesizer_delete で解放されていてはいけない。 - `kana`はヌル終端文字列を指し、かつ&lt;a href=\"#voicevox-core-safety\"&gt;読み込みについて有効&lt;/a&gt;でなければならない。 - `output_wav_length`は&lt;a href=\"#voicevox-core-safety\"&gt;書き込みについて有効&lt;/a&gt;でなければならない。 - `output_wav`は&lt;a href=\"#voicevox-core-safety\"&gt;書き込みについて有効&lt;/a&gt;でなければならない。 }</summary>
+        [DllImport(__DllName, EntryPoint = "voicevox_synthesizer_tts_from_kana", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern VoicevoxResultCode voicevox_synthesizer_tts_from_kana(VoicevoxSynthesizer* synthesizer, byte* kana, uint style_id, VoicevoxTtsOptions options, nuint* output_wav_length, byte** output_wav);
+
+        /// <summary>日本語テキストから音声合成を行う。  生成したWAVデータを解放するには ::voicevox_wav_free を使う。  @param [in] synthesizer @param [in] text UTF-8の日本語テキスト @param [in] style_id スタイルID @param [in] options オプション @param [out] output_wav_length 出力のバイト長 @param [out] output_wav 出力先  @returns 結果コード  \\safety{ - `synthesizer`は ::voicevox_synthesizer_new_with_initialize で得たものでなければならず、また ::voicevox_synthesizer_delete で解放されていてはいけない。 - `text`はヌル終端文字列を指し、かつ&lt;a href=\"#voicevox-core-safety\"&gt;読み込みについて有効&lt;/a&gt;でなければならない。 - `output_wav_length`は&lt;a href=\"#voicevox-core-safety\"&gt;書き込みについて有効&lt;/a&gt;でなければならない。 - `output_wav`は&lt;a href=\"#voicevox-core-safety\"&gt;書き込みについて有効&lt;/a&gt;でなければならない。 }</summary>
         [DllImport(__DllName, EntryPoint = "voicevox_synthesizer_tts", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern VoicevoxResultCode voicevox_synthesizer_tts(VoicevoxSynthesizer* synthesizer, byte* text, uint style_id, VoicevoxTtsOptions options, nuint* output_wav_length, byte** output_wav);
 
@@ -200,7 +204,6 @@ namespace VoicevoxCoreSharp.Core.Native
     {
         public VoicevoxAccelerationMode acceleration_mode;
         public ushort cpu_num_threads;
-        [MarshalAs(UnmanagedType.U1)] public bool load_all_models;
     }
 
     [StructLayout(LayoutKind.Sequential)]
@@ -214,18 +217,6 @@ namespace VoicevoxCoreSharp.Core.Native
     }
 
     [StructLayout(LayoutKind.Sequential)]
-    internal unsafe partial struct VoicevoxAudioQueryOptions
-    {
-        [MarshalAs(UnmanagedType.U1)] public bool kana;
-    }
-
-    [StructLayout(LayoutKind.Sequential)]
-    internal unsafe partial struct VoicevoxAccentPhrasesOptions
-    {
-        [MarshalAs(UnmanagedType.U1)] public bool kana;
-    }
-
-    [StructLayout(LayoutKind.Sequential)]
     internal unsafe partial struct VoicevoxSynthesisOptions
     {
         [MarshalAs(UnmanagedType.U1)] public bool enable_interrogative_upspeak;
@@ -234,7 +225,6 @@ namespace VoicevoxCoreSharp.Core.Native
     [StructLayout(LayoutKind.Sequential)]
     internal unsafe partial struct VoicevoxTtsOptions
     {
-        [MarshalAs(UnmanagedType.U1)] public bool kana;
         [MarshalAs(UnmanagedType.U1)] public bool enable_interrogative_upspeak;
     }
 
@@ -260,8 +250,8 @@ namespace VoicevoxCoreSharp.Core.Native
         VOICEVOX_RESULT_NOT_LOADED_OPENJTALK_DICT_ERROR = 1,
         VOICEVOX_RESULT_GET_SUPPORTED_DEVICES_ERROR = 3,
         VOICEVOX_RESULT_GPU_SUPPORT_ERROR = 4,
-        VOICEVOX_RESULT_INVALID_STYLE_ID_ERROR = 6,
-        VOICEVOX_RESULT_INVALID_MODEL_ID_ERROR = 7,
+        VOICEVOX_RESULT_STYLE_NOT_FOUND_ERROR = 6,
+        VOICEVOX_RESULT_MODEL_NOT_FOUND_ERROR = 7,
         VOICEVOX_RESULT_INFERENCE_ERROR = 8,
         VOICEVOX_RESULT_EXTRACT_FULL_CONTEXT_LABEL_ERROR = 11,
         VOICEVOX_RESULT_INVALID_UTF8_INPUT_ERROR = 12,
@@ -273,10 +263,9 @@ namespace VoicevoxCoreSharp.Core.Native
         VOICEVOX_RESULT_MODEL_ALREADY_LOADED_ERROR = 18,
         VOICEVOX_RESULT_STYLE_ALREADY_LOADED_ERROR = 26,
         VOICEVOX_RESULT_INVALID_MODEL_DATA_ERROR = 27,
-        VOICEVOX_RESULT_UNLOADED_MODEL_ERROR = 19,
         VOICEVOX_RESULT_LOAD_USER_DICT_ERROR = 20,
         VOICEVOX_RESULT_SAVE_USER_DICT_ERROR = 21,
-        VOICEVOX_RESULT_UNKNOWN_USER_DICT_WORD_ERROR = 22,
+        VOICEVOX_RESULT_USER_DICT_WORD_NOT_FOUND_ERROR = 22,
         VOICEVOX_RESULT_USE_USER_DICT_ERROR = 23,
         VOICEVOX_RESULT_INVALID_USER_DICT_WORD_ERROR = 24,
         VOICEVOX_RESULT_INVALID_UUID_ERROR = 25,

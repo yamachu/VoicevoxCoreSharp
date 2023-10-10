@@ -25,13 +25,13 @@ namespace VoicevoxCoreSharp.Core.Enum
         /// </summary>
         RESULT_GPU_SUPPORT_ERROR = 4,
         /// <summary>
-        /// 無効なstyle_idが指定された
+        /// スタイルIDに対するスタイルが見つからなかった
         /// </summary>
-        RESULT_INVALID_STYLE_ID_ERROR = 6,
+        RESULT_STYLE_NOT_FOUND_ERROR = 6,
         /// <summary>
-        /// 無効なmodel_idが指定された
+        /// 音声モデルIDに対する音声モデルが見つからなかった
         /// </summary>
-        RESULT_INVALID_MODEL_ID_ERROR = 7,
+        RESULT_MODEL_NOT_FOUND_ERROR = 7,
         /// <summary>
         /// 推論に失敗した
         /// </summary>
@@ -77,10 +77,6 @@ namespace VoicevoxCoreSharp.Core.Enum
         /// </summary>
         RESULT_INVALID_MODEL_DATA_ERROR = 27,
         /// <summary>
-        /// Modelが読み込まれていない
-        /// </summary>
-        RESULT_UNLOADED_MODEL_ERROR = 19,
-        /// <summary>
         /// ユーザー辞書を読み込めなかった
         /// </summary>
         RESULT_LOAD_USER_DICT_ERROR = 20,
@@ -91,7 +87,7 @@ namespace VoicevoxCoreSharp.Core.Enum
         /// <summary>
         /// ユーザー辞書に単語が見つからなかった
         /// </summary>
-        RESULT_UNKNOWN_USER_DICT_WORD_ERROR = 22,
+        RESULT_USER_DICT_WORD_NOT_FOUND_ERROR = 22,
         /// <summary>
         /// OpenJTalkのユーザー辞書の設定に失敗した
         /// </summary>
@@ -116,8 +112,8 @@ namespace VoicevoxCoreSharp.Core.Enum
                 VoicevoxResultCode.VOICEVOX_RESULT_NOT_LOADED_OPENJTALK_DICT_ERROR => ResultCode.RESULT_NOT_LOADED_OPENJTALK_DICT_ERROR,
                 VoicevoxResultCode.VOICEVOX_RESULT_GET_SUPPORTED_DEVICES_ERROR => ResultCode.RESULT_GET_SUPPORTED_DEVICES_ERROR,
                 VoicevoxResultCode.VOICEVOX_RESULT_GPU_SUPPORT_ERROR => ResultCode.RESULT_GPU_SUPPORT_ERROR,
-                VoicevoxResultCode.VOICEVOX_RESULT_INVALID_STYLE_ID_ERROR => ResultCode.RESULT_INVALID_STYLE_ID_ERROR,
-                VoicevoxResultCode.VOICEVOX_RESULT_INVALID_MODEL_ID_ERROR => ResultCode.RESULT_INVALID_MODEL_ID_ERROR,
+                VoicevoxResultCode.VOICEVOX_RESULT_STYLE_NOT_FOUND_ERROR => ResultCode.RESULT_STYLE_NOT_FOUND_ERROR,
+                VoicevoxResultCode.VOICEVOX_RESULT_MODEL_NOT_FOUND_ERROR => ResultCode.RESULT_MODEL_NOT_FOUND_ERROR,
                 VoicevoxResultCode.VOICEVOX_RESULT_INFERENCE_ERROR => ResultCode.RESULT_INFERENCE_ERROR,
                 VoicevoxResultCode.VOICEVOX_RESULT_EXTRACT_FULL_CONTEXT_LABEL_ERROR => ResultCode.RESULT_EXTRACT_FULL_CONTEXT_LABEL_ERROR,
                 VoicevoxResultCode.VOICEVOX_RESULT_INVALID_UTF8_INPUT_ERROR => ResultCode.RESULT_INVALID_UTF8_INPUT_ERROR,
@@ -129,10 +125,9 @@ namespace VoicevoxCoreSharp.Core.Enum
                 VoicevoxResultCode.VOICEVOX_RESULT_MODEL_ALREADY_LOADED_ERROR => ResultCode.RESULT_MODEL_ALREADY_LOADED_ERROR,
                 VoicevoxResultCode.VOICEVOX_RESULT_STYLE_ALREADY_LOADED_ERROR => ResultCode.RESULT_STYLE_ALREADY_LOADED_ERROR,
                 VoicevoxResultCode.VOICEVOX_RESULT_INVALID_MODEL_DATA_ERROR => ResultCode.RESULT_INVALID_MODEL_DATA_ERROR,
-                VoicevoxResultCode.VOICEVOX_RESULT_UNLOADED_MODEL_ERROR => ResultCode.RESULT_UNLOADED_MODEL_ERROR,
                 VoicevoxResultCode.VOICEVOX_RESULT_LOAD_USER_DICT_ERROR => ResultCode.RESULT_LOAD_USER_DICT_ERROR,
                 VoicevoxResultCode.VOICEVOX_RESULT_SAVE_USER_DICT_ERROR => ResultCode.RESULT_SAVE_USER_DICT_ERROR,
-                VoicevoxResultCode.VOICEVOX_RESULT_UNKNOWN_USER_DICT_WORD_ERROR => ResultCode.RESULT_UNKNOWN_USER_DICT_WORD_ERROR,
+                VoicevoxResultCode.VOICEVOX_RESULT_USER_DICT_WORD_NOT_FOUND_ERROR => ResultCode.RESULT_USER_DICT_WORD_NOT_FOUND_ERROR,
                 VoicevoxResultCode.VOICEVOX_RESULT_USE_USER_DICT_ERROR => ResultCode.RESULT_USE_USER_DICT_ERROR,
                 VoicevoxResultCode.VOICEVOX_RESULT_INVALID_USER_DICT_WORD_ERROR => ResultCode.RESULT_INVALID_USER_DICT_WORD_ERROR,
                 VoicevoxResultCode.VOICEVOX_RESULT_INVALID_UUID_ERROR => ResultCode.RESULT_INVALID_UUID_ERROR,
@@ -148,8 +143,8 @@ namespace VoicevoxCoreSharp.Core.Enum
                 ResultCode.RESULT_NOT_LOADED_OPENJTALK_DICT_ERROR => VoicevoxResultCode.VOICEVOX_RESULT_NOT_LOADED_OPENJTALK_DICT_ERROR,
                 ResultCode.RESULT_GET_SUPPORTED_DEVICES_ERROR => VoicevoxResultCode.VOICEVOX_RESULT_GET_SUPPORTED_DEVICES_ERROR,
                 ResultCode.RESULT_GPU_SUPPORT_ERROR => VoicevoxResultCode.VOICEVOX_RESULT_GPU_SUPPORT_ERROR,
-                ResultCode.RESULT_INVALID_STYLE_ID_ERROR => VoicevoxResultCode.VOICEVOX_RESULT_INVALID_STYLE_ID_ERROR,
-                ResultCode.RESULT_INVALID_MODEL_ID_ERROR => VoicevoxResultCode.VOICEVOX_RESULT_INVALID_MODEL_ID_ERROR,
+                ResultCode.RESULT_STYLE_NOT_FOUND_ERROR => VoicevoxResultCode.VOICEVOX_RESULT_STYLE_NOT_FOUND_ERROR,
+                ResultCode.RESULT_MODEL_NOT_FOUND_ERROR => VoicevoxResultCode.VOICEVOX_RESULT_MODEL_NOT_FOUND_ERROR,
                 ResultCode.RESULT_INFERENCE_ERROR => VoicevoxResultCode.VOICEVOX_RESULT_INFERENCE_ERROR,
                 ResultCode.RESULT_EXTRACT_FULL_CONTEXT_LABEL_ERROR => VoicevoxResultCode.VOICEVOX_RESULT_EXTRACT_FULL_CONTEXT_LABEL_ERROR,
                 ResultCode.RESULT_INVALID_UTF8_INPUT_ERROR => VoicevoxResultCode.VOICEVOX_RESULT_INVALID_UTF8_INPUT_ERROR,
@@ -161,10 +156,9 @@ namespace VoicevoxCoreSharp.Core.Enum
                 ResultCode.RESULT_MODEL_ALREADY_LOADED_ERROR => VoicevoxResultCode.VOICEVOX_RESULT_MODEL_ALREADY_LOADED_ERROR,
                 ResultCode.RESULT_STYLE_ALREADY_LOADED_ERROR => VoicevoxResultCode.VOICEVOX_RESULT_STYLE_ALREADY_LOADED_ERROR,
                 ResultCode.RESULT_INVALID_MODEL_DATA_ERROR => VoicevoxResultCode.VOICEVOX_RESULT_INVALID_MODEL_DATA_ERROR,
-                ResultCode.RESULT_UNLOADED_MODEL_ERROR => VoicevoxResultCode.VOICEVOX_RESULT_UNLOADED_MODEL_ERROR,
                 ResultCode.RESULT_LOAD_USER_DICT_ERROR => VoicevoxResultCode.VOICEVOX_RESULT_LOAD_USER_DICT_ERROR,
                 ResultCode.RESULT_SAVE_USER_DICT_ERROR => VoicevoxResultCode.VOICEVOX_RESULT_SAVE_USER_DICT_ERROR,
-                ResultCode.RESULT_UNKNOWN_USER_DICT_WORD_ERROR => VoicevoxResultCode.VOICEVOX_RESULT_UNKNOWN_USER_DICT_WORD_ERROR,
+                ResultCode.RESULT_USER_DICT_WORD_NOT_FOUND_ERROR => VoicevoxResultCode.VOICEVOX_RESULT_USER_DICT_WORD_NOT_FOUND_ERROR,
                 ResultCode.RESULT_USE_USER_DICT_ERROR => VoicevoxResultCode.VOICEVOX_RESULT_USE_USER_DICT_ERROR,
                 ResultCode.RESULT_INVALID_USER_DICT_WORD_ERROR => VoicevoxResultCode.VOICEVOX_RESULT_INVALID_USER_DICT_WORD_ERROR,
                 ResultCode.RESULT_INVALID_UUID_ERROR => VoicevoxResultCode.VOICEVOX_RESULT_INVALID_UUID_ERROR,
