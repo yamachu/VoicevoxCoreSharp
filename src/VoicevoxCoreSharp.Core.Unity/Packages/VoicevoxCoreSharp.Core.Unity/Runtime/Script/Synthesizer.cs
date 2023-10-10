@@ -113,16 +113,15 @@ namespace VoicevoxCoreSharp.Core
             }
         }
 
-        public ResultCode CreateAudioQuery(string text, uint styleId, AudioQueryOptions options, out string? audioQueryJson)
+        public ResultCode CreateAudioQuery(string text, uint styleId, out string? audioQueryJson)
         {
             unsafe
             {
                 fixed (byte* ptr = System.Text.Encoding.UTF8.GetBytes(text))
                 {
-                    var nativeOptions = options.ToNative();
                     byte* resultJsonPtr;
 
-                    var result = CoreUnsafe.voicevox_synthesizer_create_audio_query((VoicevoxSynthesizer*)Handle, ptr, styleId, nativeOptions, &resultJsonPtr).FromNative();
+                    var result = CoreUnsafe.voicevox_synthesizer_create_audio_query((VoicevoxSynthesizer*)Handle, ptr, styleId, &resultJsonPtr).FromNative();
                     if (result == ResultCode.RESULT_OK)
                     {
                         audioQueryJson = StringConvertCompat.ToUTF8String(resultJsonPtr);
@@ -138,16 +137,63 @@ namespace VoicevoxCoreSharp.Core
             }
         }
 
-        public ResultCode CreateAccentPhrases(string text, uint styleId, AccentPhrasesOptions options, out string? accentPhrasesJson)
+        public ResultCode CreateAudioQueryFromKana(string kana, uint styleId, out string? audioQueryJson)
+        {
+            unsafe
+            {
+                fixed (byte* ptr = System.Text.Encoding.UTF8.GetBytes(kana))
+                {
+                    byte* resultJsonPtr;
+
+                    var result = CoreUnsafe.voicevox_synthesizer_create_audio_query_from_kana((VoicevoxSynthesizer*)Handle, ptr, styleId, &resultJsonPtr).FromNative();
+                    if (result == ResultCode.RESULT_OK)
+                    {
+                        audioQueryJson = StringConvertCompat.ToUTF8String(resultJsonPtr);
+                        CoreUnsafe.voicevox_json_free(resultJsonPtr);
+                    }
+                    else
+                    {
+                        audioQueryJson = null;
+                    }
+
+                    return result;
+                }
+            }
+        }
+
+        public ResultCode CreateAccentPhrases(string text, uint styleId, out string? accentPhrasesJson)
         {
             unsafe
             {
                 fixed (byte* ptr = System.Text.Encoding.UTF8.GetBytes(text))
                 {
-                    var nativeOptions = options.ToNative();
                     byte* resultJsonPtr;
 
-                    var result = CoreUnsafe.voicevox_synthesizer_create_accent_phrases((VoicevoxSynthesizer*)Handle, ptr, styleId, nativeOptions, &resultJsonPtr).FromNative();
+                    var result = CoreUnsafe.voicevox_synthesizer_create_accent_phrases((VoicevoxSynthesizer*)Handle, ptr, styleId, &resultJsonPtr).FromNative();
+                    if (result == ResultCode.RESULT_OK)
+                    {
+                        accentPhrasesJson = StringConvertCompat.ToUTF8String(resultJsonPtr);
+                        CoreUnsafe.voicevox_json_free(resultJsonPtr);
+                    }
+                    else
+                    {
+                        accentPhrasesJson = null;
+                    }
+
+                    return result;
+                }
+            }
+        }
+
+        public ResultCode CreateAccentPhrasesFromKana(string kana, uint styleId, out string? accentPhrasesJson)
+        {
+            unsafe
+            {
+                fixed (byte* ptr = System.Text.Encoding.UTF8.GetBytes(kana))
+                {
+                    byte* resultJsonPtr;
+
+                    var result = CoreUnsafe.voicevox_synthesizer_create_accent_phrases_from_kana((VoicevoxSynthesizer*)Handle, ptr, styleId, &resultJsonPtr).FromNative();
                     if (result == ResultCode.RESULT_OK)
                     {
                         accentPhrasesJson = StringConvertCompat.ToUTF8String(resultJsonPtr);
@@ -284,6 +330,43 @@ namespace VoicevoxCoreSharp.Core
                         byte* resultWavPtr;
 
                         var result = CoreUnsafe.voicevox_synthesizer_tts((VoicevoxSynthesizer*)Handle, ptr, styleId, nativeOptions, ptr2, &resultWavPtr);
+                        if (result == VoicevoxResultCode.VOICEVOX_RESULT_OK)
+                        {
+                            var i = 0;
+                            var outputWavLengthInt = (int)outputWavLength;
+                            var outputWavTmp = new byte[outputWavLength];
+                            while (i < outputWavLengthInt)
+                            {
+                                outputWavTmp[i] = resultWavPtr[i];
+                                i++;
+                            }
+                            outputWav = outputWavTmp;
+                            CoreUnsafe.voicevox_wav_free(resultWavPtr);
+                        }
+                        else
+                        {
+                            outputWav = null;
+                        }
+
+                        return result.FromNative();
+                    }
+
+                }
+            }
+        }
+
+        public ResultCode TtsFromKana(string kana, uint styleId, TtsOptions options, out nuint outputWavLength, out byte[]? outputWav)
+        {
+            unsafe
+            {
+                fixed (byte* ptr = System.Text.Encoding.UTF8.GetBytes(kana))
+                {
+                    fixed (nuint* ptr2 = &outputWavLength)
+                    {
+                        var nativeOptions = options.ToNative();
+                        byte* resultWavPtr;
+
+                        var result = CoreUnsafe.voicevox_synthesizer_tts_from_kana((VoicevoxSynthesizer*)Handle, ptr, styleId, nativeOptions, ptr2, &resultWavPtr);
                         if (result == VoicevoxResultCode.VOICEVOX_RESULT_OK)
                         {
                             var i = 0;
