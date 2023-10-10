@@ -9,10 +9,6 @@ namespace VoicevoxCoreSharp.Core.Struct
     public struct TtsOptions
     {
         /// <summary>
-        /// AquesTalk風記法としてテキストを解釈する
-        /// </summary>
-        public bool Kana { get; set; }
-        /// <summary>
         /// 疑問文の調整を有効にする
         /// </summary>
         public bool EnableInterrogativeUpspeak { get; set; }
@@ -34,7 +30,6 @@ namespace VoicevoxCoreSharp.Core.Struct
         {
             return new VoicevoxTtsOptions
             {
-                kana = ttsOptions.Kana,
                 enable_interrogative_upspeak = ttsOptions.EnableInterrogativeUpspeak
             };
         }
@@ -43,7 +38,6 @@ namespace VoicevoxCoreSharp.Core.Struct
         {
             return new TtsOptions
             {
-                Kana = ttsOptions.kana,
                 EnableInterrogativeUpspeak = ttsOptions.enable_interrogative_upspeak
             };
         }
