@@ -50,5 +50,6 @@ jobs:
         run: |
           git add src/VoicevoxCoreSharp.Core
           git commit -m "make generate"
+          git remote show origin
           git push origin HEAD
           gh pr create --title "Update submodule" --body "Update submodule" --base main --head update-submodule
