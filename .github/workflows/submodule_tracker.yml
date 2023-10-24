@@ -47,6 +47,7 @@ jobs:
       - if: ${{ steps.submodule-diff.outputs.submodule_has_update == 'true'}}
         env:
           GH_TOKEN: ${{ steps.generate_token.outputs.token }}
+          GITHUB_TOKEN: ${{ steps.generate_token.outputs.token }}
         run: |
           git add src/VoicevoxCoreSharp.Core
           git commit -m "make generate"
