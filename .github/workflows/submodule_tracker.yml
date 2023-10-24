@@ -52,6 +52,6 @@ jobs:
           git add src/VoicevoxCoreSharp.Core
           git commit -m "make generate"
           git remote show origin
-          git config --global url."https://x-access-token:${{ steps.generate_token.outputs.token }}@github.com".insteadOf .insteadOf "https://github.com"
+          git config --global url."https://x-access-token:${{ steps.generate_token.outputs.token }}@github.com".insteadOf "https://github.com"
           git push origin HEAD
           gh pr create --title "Update submodule" --body "Update submodule" --base main --head update-submodule
