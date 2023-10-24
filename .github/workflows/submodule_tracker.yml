@@ -11,15 +11,17 @@ jobs:
       contents: write
       pull-requests: write
     steps:
-      - uses: actions/checkout@v3
-        with:
-          submodules: recursive
       - name: Generate a token
         id: generate_token
         uses: actions/create-github-app-token@v1
         with:
           app-id: ${{ secrets.APP_ID }}
           private-key: ${{ secrets.APP_PRIVATE_KEY }}
+      - uses: actions/checkout@v3
+        with:
+          token: ${{ steps.generate_token.outputs.token }}
+          submodules: recursive
+          persist-credentials: false
       - run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
@@ -45,7 +47,6 @@ jobs:
       - if: ${{ steps.submodule-diff.outputs.submodule_has_update == 'true'}}
         env:
           GH_TOKEN: ${{ steps.generate_token.outputs.token }}
-          GITHUB_TOKEN: ${{ steps.generate_token.outputs.token }}
         run: |
           git add src/VoicevoxCoreSharp.Core
           git commit -m "make generate"
