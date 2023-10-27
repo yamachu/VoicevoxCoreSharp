@@ -60,7 +60,7 @@ jobs:
       # voicevox_coreのdownloaderの最新が出て、models単体をダウンロードできるようになったら setup-voicevox とかも対応するんじゃないかなーと思うので、そのタイミングで対応する
       - run: curl -L https://github.com/VOICEVOX/voicevox_core/releases/download/${{format('{0}{1}', needs.parse-tag.outputs.tag, needs.parse-tag.outputs.release-tag)}}/model-${{format('{0}{1}', needs.parse-tag.outputs.tag, needs.parse-tag.outputs.release-tag)}}.zip -O
       - run: unzip model-${{format('{0}{1}', needs.parse-tag.outputs.tag, needs.parse-tag.outputs.release-tag)}}.zip
-      - run: mkdir -p tests/VoicevoxCoreSharp.Core.Tests/resources/model; cp -r ${{format('{0}{1}', needs.parse-tag.outputs.tag, needs.parse-tag.outputs.release-tag)}}/0.vvm tests/VoicevoxCoreSharp.Core.Tests/resources/model/sample.vvm
+      - run: mkdir -p tests/VoicevoxCoreSharp.Core.Tests/resources/model; cp -r model-${{format('{0}{1}', needs.parse-tag.outputs.tag, needs.parse-tag.outputs.release-tag)}}/0.vvm tests/VoicevoxCoreSharp.Core.Tests/resources/model/sample.vvm
       - uses: ./.github/composite/download-openjtalk-dict
         with:
           cache-path: open_jtalk_dic_utf_8-1.11.tar.gz
