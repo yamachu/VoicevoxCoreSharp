@@ -57,10 +57,10 @@ jobs:
           path: voicevox_core_resources
           version: ${{format('{0}{1}', needs.parse-tag.outputs.tag, needs.parse-tag.outputs.release-tag)}} # どちらかしかないので結合してよい
       - run: cp ${{ steps.download-voicevox_core.outputs.entrypoint }} tests/VoicevoxCoreSharp.Core.Tests/resources/libvoicevox_core.so
-      # TOOD: Linux, bash前提のやつなのでいい感じにする
-      - run: mkdir -p tests/VoicevoxCoreSharp.Core.Tests/resources/model; cp -r ${VOICEVOX_CORE_RESOURCES%/libvoicevox_core.so}/model/0.vvm tests/VoicevoxCoreSharp.Core.Tests/resources/model/sample.vvm
-        env:
-          VOICEVOX_CORE_RESOURCES: ${{ steps.download-voicevox_core.outputs.entrypoint }}
+      # voicevox_coreのdownloaderの最新が出て、models単体をダウンロードできるようになったら setup-voicevox とかも対応するんじゃないかなーと思うので、そのタイミングで対応する
+      - run: curl -L https://github.com/VOICEVOX/voicevox_core/releases/download/${{format('{0}{1}', needs.parse-tag.outputs.tag, needs.parse-tag.outputs.release-tag)}}/model-${{format('{0}{1}', needs.parse-tag.outputs.tag, needs.parse-tag.outputs.release-tag)}}.zip -O
+      - run: unzip model-${{format('{0}{1}', needs.parse-tag.outputs.tag, needs.parse-tag.outputs.release-tag)}}.zip
+      - run: mkdir -p tests/VoicevoxCoreSharp.Core.Tests/resources/model; cp -r ${{format('{0}{1}', needs.parse-tag.outputs.tag, needs.parse-tag.outputs.release-tag)}}/0.vvm tests/VoicevoxCoreSharp.Core.Tests/resources/model/sample.vvm
       - uses: ./.github/composite/download-openjtalk-dict
         with:
           cache-path: open_jtalk_dic_utf_8-1.11.tar.gz
