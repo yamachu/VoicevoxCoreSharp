@@ -46,7 +46,7 @@ namespace VoicevoxCoreSharp.Core
                 var nativeOptions = options.ToNative();
 
                 var p = (VoicevoxSynthesizer*)IntPtr.Zero.ToPointer();
-                var result = CoreUnsafe.voicevox_synthesizer_new_with_initialize((OpenJtalkRc*)openJtalk.Handle, nativeOptions, &p).FromNative();
+                var result = CoreUnsafe.voicevox_synthesizer_new((OpenJtalkRc*)openJtalk.Handle, nativeOptions, &p).FromNative();
                 if (result == ResultCode.RESULT_OK)
                 {
                     synthesizer = new Synthesizer(p);

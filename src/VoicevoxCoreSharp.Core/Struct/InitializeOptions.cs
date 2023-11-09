@@ -5,7 +5,7 @@ using VoicevoxCoreSharp.Core.Native;
 namespace VoicevoxCoreSharp.Core.Struct
 {
     /// <summary>
-    /// voicevox_synthesizer_new_with_initialize のオプション。
+    /// voicevox_synthesizer_new のオプション。
     /// </summary>
     public struct InitializeOptions
     {
