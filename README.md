@@ -3,6 +3,8 @@
 [voicevox_core](https://github.com/voicevox/voicevox_core) を C# から使用するためのラッパー。
 薄いラッパーであるため、基本的には voicevox_core のドキュメントを参照し使用できます。
 
+CLI アプリケーションや Unity アプリケーションなどで、直接 voicevox_core を扱うことを目的としています。
+
 ## Notice
 
 現在 Preview として Release されている voicevox_core 0.15.x 系のみをサポートしています。
@@ -12,6 +14,8 @@
 ## Sample
 
 [examples/cli](./examples/cli) にコマンドラインから実行するサンプル実装があります。
+
+[examples/UnitySample](./examples/UnitySample) に Unity アプリケーションのサンプルがあります（Editor 上では音声の生成に失敗することがあるため、パッケージングを行ってください）。
 
 ## Supported
 
