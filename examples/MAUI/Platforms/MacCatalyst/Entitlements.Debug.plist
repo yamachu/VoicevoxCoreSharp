@@ -6,6 +6,9 @@
         <!-- See https://aka.ms/blazor-hybrid-developer-tools -->
         <key>com.apple.security.get-task-allow</key>
         <true/>
+        <!-- https://learn.microsoft.com/ja-jp/dotnet/communitytoolkit/maui/essentials/folder-picker?tabs=macos -->
+        <key>com.apple.security.files.user-selected.read-only</key>
+        <true/>
     </dict>
 </plist>
 
