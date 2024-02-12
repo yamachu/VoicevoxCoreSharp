@@ -10,6 +10,11 @@ updates:
       interval: "weekly"
 
   - package-ecosystem: "github-actions"
-    directory: "/.github/composite"
+    directory: "/.github/composite/build-dev-rust"
+    schedule:
+      interval: "weekly"
+
+  - package-ecosystem: "github-actions"
+    directory: "/.github/composite/download-openjtalk-dict"
     schedule:
       interval: "weekly"
