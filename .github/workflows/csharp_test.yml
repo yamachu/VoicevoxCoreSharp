@@ -27,7 +27,7 @@ jobs:
     - uses: actions/setup-dotnet@v3
       with:
         dotnet-version: 6
-    - uses: actions/cache/restore@v3
+    - uses: actions/cache/restore@v4
       with:
         path: ./binding/voicevox_core/target/release/libvoicevox_core.so
         key: ${{ runner.os }}-dev-library-${{ hashFiles('**/Cargo.lock', '**/VoicevoxCoreSharp.Core.Metas.props') }}
@@ -52,7 +52,7 @@ jobs:
     - uses: actions/setup-dotnet@v3
       with:
         dotnet-version: 8
-    - uses: actions/cache/restore@v3
+    - uses: actions/cache/restore@v4
       with:
         path: ./binding/voicevox_core/target/release/libvoicevox_core.so
         key: ${{ runner.os }}-dev-library-${{ hashFiles('**/Cargo.lock', '**/VoicevoxCoreSharp.Core.Metas.props') }}
