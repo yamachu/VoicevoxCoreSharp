@@ -8,3 +8,8 @@ updates:
     schedule:
       # Check for updates to GitHub Actions every week
       interval: "weekly"
+
+  - package-ecosystem: "github-actions"
+    directory: "/.github/composite"
+    schedule:
+      interval: "weekly"
