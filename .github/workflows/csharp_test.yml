@@ -9,7 +9,7 @@ jobs:
       run:
         working-directory: ./binding
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
       with:
         submodules: true
     - uses: ./.github/composite/build-dev-rust
@@ -21,7 +21,7 @@ jobs:
     runs-on: ubuntu-latest
     needs: build-native-dev-library
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
       with:
         submodules: true
     - uses: actions/setup-dotnet@v3
@@ -46,7 +46,7 @@ jobs:
     runs-on: ubuntu-latest
     needs: build-native-dev-library
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
       with:
         submodules: true
     - uses: actions/setup-dotnet@v3
@@ -73,7 +73,7 @@ jobs:
     runs-on: ubuntu-latest
     needs: build-native-dev-library
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
       with:
         submodules: true
     - uses: actions/setup-dotnet@v3
