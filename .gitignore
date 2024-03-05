@@ -483,3 +483,7 @@ $RECYCLE.BIN/
 
 !examples/UnitySample/**/*.meta
 !src/VoicevoxCoreSharp.Core.Unity/**/*.meta
+
+# releaseから落としてきたテスト用のファイル
+/.local/*
+!/.local/.gitkeep
