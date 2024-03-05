@@ -14,3 +14,6 @@ submodule/checkout:
 	@if [[ "$(COMMIT)" -eq "" ]]; then echo Needs "COMMIT args" ; exit 1 ; fi
 	$(MAKE) submodule/update
 	git submodule foreach git checkout $(COMMIT)
+
+clean:
+	git clean -xde .local
