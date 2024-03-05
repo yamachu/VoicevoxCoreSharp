@@ -16,4 +16,4 @@ submodule/checkout:
 	git submodule foreach git checkout $(COMMIT)
 
 clean:
-	git clean -xde .local
+	git clean -fxde .local
