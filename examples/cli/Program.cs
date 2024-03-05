@@ -9,9 +9,9 @@ using VoicevoxCoreSharp.Core.Enum;
 const string OutputWavName = "audio.wav";
 const uint StyleId = 0;
 
-static int RunTts(string text)
+static int RunTts(string text, string? resourcePath = "voicevox_core")
 {
-    var openJTalkDictPath = "voicevox_core/open_jtalk_dic_utf_8-1.11";
+    var openJTalkDictPath = $"{resourcePath}/open_jtalk_dic_utf_8-1.11";
 
     Console.WriteLine("coreの初期化中");
 
@@ -35,7 +35,7 @@ static int RunTts(string text)
     var matcher = new Matcher();
     matcher.AddIncludePatterns(new[] { "*.vvm" });
 
-    foreach (var path in matcher.GetResultsInFullPath("./voicevox_core/model"))
+    foreach (var path in matcher.GetResultsInFullPath($"{resourcePath}/model"))
     {
         result = VoiceModel.New(path, out var voiceModel);
         if (result != ResultCode.RESULT_OK)
@@ -82,10 +82,14 @@ var command = new RootCommand
 {
     text
 };
+
+var resourcePath = new Option<string>("--resource", "リソースディレクトリパス");
+command.AddOption(resourcePath);
 command.SetHandler((context) =>
 {
     var textValue = context.ParseResult.GetValueForArgument(text);
-    returnCode = RunTts(textValue);
+    var resourceValue = context.ParseResult.GetValueForOption(resourcePath);
+    returnCode = RunTts(textValue, resourceValue);
 });
 returnCode = command.Invoke(args);
 
