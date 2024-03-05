@@ -1,0 +1,6 @@
+{
+    "rust-analyzer.linkedProjects": [
+        "./binding/Cargo.toml",
+        "./binding/voicevox_core/Cargo.toml"
+    ]
+}
