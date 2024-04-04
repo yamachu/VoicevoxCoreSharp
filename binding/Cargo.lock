@@ -21,8 +21,7 @@ dependencies = [
 [[package]]
 name = "csbindgen"
 version = "1.9.1"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "cf70eb656f35e0e6956cbde31c66431c53d8a546823489719099c71525767a9c"
+source = "git+https://github.com/yamachu/csbindgen.git?branch=emit-as-delegate#e8bbf0a93d28493c23bba6fb1984372a1db4b17a"
 dependencies = [
  "regex",
  "syn",
