@@ -289,4 +289,3 @@ namespace VoicevoxCoreSharp.Core.Native
 
 
 }
-    
