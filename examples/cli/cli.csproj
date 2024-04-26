@@ -13,7 +13,7 @@
   <Import Project="..\..\src\VoicevoxCoreSharp.Core\VoicevoxCoreSharp.Core.Metas.props" />
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.Extensions.FileSystemGlobbing" Version="7.0.0" />
+    <PackageReference Include="Microsoft.Extensions.FileSystemGlobbing" Version="8.0.0" />
     <PackageReference Include="Microsoft.ML.OnnxRuntime" Version="$(VoicevoxOnnxRuntimeVersion)" Condition="$(UseNugetOnnxRuntime) == 'true'" />
     <PackageReference Include="System.CommandLine" Version="2.0.0-beta4.22272.1" />
   </ItemGroup>
