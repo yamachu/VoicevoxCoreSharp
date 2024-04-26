@@ -18,3 +18,25 @@ updates:
     directory: "/.github/composite/download-openjtalk-dict"
     schedule:
       interval: "weekly"
+
+  - package-ecosystem: "cargo"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+
+  - package-ecosystem: "nuget"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    ignore:
+      - dependency-name: "Microsoft.ML.OnnxRuntime"
+    groups:
+      MAUI:
+        patterns:
+          - "Microsoft.Maui.*"
+      xunit:
+        patterns:
+          - "xunit*"
+      dev-dependencies:
+        patterns:
+          - "*"
