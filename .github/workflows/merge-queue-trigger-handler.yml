@@ -1,0 +1,27 @@
+name: Handle Merge Queue Trigger
+on:
+  issue_comment:
+    types: [created]
+
+jobs:
+  CommentHandle:
+    if: (contains(github.event.comment.body, '/mq') && github.event.issue.pull_request != null)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: yamachu/merge-queue-action/precheck@main
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - run: |
+          git log --oneline
+          git push origin HEAD:auto.${{ github.event.issue.number }}
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Dispatch workflow via GitHub CLI
+        run: >
+          gh workflow run -R ${{ github.event.repository.full_name }} 
+          -f issue_number=${{ github.event.issue.number }} 
+          -f tmp-ci-branch=auto.${{ github.event.issue.number }} 
+          --ref auto.${{ github.event.issue.number }} testing-queue.yml
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

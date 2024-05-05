@@ -1,0 +1,48 @@
+name: Testing Queue Runner
+on:
+  workflow_dispatch:
+    inputs:
+      issue_number:
+        description: 'Associated Pull Requests number'
+        required: true
+      tmp-ci-branch:
+        description: 'Temporary CI branch name'
+        required: true
+concurrency:
+  group: merge-queue
+  cancel-in-progress: false
+
+jobs:
+  PreTesting:
+    runs-on: ubuntu-latest
+    outputs:
+      base-branch: ${{ steps.pretesting.outputs.base-branch }}
+      base-branch-sha: ${{ steps.pretesting.outputs.base-branch-sha }}
+    steps:
+      - uses: yamachu/merge-queue-action/pretesting@main
+        id: pretesting
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          pr-number: ${{ github.event.inputs.issue_number }}
+          tmp-ci-branch: ${{ github.event.inputs.tmp-ci-branch }}
+
+  Test:
+    uses: ./.github/workflows/csharp_test.yml
+    with:
+      checkout-ref: ${{ github.event.inputs.tmp-ci-branch }}
+    needs: [PreTesting]
+
+  PostTesting:
+    runs-on: ubuntu-latest
+    needs: [PreTesting, Test]
+    steps:
+      - uses: yamachu/merge-queue-action/posttesting@main
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          base-branch: ${{ needs.PreTesting.outputs.base-branch }}
+          base-branch-sha: ${{ needs.PreTesting.outputs.base-branch-sha }}
+          pr-number: ${{ github.event.inputs.issue_number }}
+      - run:
+          git push origin --delete ${{ github.event.inputs.tmp-ci-branch }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
