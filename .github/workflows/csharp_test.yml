@@ -1,6 +1,15 @@
 name: CI
 
-on: push
+on:
+  push:
+    branches:
+      - '!auto.*'
+  workflow_call:
+    inputs:
+      checkout-ref:
+        description: 'The ref to checkout'
+        required: false
+        type: string
 
 jobs:
   build-native-dev-library:
@@ -12,6 +21,7 @@ jobs:
     - uses: actions/checkout@v4
       with:
         submodules: true
+        ref: ${{ inputs.checkout-ref || github.head_ref }}
     - uses: ./.github/composite/build-dev-rust
       with:
         cache-path: ./binding/voicevox_core/target/release/libvoicevox_core.so
@@ -24,6 +34,7 @@ jobs:
     - uses: actions/checkout@v4
       with:
         submodules: true
+        ref: ${{ inputs.checkout-ref || github.head_ref }}
     - uses: actions/setup-dotnet@v4
       with:
         dotnet-version: 6
@@ -49,6 +60,7 @@ jobs:
     - uses: actions/checkout@v4
       with:
         submodules: true
+        ref: ${{ inputs.checkout-ref || github.head_ref }}
     - uses: actions/setup-dotnet@v4
       with:
         dotnet-version: 8
@@ -76,6 +88,7 @@ jobs:
     - uses: actions/checkout@v4
       with:
         submodules: true
+        ref: ${{ inputs.checkout-ref || github.head_ref }}
     - uses: actions/setup-dotnet@v4
       with:
         dotnet-version: 8
