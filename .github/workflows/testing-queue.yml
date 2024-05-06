@@ -20,6 +20,8 @@ jobs:
       base-branch-sha: ${{ steps.pretesting.outputs.base-branch-sha }}
     steps:
       - uses: GitHubSecurityLab/actions-permissions/monitor@v1
+        with:
+          config: ${{ vars.PERMISSIONS_CONFIG }}
       - uses: yamachu/merge-queue-action/pretesting@main
         id: pretesting
         with:
@@ -38,6 +40,8 @@ jobs:
     needs: [PreTesting, Test]
     steps:
       - uses: GitHubSecurityLab/actions-permissions/monitor@v1
+        with:
+          config: ${{ vars.PERMISSIONS_CONFIG }}
       - uses: yamachu/merge-queue-action/posttesting@main
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
