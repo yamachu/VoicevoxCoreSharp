@@ -7,6 +7,9 @@ jobs:
   CommentHandle:
     if: (contains(github.event.comment.body, '/mq') && github.event.issue.pull_request != null)
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      issues: write
     steps:
       - uses: GitHubSecurityLab/actions-permissions/monitor@v1
         with:
