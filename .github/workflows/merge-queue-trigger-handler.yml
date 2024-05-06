@@ -10,6 +10,7 @@ jobs:
     permissions:
       contents: write
       issues: write
+      pull-requests: write
     steps:
       - uses: GitHubSecurityLab/actions-permissions/monitor@v1
         with:
