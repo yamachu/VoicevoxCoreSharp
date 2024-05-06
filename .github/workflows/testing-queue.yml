@@ -15,11 +15,14 @@ concurrency:
 jobs:
   PreTesting:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      issues: write
+      pull-requests: write
     outputs:
       base-branch: ${{ steps.pretesting.outputs.base-branch }}
       base-branch-sha: ${{ steps.pretesting.outputs.base-branch-sha }}
     steps:
-      - uses: GitHubSecurityLab/actions-permissions/monitor@v1
       - uses: yamachu/merge-queue-action/pretesting@main
         id: pretesting
         with:
@@ -36,8 +39,10 @@ jobs:
   PostTesting:
     runs-on: ubuntu-latest
     needs: [PreTesting, Test]
+    permissions:
+      contents: write
+      pull-requests: write
     steps:
-      - uses: GitHubSecurityLab/actions-permissions/monitor@v1
       - uses: yamachu/merge-queue-action/posttesting@main
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
