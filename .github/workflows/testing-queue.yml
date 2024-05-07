@@ -49,6 +49,7 @@ jobs:
           base-branch: ${{ needs.PreTesting.outputs.base-branch }}
           base-branch-sha: ${{ needs.PreTesting.outputs.base-branch-sha }}
           pr-number: ${{ github.event.inputs.issue_number }}
+          merge-method: 'squash'
       - run:
           git push origin --delete ${{ github.event.inputs.tmp-ci-branch }}
         env:
