@@ -18,6 +18,8 @@ runs:
         key: ${{ inputs.cache-key }}
     - if: ${{ steps.restore-dev-library.outputs.cache-hit != 'true' }}
       uses: actions-rust-lang/setup-rust-toolchain@v1.8.0
+      with:
+        cache-workspaces: ./binding
     - if: ${{ steps.restore-dev-library.outputs.cache-hit != 'true' }}
       shell: bash
       working-directory: ./binding
