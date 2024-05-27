@@ -28,12 +28,12 @@
     <When Condition="$([MSBuild]::IsOsPlatform('OSX')) And '$([System.Runtime.InteropServices.RuntimeInformation]::OSArchitecture)' == 'Arm64'">
       <PropertyGroup>
         <!-- onnxruntime依存 -->
-        <_MyRuntimeIdentifier>osx.10.14-arm64</_MyRuntimeIdentifier>
+        <_MyRuntimeIdentifier>osx-arm64</_MyRuntimeIdentifier>
       </PropertyGroup>
     </When>
     <When Condition="$([MSBuild]::IsOsPlatform('OSX')) And '$([System.Runtime.InteropServices.RuntimeInformation]::OSArchitecture)' == 'X64'">
       <PropertyGroup>
-        <_MyRuntimeIdentifier>osx.10.14-x64</_MyRuntimeIdentifier>
+        <_MyRuntimeIdentifier>osx-x64</_MyRuntimeIdentifier>
       </PropertyGroup>
     </When>
     <When Condition="$([MSBuild]::IsOsPlatform('Linux')) And '$([System.Runtime.InteropServices.RuntimeInformation]::OSArchitecture)' == 'Arm64'">
