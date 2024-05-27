@@ -14,11 +14,15 @@ jobs:
       actions: write
     steps:
       - uses: yamachu/merge-queue-action/precheck@main
+        id: precheck
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
+          ref: ${{ steps.precheck.outputs.base-branch }}
       - run: |
           git log --oneline
+          gh pr checkout ${{ github.event.issue.number }}
+          git merge ${{ steps.precheck.outputs.base-branch }}
           git push origin HEAD:auto.${{ github.event.issue.number }}
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
