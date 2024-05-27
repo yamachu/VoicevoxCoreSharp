@@ -51,7 +51,7 @@ jobs:
         cp open_jtalk_dic_utf_8-1.11.tar.gz ./tests/VoicevoxCoreSharp.Core.Tests/resources
         tar zxf ./tests/VoicevoxCoreSharp.Core.Tests/resources/open_jtalk_dic_utf_8-1.11.tar.gz -C tests/VoicevoxCoreSharp.Core.Tests/resources/
     - name: sample.vvmを自前でzipコマンドで作成する
-      run: cd binding/voicevox_core/model/sample.vvm; zip -r ../../../../tests/VoicevoxCoreSharp.Core.Tests/resources/sample.vvm.zip .
+      run: cd binding/voicevox_core/model/sample.vvm; zip -r ../../../../tests/VoicevoxCoreSharp.Core.Tests/resources/sample.vvm .
     - run: dotnet test VoicevoxCoreSharp-without-exmaples.slnf
 
   run-dotnet-cli-example:
