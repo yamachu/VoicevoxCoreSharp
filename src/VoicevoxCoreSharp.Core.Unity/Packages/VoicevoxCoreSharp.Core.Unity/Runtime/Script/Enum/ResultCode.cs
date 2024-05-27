@@ -65,6 +65,10 @@ namespace VoicevoxCoreSharp.Core.Enum
         /// </summary>
         RESULT_READ_ZIP_ENTRY_ERROR = 17,
         /// <summary>
+        /// モデルの形式が不正
+        /// </summary>
+        RESULT_INVALID_MODEL_HEADER_ERROR = 28,
+        /// <summary>
         /// すでに読み込まれている音声モデルを読み込もうとした
         /// </summary>
         RESULT_MODEL_ALREADY_LOADED_ERROR = 18,
@@ -122,6 +126,7 @@ namespace VoicevoxCoreSharp.Core.Enum
                 VoicevoxResultCode.VOICEVOX_RESULT_INVALID_ACCENT_PHRASE_ERROR => ResultCode.RESULT_INVALID_ACCENT_PHRASE_ERROR,
                 VoicevoxResultCode.VOICEVOX_RESULT_OPEN_ZIP_FILE_ERROR => ResultCode.RESULT_OPEN_ZIP_FILE_ERROR,
                 VoicevoxResultCode.VOICEVOX_RESULT_READ_ZIP_ENTRY_ERROR => ResultCode.RESULT_READ_ZIP_ENTRY_ERROR,
+                VoicevoxResultCode.VOICEVOX_RESULT_INVALID_MODEL_HEADER_ERROR => ResultCode.RESULT_INVALID_MODEL_HEADER_ERROR,
                 VoicevoxResultCode.VOICEVOX_RESULT_MODEL_ALREADY_LOADED_ERROR => ResultCode.RESULT_MODEL_ALREADY_LOADED_ERROR,
                 VoicevoxResultCode.VOICEVOX_RESULT_STYLE_ALREADY_LOADED_ERROR => ResultCode.RESULT_STYLE_ALREADY_LOADED_ERROR,
                 VoicevoxResultCode.VOICEVOX_RESULT_INVALID_MODEL_DATA_ERROR => ResultCode.RESULT_INVALID_MODEL_DATA_ERROR,
@@ -153,6 +158,7 @@ namespace VoicevoxCoreSharp.Core.Enum
                 ResultCode.RESULT_INVALID_ACCENT_PHRASE_ERROR => VoicevoxResultCode.VOICEVOX_RESULT_INVALID_ACCENT_PHRASE_ERROR,
                 ResultCode.RESULT_OPEN_ZIP_FILE_ERROR => VoicevoxResultCode.VOICEVOX_RESULT_OPEN_ZIP_FILE_ERROR,
                 ResultCode.RESULT_READ_ZIP_ENTRY_ERROR => VoicevoxResultCode.VOICEVOX_RESULT_READ_ZIP_ENTRY_ERROR,
+                ResultCode.RESULT_INVALID_MODEL_HEADER_ERROR => VoicevoxResultCode.VOICEVOX_RESULT_INVALID_MODEL_HEADER_ERROR,
                 ResultCode.RESULT_MODEL_ALREADY_LOADED_ERROR => VoicevoxResultCode.VOICEVOX_RESULT_MODEL_ALREADY_LOADED_ERROR,
                 ResultCode.RESULT_STYLE_ALREADY_LOADED_ERROR => VoicevoxResultCode.VOICEVOX_RESULT_STYLE_ALREADY_LOADED_ERROR,
                 ResultCode.RESULT_INVALID_MODEL_DATA_ERROR => VoicevoxResultCode.VOICEVOX_RESULT_INVALID_MODEL_DATA_ERROR,
