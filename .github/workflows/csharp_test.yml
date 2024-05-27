@@ -3,7 +3,7 @@ name: CI
 on:
   push:
     branches-ignore:
-      - 'auto.*'
+      - 'auto.**'
   workflow_call:
     inputs:
       checkout-ref:
