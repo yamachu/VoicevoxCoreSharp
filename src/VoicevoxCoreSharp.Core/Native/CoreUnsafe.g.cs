@@ -47,7 +47,7 @@ namespace VoicevoxCoreSharp.Core.Native
 
         /// <summary>::VoicevoxVoiceModel からIDを取得する。  @param [in] model 音声モデル  @returns 音声モデルID  \\safety{ - `model`は ::voicevox_voice_model_new_from_path で得たものでなければならず、また ::voicevox_voice_model_delete で解放されていてはいけない。 }</summary>
         [DllImport(__DllName, EntryPoint = "voicevox_voice_model_id", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern byte* voicevox_voice_model_id(VoicevoxVoiceModel* model);
+        public static extern void/* byte[] */* voicevox_voice_model_id(VoicevoxVoiceModel* model);
 
         /// <summary>::VoicevoxVoiceModel からメタ情報を取得する。  @param [in] model 音声モデル  @returns メタ情報のJSON文字列  \\safety{ - `model`は ::voicevox_voice_model_new_from_path で得たものでなければならず、また ::voicevox_voice_model_delete で解放されていてはいけない。 - 戻り値の文字列の&lt;b&gt;生存期間&lt;/b&gt;(_lifetime_)は次にこの関数が呼ばれるか、`model`が破棄されるまでである。この生存期間を越えて文字列にアクセスしてはならない。 }</summary>
         [DllImport(__DllName, EntryPoint = "voicevox_voice_model_get_metas_json", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
@@ -69,19 +69,19 @@ namespace VoicevoxCoreSharp.Core.Native
         [DllImport(__DllName, EntryPoint = "voicevox_synthesizer_load_voice_model", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern VoicevoxResultCode voicevox_synthesizer_load_voice_model(VoicevoxSynthesizer* synthesizer, VoicevoxVoiceModel* model);
 
-        /// <summary>音声モデルの読み込みを解除する。  @param [in] synthesizer 音声シンセサイザ @param [in] model_id 音声モデルID  @returns 結果コード  \\safety{ - `synthesizer`は ::voicevox_synthesizer_new で得たものでなければならず、また ::voicevox_synthesizer_delete で解放されていてはいけない。 - `model_id`はヌル終端文字列を指し、かつ&lt;a href=\"#voicevox-core-safety\"&gt;読み込みについて有効&lt;/a&gt;でなければならない。 }</summary>
+        /// <summary>音声モデルの読み込みを解除する。  @param [in] synthesizer 音声シンセサイザ @param [in] model_id 音声モデルID  @returns 結果コード  \\safety{ - `synthesizer`は ::voicevox_synthesizer_new で得たものでなければならず、また ::voicevox_synthesizer_delete で解放されていてはいけない。 - `model_id`は&lt;a href=\"#voicevox-core-safety\"&gt;読み込みについて有効&lt;/a&gt;でなければならない。 }</summary>
         [DllImport(__DllName, EntryPoint = "voicevox_synthesizer_unload_voice_model", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern VoicevoxResultCode voicevox_synthesizer_unload_voice_model(VoicevoxSynthesizer* synthesizer, byte* model_id);
+        public static extern VoicevoxResultCode voicevox_synthesizer_unload_voice_model(VoicevoxSynthesizer* synthesizer, void/* byte[] */* model_id);
 
         /// <summary>ハードウェアアクセラレーションがGPUモードか判定する。  @param [in] synthesizer 音声シンセサイザ  @returns GPUモードかどうか  \\safety{ - `synthesizer`は ::voicevox_synthesizer_new で得たものでなければならず、また ::voicevox_synthesizer_delete で解放されていてはいけない。 }</summary>
         [DllImport(__DllName, EntryPoint = "voicevox_synthesizer_is_gpu_mode", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         [return: MarshalAs(UnmanagedType.U1)]
         public static extern bool voicevox_synthesizer_is_gpu_mode(VoicevoxSynthesizer* synthesizer);
 
-        /// <summary>指定したIDの音声モデルが読み込まれているか判定する。  @param [in] synthesizer 音声シンセサイザ @param [in] model_id 音声モデルID  @returns モデルが読み込まれているかどうか  \\safety{ - `synthesizer`は ::voicevox_synthesizer_new で得たものでなければならず、また ::voicevox_synthesizer_delete で解放されていてはいけない。 - `model_id`はヌル終端文字列を指し、かつ&lt;a href=\"#voicevox-core-safety\"&gt;読み込みについて有効&lt;/a&gt;でなければならない。 }</summary>
+        /// <summary>指定したIDの音声モデルが読み込まれているか判定する。  @param [in] synthesizer 音声シンセサイザ @param [in] model_id 音声モデルID  @returns モデルが読み込まれているかどうか  \\safety{ - `synthesizer`は ::voicevox_synthesizer_new で得たものでなければならず、また ::voicevox_synthesizer_delete で解放されていてはいけない。 - `model_id`は&lt;a href=\"#voicevox-core-safety\"&gt;読み込みについて有効&lt;/a&gt;でなければならない。 }</summary>
         [DllImport(__DllName, EntryPoint = "voicevox_synthesizer_is_loaded_voice_model", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         [return: MarshalAs(UnmanagedType.U1)]
-        public static extern bool voicevox_synthesizer_is_loaded_voice_model(VoicevoxSynthesizer* synthesizer, byte* model_id);
+        public static extern bool voicevox_synthesizer_is_loaded_voice_model(VoicevoxSynthesizer* synthesizer, void/* byte[] */* model_id);
 
         /// <summary>今読み込んでいる音声モデルのメタ情報を、JSONで取得する。  JSONの解放は ::voicevox_json_free で行う。  @param [in] synthesizer 音声シンセサイザ  @return メタ情報のJSON文字列  \\safety{ - `synthesizer`は ::voicevox_synthesizer_new で得たものでなければならず、また ::voicevox_synthesizer_delete で解放されていてはいけない。 }</summary>
         [DllImport(__DllName, EntryPoint = "voicevox_synthesizer_create_metas_json", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
@@ -260,6 +260,7 @@ namespace VoicevoxCoreSharp.Core.Native
         VOICEVOX_RESULT_INVALID_ACCENT_PHRASE_ERROR = 15,
         VOICEVOX_RESULT_OPEN_ZIP_FILE_ERROR = 16,
         VOICEVOX_RESULT_READ_ZIP_ENTRY_ERROR = 17,
+        VOICEVOX_RESULT_INVALID_MODEL_HEADER_ERROR = 28,
         VOICEVOX_RESULT_MODEL_ALREADY_LOADED_ERROR = 18,
         VOICEVOX_RESULT_STYLE_ALREADY_LOADED_ERROR = 26,
         VOICEVOX_RESULT_INVALID_MODEL_DATA_ERROR = 27,

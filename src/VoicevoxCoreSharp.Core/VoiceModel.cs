@@ -68,7 +68,7 @@ namespace VoicevoxCoreSharp.Core
                 unsafe
                 {
                     var ptr = CoreUnsafe.voicevox_voice_model_id((VoicevoxVoiceModel*)Handle);
-                    return StringConvertCompat.ToUTF8String(ptr);
+                    return StringConvertCompat.ToUTF8String((byte*)ptr);
                 }
             }
         }
