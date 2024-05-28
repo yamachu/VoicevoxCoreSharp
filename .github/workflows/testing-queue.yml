@@ -43,9 +43,15 @@ jobs:
       contents: write
       pull-requests: write
     steps:
+      - name: Generate a token
+        id: generate_token
+        uses: actions/create-github-app-token@v1
+        with:
+          app-id: ${{ secrets.APP_ID }}
+          private-key: ${{ secrets.APP_PRIVATE_KEY }}
       - uses: yamachu/merge-queue-action/posttesting@main
         with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
+          github-token: ${{ steps.generate_token.outputs.token }}
           base-branch: ${{ needs.PreTesting.outputs.base-branch }}
           base-branch-sha: ${{ needs.PreTesting.outputs.base-branch-sha }}
           pr-number: ${{ github.event.inputs.issue_number }}

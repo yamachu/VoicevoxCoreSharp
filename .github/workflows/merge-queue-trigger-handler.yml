@@ -31,11 +31,12 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
-          ref: ${{ steps.precheck.outputs.base-branch }}
+          ref: ${{ fromJSON(steps.precheck.outputs.base-branch) }}
       - run: |
-          git log --oneline
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
           gh pr checkout ${{ github.event.issue.number }}
-          git merge ${{ steps.precheck.outputs.base-branch }}
+          git merge ${{ fromJSON(steps.precheck.outputs.base-branch) }} --no-edit
           git push origin HEAD:auto.${{ github.event.issue.number }}
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
