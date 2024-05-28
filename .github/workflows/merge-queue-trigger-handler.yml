@@ -13,8 +13,21 @@ jobs:
       pull-requests: write
       actions: write
     steps:
+      - name: If run on ACT, install git and gh
+        if: ${{ env.ACT }}
+        run: |
+          (type -p wget >/dev/null || (apt update && apt-get install wget -y)) \
+          && mkdir -p -m 755 /etc/apt/keyrings \
+          && wget -qO- https://cli.github.com/packages/githubcli-archive-keyring.gpg | tee /etc/apt/keyrings/githubcli-archive-keyring.gpg > /dev/null \
+          && chmod go+r /etc/apt/keyrings/githubcli-archive-keyring.gpg \
+          && echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main" | tee /etc/apt/sources.list.d/github-cli.list > /dev/null \
+          && apt update \
+          && apt install git gh -y
       - uses: yamachu/merge-queue-action/precheck@main
         id: precheck
+        # if use ACT, uncomment-out the following line
+        # with:
+        #   required-codeowners: 'false'
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
@@ -27,6 +40,7 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Dispatch workflow via GitHub CLI
+        if: ${{ !env.ACT }}
         run: >
           gh workflow run -R ${{ github.event.repository.full_name }} 
           -f issue_number=${{ github.event.issue.number }} 
