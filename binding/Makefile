@@ -10,3 +10,6 @@ replace-hash:
 
 build/dev-library:
 	cd voicevox_core; cargo build --release -p voicevox_core_c_api
+
+clean:
+	cargo clean
