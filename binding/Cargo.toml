@@ -8,4 +8,4 @@ edition = "2021"
 [dependencies]
 
 [build-dependencies]
-csbindgen = "1.9.3"
+csbindgen = { git = "https://github.com/yamachu/csbindgen", branch = "for-voicevoxcoresharp-csbindgen" }
