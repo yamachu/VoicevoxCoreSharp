@@ -25,6 +25,10 @@ namespace VoicevoxCoreSharp.Core.Enum
         /// </summary>
         RESULT_GPU_SUPPORT_ERROR = 4,
         /// <summary>
+        /// 推論ライブラリのロードまたは初期化ができなかった
+        /// </summary>
+        RESULT_INIT_INFERENCE_RUNTIME_ERROR = 29,
+        /// <summary>
         /// スタイルIDに対するスタイルが見つからなかった
         /// </summary>
         RESULT_STYLE_NOT_FOUND_ERROR = 6,
@@ -35,7 +39,7 @@ namespace VoicevoxCoreSharp.Core.Enum
         /// <summary>
         /// 推論に失敗した
         /// </summary>
-        RESULT_INFERENCE_ERROR = 8,
+        RESULT_RUN_MODEL_ERROR = 8,
         /// <summary>
         /// コンテキストラベル出力に失敗した
         /// </summary>
@@ -116,9 +120,10 @@ namespace VoicevoxCoreSharp.Core.Enum
                 VoicevoxResultCode.VOICEVOX_RESULT_NOT_LOADED_OPENJTALK_DICT_ERROR => ResultCode.RESULT_NOT_LOADED_OPENJTALK_DICT_ERROR,
                 VoicevoxResultCode.VOICEVOX_RESULT_GET_SUPPORTED_DEVICES_ERROR => ResultCode.RESULT_GET_SUPPORTED_DEVICES_ERROR,
                 VoicevoxResultCode.VOICEVOX_RESULT_GPU_SUPPORT_ERROR => ResultCode.RESULT_GPU_SUPPORT_ERROR,
+                VoicevoxResultCode.VOICEVOX_RESULT_INIT_INFERENCE_RUNTIME_ERROR => ResultCode.RESULT_INIT_INFERENCE_RUNTIME_ERROR,
                 VoicevoxResultCode.VOICEVOX_RESULT_STYLE_NOT_FOUND_ERROR => ResultCode.RESULT_STYLE_NOT_FOUND_ERROR,
                 VoicevoxResultCode.VOICEVOX_RESULT_MODEL_NOT_FOUND_ERROR => ResultCode.RESULT_MODEL_NOT_FOUND_ERROR,
-                VoicevoxResultCode.VOICEVOX_RESULT_INFERENCE_ERROR => ResultCode.RESULT_INFERENCE_ERROR,
+                VoicevoxResultCode.VOICEVOX_RESULT_RUN_MODEL_ERROR => ResultCode.RESULT_RUN_MODEL_ERROR,
                 VoicevoxResultCode.VOICEVOX_RESULT_EXTRACT_FULL_CONTEXT_LABEL_ERROR => ResultCode.RESULT_EXTRACT_FULL_CONTEXT_LABEL_ERROR,
                 VoicevoxResultCode.VOICEVOX_RESULT_INVALID_UTF8_INPUT_ERROR => ResultCode.RESULT_INVALID_UTF8_INPUT_ERROR,
                 VoicevoxResultCode.VOICEVOX_RESULT_PARSE_KANA_ERROR => ResultCode.RESULT_PARSE_KANA_ERROR,
@@ -148,9 +153,10 @@ namespace VoicevoxCoreSharp.Core.Enum
                 ResultCode.RESULT_NOT_LOADED_OPENJTALK_DICT_ERROR => VoicevoxResultCode.VOICEVOX_RESULT_NOT_LOADED_OPENJTALK_DICT_ERROR,
                 ResultCode.RESULT_GET_SUPPORTED_DEVICES_ERROR => VoicevoxResultCode.VOICEVOX_RESULT_GET_SUPPORTED_DEVICES_ERROR,
                 ResultCode.RESULT_GPU_SUPPORT_ERROR => VoicevoxResultCode.VOICEVOX_RESULT_GPU_SUPPORT_ERROR,
+                ResultCode.RESULT_INIT_INFERENCE_RUNTIME_ERROR => VoicevoxResultCode.VOICEVOX_RESULT_INIT_INFERENCE_RUNTIME_ERROR,
                 ResultCode.RESULT_STYLE_NOT_FOUND_ERROR => VoicevoxResultCode.VOICEVOX_RESULT_STYLE_NOT_FOUND_ERROR,
                 ResultCode.RESULT_MODEL_NOT_FOUND_ERROR => VoicevoxResultCode.VOICEVOX_RESULT_MODEL_NOT_FOUND_ERROR,
-                ResultCode.RESULT_INFERENCE_ERROR => VoicevoxResultCode.VOICEVOX_RESULT_INFERENCE_ERROR,
+                ResultCode.RESULT_RUN_MODEL_ERROR => VoicevoxResultCode.VOICEVOX_RESULT_RUN_MODEL_ERROR,
                 ResultCode.RESULT_EXTRACT_FULL_CONTEXT_LABEL_ERROR => VoicevoxResultCode.VOICEVOX_RESULT_EXTRACT_FULL_CONTEXT_LABEL_ERROR,
                 ResultCode.RESULT_INVALID_UTF8_INPUT_ERROR => VoicevoxResultCode.VOICEVOX_RESULT_INVALID_UTF8_INPUT_ERROR,
                 ResultCode.RESULT_PARSE_KANA_ERROR => VoicevoxResultCode.VOICEVOX_RESULT_PARSE_KANA_ERROR,

@@ -1,5 +1,6 @@
 ﻿using System;
 using VoicevoxCoreSharp.Core.Enum;
+using VoicevoxCoreSharp.Core.Struct;
 using Xunit;
 
 namespace VoicevoxCoreSharp.Core.Tests
@@ -9,7 +10,12 @@ namespace VoicevoxCoreSharp.Core.Tests
         [Fact]
         public void CreateSupportedDevicesJson()
         {
-            var result = Utils.CreateSupportedDevicesJson(out var supportedDevicesJson);
+            var option = LoadOnnxruntimeOptions.Default();
+            if (Onnxruntime.LoadOnce(option, out var onnruntime) != ResultCode.RESULT_OK)
+            {
+                Assert.Fail("Failed to initialize onnxruntime");
+            }
+            var result = Utils.CreateSupportedDevicesJson(onnruntime, out var supportedDevicesJson);
             Assert.Equal(ResultCode.RESULT_OK, result);
             Assert.NotNull(supportedDevicesJson);
         }

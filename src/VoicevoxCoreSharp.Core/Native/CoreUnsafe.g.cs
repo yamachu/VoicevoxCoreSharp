@@ -22,6 +22,92 @@ namespace VoicevoxCoreSharp.Core.Native
 
 
         /// <summary>
+        ///  ONNX Runtimeの動的ライブラリの、バージョン付きのファイル名。
+        ///
+        ///  WindowsとAndroidでは ::voicevox_get_onnxruntime_lib_unversioned_filename と同じ。
+        ///
+        ///  \availability{
+        ///    [リリース](https://github.com/voicevox/voicevox_core/releases)されているライブラリではiOSを除くプラットフォームで利用可能。詳細は&lt;a href="#voicevox-core-availability"&gt;ファイルレベルの"Availability"の節&lt;/a&gt;を参照。
+        ///  }
+        /// </summary>
+        [DllImport(__DllName, EntryPoint = "voicevox_get_onnxruntime_lib_versioned_filename", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        internal static extern byte* voicevox_get_onnxruntime_lib_versioned_filename();
+
+        /// <summary>
+        ///  ONNX Runtimeの動的ライブラリの、バージョン無しのファイル名。
+        ///
+        ///  \availability{
+        ///    [リリース](https://github.com/voicevox/voicevox_core/releases)されているライブラリではiOSを除くプラットフォームで利用可能。詳細は&lt;a href="#voicevox-core-availability"&gt;ファイルレベルの"Availability"の節&lt;/a&gt;を参照。
+        ///  }
+        /// </summary>
+        [DllImport(__DllName, EntryPoint = "voicevox_get_onnxruntime_lib_unversioned_filename", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        internal static extern byte* voicevox_get_onnxruntime_lib_unversioned_filename();
+
+        /// <summary>
+        ///  デフォルトの ::voicevox_onnxruntime_load_once のオプションを生成する。
+        ///
+        ///  @return デフォルトの ::voicevox_onnxruntime_load_once のオプション
+        ///
+        ///  \availability{
+        ///    [リリース](https://github.com/voicevox/voicevox_core/releases)されているライブラリではiOSを除くプラットフォームで利用可能。詳細は&lt;a href="#voicevox-core-availability"&gt;ファイルレベルの"Availability"の節&lt;/a&gt;を参照。
+        ///  }
+        /// </summary>
+        [DllImport(__DllName, EntryPoint = "voicevox_make_default_load_onnxruntime_options", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        internal static extern VoicevoxLoadOnnxruntimeOptions voicevox_make_default_load_onnxruntime_options();
+
+        /// <summary>
+        ///  ::VoicevoxOnnxruntime のインスタンスが既に作られているならそれを得る。
+        ///
+        ///  作られていなければ`NULL`を返す。
+        ///
+        ///  @returns ::VoicevoxOnnxruntime のインスタンス
+        /// </summary>
+        [DllImport(__DllName, EntryPoint = "voicevox_onnxruntime_get", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        internal static extern VoicevoxOnnxruntime* voicevox_onnxruntime_get();
+
+        /// <summary>
+        ///  ONNX Runtimeをロードして初期化する。
+        ///
+        ///  一度成功したら、以後は引数を無視して同じ参照を返す。
+        ///
+        ///  @param [in] options オプション
+        ///  @param [out] out_onnxruntime ::VoicevoxOnnxruntime のインスタンス
+        ///
+        ///  @returns 結果コード
+        ///
+        ///  \availability{
+        ///    [リリース](https://github.com/voicevox/voicevox_core/releases)されているライブラリではiOSを除くプラットフォームで利用可能。詳細は&lt;a href="#voicevox-core-availability"&gt;ファイルレベルの"Availability"の節&lt;/a&gt;を参照。
+        ///  }
+        ///
+        ///  \safety{
+        ///  - `options.filename`はヌル終端文字列を指し、かつ&lt;a href="#voicevox-core-safety"&gt;読み込みについて有効&lt;/a&gt;でなければならない。
+        ///  - `out_onnxruntime`は&lt;a href="#voicevox-core-safety"&gt;書き込みについて有効&lt;/a&gt;でなければならない。
+        ///  }
+        /// </summary>
+        [DllImport(__DllName, EntryPoint = "voicevox_onnxruntime_load_once", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        internal static extern VoicevoxResultCode voicevox_onnxruntime_load_once(VoicevoxLoadOnnxruntimeOptions options, VoicevoxOnnxruntime** out_onnxruntime);
+
+        /// <summary>
+        ///  ONNX Runtimeを初期化する。
+        ///
+        ///  一度成功したら以後は同じ参照を返す。
+        ///
+        ///  @param [out] out_onnxruntime ::VoicevoxOnnxruntime のインスタンス
+        ///
+        ///  @returns 結果コード
+        ///
+        ///  \availability{
+        ///    [リリース](https://github.com/voicevox/voicevox_core/releases)されているライブラリではiOSでのみ利用可能。詳細は&lt;a href="#voicevox-core-availability"&gt;ファイルレベルの"Availability"の節&lt;/a&gt;を参照。
+        ///  }
+        ///
+        ///  \safety{
+        ///  - `out_onnxruntime`は&lt;a href="#voicevox-core-safety"&gt;書き込みについて有効&lt;/a&gt;でなければならない。
+        ///  }
+        /// </summary>
+        [DllImport(__DllName, EntryPoint = "voicevox_onnxruntime_init_once", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        internal static extern VoicevoxResultCode voicevox_onnxruntime_init_once(VoicevoxOnnxruntime** out_onnxruntime);
+
+        /// <summary>
         ///  ::OpenJtalkRc を&lt;b&gt;構築&lt;/b&gt;(_construct_)する。
         ///
         ///  解放は ::voicevox_open_jtalk_rc_delete で行う。
@@ -156,6 +242,7 @@ namespace VoicevoxCoreSharp.Core.Native
         /// <summary>
         ///  ::VoicevoxSynthesizer を&lt;b&gt;構築&lt;/b&gt;(_construct_)する。
         ///
+        ///  @param [in] onnxruntime
         ///  @param [in] open_jtalk Open JTalkのオブジェクト
         ///  @param [in] options オプション
         ///  @param [out] out_synthesizer 構築先
@@ -163,12 +250,13 @@ namespace VoicevoxCoreSharp.Core.Native
         ///  @returns 結果コード
         ///
         ///  \safety{
+        ///  - `onnxruntime`は ::voicevox_onnxruntime_load_once または ::voicevox_onnxruntime_init_once で得たものでなければならない。
         ///  - `open_jtalk`は ::voicevox_voice_model_new_from_path で得たものでなければならず、また ::voicevox_open_jtalk_rc_new で解放されていてはいけない。
         ///  - `out_synthesizer`は&lt;a href="#voicevox-core-safety"&gt;書き込みについて有効&lt;/a&gt;でなければならない。
         ///  }
         /// </summary>
         [DllImport(__DllName, EntryPoint = "voicevox_synthesizer_new", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        internal static extern VoicevoxResultCode voicevox_synthesizer_new(OpenJtalkRc* open_jtalk, VoicevoxInitializeOptions options, VoicevoxSynthesizer** out_synthesizer);
+        internal static extern VoicevoxResultCode voicevox_synthesizer_new(VoicevoxOnnxruntime* onnxruntime, OpenJtalkRc* open_jtalk, VoicevoxInitializeOptions options, VoicevoxSynthesizer** out_synthesizer);
 
         /// <summary>
         ///  ::VoicevoxSynthesizer を&lt;b&gt;破棄&lt;/b&gt;(_destruct_)する。
@@ -214,6 +302,20 @@ namespace VoicevoxCoreSharp.Core.Native
         /// </summary>
         [DllImport(__DllName, EntryPoint = "voicevox_synthesizer_unload_voice_model", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         internal static extern VoicevoxResultCode voicevox_synthesizer_unload_voice_model(VoicevoxSynthesizer* synthesizer, void/* byte[] */* model_id);
+
+        /// <summary>
+        ///  ::VoicevoxOnnxruntime のインスタンスを得る。
+        ///
+        ///  @param [in] synthesizer 音声シンセサイザ
+        ///
+        ///  @returns ::VoicevoxOnnxruntime のインスタンス
+        ///
+        ///  \safety{
+        ///  - `synthesizer`は ::voicevox_synthesizer_new で得たものでなければならず、また ::voicevox_synthesizer_delete で解放されていてはいけない。
+        ///  }
+        /// </summary>
+        [DllImport(__DllName, EntryPoint = "voicevox_synthesizer_get_onnxruntime", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        internal static extern VoicevoxOnnxruntime* voicevox_synthesizer_get_onnxruntime(VoicevoxSynthesizer* synthesizer);
 
         /// <summary>
         ///  ハードウェアアクセラレーションがGPUモードか判定する。
@@ -264,12 +366,13 @@ namespace VoicevoxCoreSharp.Core.Native
         internal static extern byte* voicevox_synthesizer_create_metas_json(VoicevoxSynthesizer* synthesizer);
 
         /// <summary>
-        ///  このライブラリで利用可能なデバイスの情報を、JSONで取得する。
+        ///  ONNX Runtimeとして利用可能なデバイスの情報を、JSONで取得する。
         ///
         ///  JSONの解放は ::voicevox_json_free で行う。
         ///
-        ///  あくまで本ライブラリが対応しているデバイスの情報であることに注意。GPUが使える環境ではなかったとしても`cuda`や`dml`は`true`を示しうる。
+        ///  あくまでONNX Runtimeが対応しているデバイスの情報であることに注意。GPUが使える環境ではなかったとしても`cuda`や`dml`は`true`を示しうる。
         ///
+        ///  @param [in] onnxruntime
         ///  @param [out] output_supported_devices_json サポートデバイス情報のJSON文字列
         ///
         ///  @returns 結果コード
@@ -277,16 +380,17 @@ namespace VoicevoxCoreSharp.Core.Native
         ///  \example{
         ///  ```c
         ///  char *supported_devices;
-        ///  VoicevoxResultCode result = voicevox_create_supported_devices_json(&amp;supported_devices);
+        ///  VoicevoxResultCode result = voicevox_onnxruntime_create_supported_devices_json(onnxruntime, &amp;supported_devices);
         ///  ```
         ///  }
         ///
         ///  \safety{
+        ///  - `onnxruntime`は ::voicevox_onnxruntime_load_once または ::voicevox_onnxruntime_init_once で得たものでなければならない。
         ///  - `output_supported_devices_json`は&lt;a href="#voicevox-core-safety"&gt;書き込みについて有効&lt;/a&gt;でなければならない。
         ///  }
         /// </summary>
-        [DllImport(__DllName, EntryPoint = "voicevox_create_supported_devices_json", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        internal static extern VoicevoxResultCode voicevox_create_supported_devices_json(byte** output_supported_devices_json);
+        [DllImport(__DllName, EntryPoint = "voicevox_onnxruntime_create_supported_devices_json", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        internal static extern VoicevoxResultCode voicevox_onnxruntime_create_supported_devices_json(VoicevoxOnnxruntime* onnxruntime, byte** output_supported_devices_json);
 
         /// <summary>
         ///  AquesTalk風記法から、AudioQueryをJSONとして生成する。
@@ -565,7 +669,7 @@ namespace VoicevoxCoreSharp.Core.Native
         ///
         ///  \safety{
         ///  - `json`は以下のAPIで得られたポインタでなくてはいけない。
-        ///      - ::voicevox_create_supported_devices_json
+        ///      - ::voicevox_onnxruntime_create_supported_devices_json
         ///      - ::voicevox_synthesizer_create_metas_json
         ///      - ::voicevox_synthesizer_create_audio_query
         ///      - ::voicevox_synthesizer_create_accent_phrases
@@ -768,6 +872,17 @@ namespace VoicevoxCoreSharp.Core.Native
     }
 
     [StructLayout(LayoutKind.Sequential)]
+    internal unsafe partial struct VoicevoxLoadOnnxruntimeOptions
+    {
+        public byte* filename;
+    }
+
+    [StructLayout(LayoutKind.Sequential)]
+    internal unsafe partial struct VoicevoxOnnxruntime
+    {
+    }
+
+    [StructLayout(LayoutKind.Sequential)]
     internal unsafe partial struct OpenJtalkRc
     {
     }
@@ -823,9 +938,10 @@ namespace VoicevoxCoreSharp.Core.Native
         VOICEVOX_RESULT_NOT_LOADED_OPENJTALK_DICT_ERROR = 1,
         VOICEVOX_RESULT_GET_SUPPORTED_DEVICES_ERROR = 3,
         VOICEVOX_RESULT_GPU_SUPPORT_ERROR = 4,
+        VOICEVOX_RESULT_INIT_INFERENCE_RUNTIME_ERROR = 29,
         VOICEVOX_RESULT_STYLE_NOT_FOUND_ERROR = 6,
         VOICEVOX_RESULT_MODEL_NOT_FOUND_ERROR = 7,
-        VOICEVOX_RESULT_INFERENCE_ERROR = 8,
+        VOICEVOX_RESULT_RUN_MODEL_ERROR = 8,
         VOICEVOX_RESULT_EXTRACT_FULL_CONTEXT_LABEL_ERROR = 11,
         VOICEVOX_RESULT_INVALID_UTF8_INPUT_ERROR = 12,
         VOICEVOX_RESULT_PARSE_KANA_ERROR = 13,
