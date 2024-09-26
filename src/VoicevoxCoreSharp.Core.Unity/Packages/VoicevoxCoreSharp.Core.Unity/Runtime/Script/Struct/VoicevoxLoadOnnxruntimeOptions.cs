@@ -46,11 +46,11 @@ namespace VoicevoxCoreSharp.Core.Struct
         {
             unsafe
             {
-                fixed (byte* ptrSurface = Encoding.UTF8.GetBytes(loadOnnxruntimeOptions.Filename))
+                fixed (byte* ptrFilename = Encoding.UTF8.GetBytes(loadOnnxruntimeOptions.Filename))
                 {
                     return new VoicevoxLoadOnnxruntimeOptions
                     {
-                        filename = ptrSurface
+                        filename = ptrFilename
                     };
                 }
             }
