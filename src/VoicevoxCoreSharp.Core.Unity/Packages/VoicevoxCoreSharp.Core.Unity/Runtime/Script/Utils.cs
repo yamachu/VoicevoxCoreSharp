@@ -7,12 +7,12 @@ namespace VoicevoxCoreSharp.Core
 {
     public class Utils
     {
-        public static ResultCode CreateSupportedDevicesJson(out string? supportedDevicesJson)
+        public static ResultCode CreateSupportedDevicesJson(Onnxruntime onnxruntime, out string? supportedDevicesJson)
         {
             unsafe
             {
                 byte* jsonPtr;
-                var result = CoreUnsafe.voicevox_create_supported_devices_json(&jsonPtr);
+                var result = CoreUnsafe.voicevox_onnxruntime_create_supported_devices_json((VoicevoxOnnxruntime*)onnxruntime.Handle, &jsonPtr);
                 if (result == VoicevoxResultCode.VOICEVOX_RESULT_OK)
                 {
                     supportedDevicesJson = StringConvertCompat.ToUTF8String(jsonPtr);
