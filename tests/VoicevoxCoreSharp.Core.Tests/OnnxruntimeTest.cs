@@ -14,6 +14,7 @@ namespace VoicevoxCoreSharp.Core.Tests
             if (!RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
             {
                 Assert.True(true, "TODO: GitHub Actionsでも試せるようにする");
+                return;
             }
             var option = new LoadOnnxruntimeOptions("libonnxruntime_another_path.dylib");
             var result = Onnxruntime.LoadOnce(option, out var onnruntime);
