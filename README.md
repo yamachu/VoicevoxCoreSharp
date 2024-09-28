@@ -7,9 +7,10 @@ CLI アプリケーションや Unity アプリケーションなどで、直接
 
 ## Notice
 
-現在 Preview として Release されている voicevox_core 0.15.x 系のみをサポートしています。
+現在 voicevox_core の main ブランチをトラッキングしているため、製品版のリリースとの互換性がありません。
+今後のリリースで、voicevox_engine で利用されている compatible_engine や、製品版 core に含まれている c_api の対応を予定しています。
 
-詳細なバージョンは Git Submodule として取得している [voicevox_core](./binding/voicevox_core) のコミットハッシュ、もしくは [VoicevoxCoreCommitHash](./src/VoicevoxCoreSharp.Core/VoicevoxCoreSharp.Core.Metas.props) を参照してください。
+詳細なトラッキングしているバージョンは Git Submodule として取得している [voicevox_core](./binding/voicevox_core) のコミットハッシュ、もしくは [VoicevoxCoreCommitHash](./src/VoicevoxCoreSharp.Core/VoicevoxCoreSharp.Core.Metas.props) を参照してください。
 
 ## Sample
 

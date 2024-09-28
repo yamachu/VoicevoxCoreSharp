@@ -15,7 +15,8 @@ https://github.com/VOICEVOX/voicevox_core/tree/main/example/cpp/unix を参考�
 $ ./download-osx-arm64 --version 0.15.0-preview.15
 ```
 
-2023/11/14 現在 `0.15.0-preview.15` と互換があります。
+2024/09/28 現在 main ブランチのみをサポートしています。
+そのため上記の Downloader を用いた製品版の利用はできません。
 互換のあるバージョンは [こちら](../../src/VoicevoxCoreSharp.Core/VoicevoxCoreSharp.Core.Metas.props) の `VoicevoxCoreCommitHash` に記載されているコミットハッシュを参照してください。
 
 ダウンロードが完了すると `voicevox_core` ディレクトリに必要なファイルが配置されます。
