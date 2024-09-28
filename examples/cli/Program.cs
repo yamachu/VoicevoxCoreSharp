@@ -43,7 +43,7 @@ static int RunTts(string text, string? resourcePath = "voicevox_core")
 
     foreach (var path in matcher.GetResultsInFullPath($"{resourcePath}/model"))
     {
-        result = VoiceModel.New(path, out var voiceModel);
+        result = VoiceModelFile.New(path, out var voiceModel);
         if (result != ResultCode.RESULT_OK)
         {
             Console.Error.WriteLine(result.ToMessage());

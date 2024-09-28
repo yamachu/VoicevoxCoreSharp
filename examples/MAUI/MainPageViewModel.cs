@@ -78,7 +78,7 @@ public partial class MainPageViewModel : ObservableObject
 
         foreach (var path in matcher.GetResultsInFullPath(result.Folder.Path))
         {
-            var openResult = VoiceModel.New(path, out var voiceModel);
+            var openResult = VoiceModelFile.New(path, out var voiceModel);
             if (openResult != ResultCode.RESULT_OK)
             {
                 return;
