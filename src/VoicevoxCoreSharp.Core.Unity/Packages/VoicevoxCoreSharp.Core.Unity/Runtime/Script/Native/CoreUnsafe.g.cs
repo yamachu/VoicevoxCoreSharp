@@ -182,7 +182,7 @@ namespace VoicevoxCoreSharp.Core.Native
         internal static extern byte* voicevox_get_version();
 
         /// <summary>
-        ///  VVMファイルから ::VoicevoxVoiceModel を&lt;b&gt;構築&lt;/b&gt;(_construct_)する。
+        ///  VVMファイルを開く。
         ///
         ///  @param [in] path vvmファイルへのUTF-8のファイルパス
         ///  @param [out] out_model 構築先
@@ -194,50 +194,50 @@ namespace VoicevoxCoreSharp.Core.Native
         ///  - `out_model`は&lt;a href="#voicevox-core-safety"&gt;書き込みについて有効&lt;/a&gt;でなければならない。
         ///  }
         /// </summary>
-        [DllImport(__DllName, EntryPoint = "voicevox_voice_model_new_from_path", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        internal static extern VoicevoxResultCode voicevox_voice_model_new_from_path(byte* path, VoicevoxVoiceModel** out_model);
+        [DllImport(__DllName, EntryPoint = "voicevox_voice_model_file_open", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        internal static extern VoicevoxResultCode voicevox_voice_model_file_open(byte* path, VoicevoxVoiceModelFile** out_model);
 
         /// <summary>
-        ///  ::VoicevoxVoiceModel からIDを取得する。
+        ///  ::VoicevoxVoiceModelFile からIDを取得する。
         ///
         ///  @param [in] model 音声モデル
         ///
         ///  @returns 音声モデルID
         ///
         ///  \safety{
-        ///  - `model`は ::voicevox_voice_model_new_from_path で得たものでなければならず、また ::voicevox_voice_model_delete で解放されていてはいけない。
+        ///  - `model`は ::voicevox_voice_model_file_open で得たものでなければならず、また ::voicevox_voice_model_file_close で解放されていてはいけない。
         ///  }
         /// </summary>
-        [DllImport(__DllName, EntryPoint = "voicevox_voice_model_id", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        internal static extern void/* byte[] */* voicevox_voice_model_id(VoicevoxVoiceModel* model);
+        [DllImport(__DllName, EntryPoint = "voicevox_voice_model_file_id", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        internal static extern void/* byte[] */* voicevox_voice_model_file_id(VoicevoxVoiceModelFile* model);
 
         /// <summary>
-        ///  ::VoicevoxVoiceModel からメタ情報を取得する。
+        ///  ::VoicevoxVoiceModelFile からメタ情報を取得する。
         ///
         ///  @param [in] model 音声モデル
         ///
         ///  @returns メタ情報のJSON文字列
         ///
         ///  \safety{
-        ///  - `model`は ::voicevox_voice_model_new_from_path で得たものでなければならず、また ::voicevox_voice_model_delete で解放されていてはいけない。
+        ///  - `model`は ::voicevox_voice_model_file_open で得たものでなければならず、また ::voicevox_voice_model_file_close で解放されていてはいけない。
         ///  - 戻り値の文字列の&lt;b&gt;生存期間&lt;/b&gt;(_lifetime_)は次にこの関数が呼ばれるか、`model`が破棄されるまでである。この生存期間を越えて文字列にアクセスしてはならない。
         ///  }
         /// </summary>
-        [DllImport(__DllName, EntryPoint = "voicevox_voice_model_get_metas_json", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        internal static extern byte* voicevox_voice_model_get_metas_json(VoicevoxVoiceModel* model);
+        [DllImport(__DllName, EntryPoint = "voicevox_voice_model_file_get_metas_json", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        internal static extern byte* voicevox_voice_model_file_get_metas_json(VoicevoxVoiceModelFile* model);
 
         /// <summary>
-        ///  ::VoicevoxVoiceModel を&lt;b&gt;破棄&lt;/b&gt;(_destruct_)する。
+        ///  ::VoicevoxVoiceModelFile を、所有しているファイルディスクリプタを閉じた上で&lt;b&gt;破棄&lt;/b&gt;(_destruct_)する。
         ///
         ///  @param [in] model 破棄対象
         ///
         ///  \safety{
-        ///  - `model`は ::voicevox_voice_model_new_from_path で得たものでなければならず、また既にこの関数で解放されていてはいけない。
+        ///  - `model`は ::voicevox_voice_model_file_open で得たものでなければならず、また既にこの関数で解放されていてはいけない。
         ///  - `model`は以後&lt;b&gt;ダングリングポインタ&lt;/b&gt;(_dangling pointer_)として扱われなくてはならない。
         ///  }
         /// </summary>
-        [DllImport(__DllName, EntryPoint = "voicevox_voice_model_delete", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        internal static extern void voicevox_voice_model_delete(VoicevoxVoiceModel* model);
+        [DllImport(__DllName, EntryPoint = "voicevox_voice_model_file_close", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        internal static extern void voicevox_voice_model_file_close(VoicevoxVoiceModelFile* model);
 
         /// <summary>
         ///  ::VoicevoxSynthesizer を&lt;b&gt;構築&lt;/b&gt;(_construct_)する。
@@ -251,7 +251,7 @@ namespace VoicevoxCoreSharp.Core.Native
         ///
         ///  \safety{
         ///  - `onnxruntime`は ::voicevox_onnxruntime_load_once または ::voicevox_onnxruntime_init_once で得たものでなければならない。
-        ///  - `open_jtalk`は ::voicevox_voice_model_new_from_path で得たものでなければならず、また ::voicevox_open_jtalk_rc_new で解放されていてはいけない。
+        ///  - `open_jtalk`は ::voicevox_voice_model_file_open で得たものでなければならず、また ::voicevox_open_jtalk_rc_new で解放されていてはいけない。
         ///  - `out_synthesizer`は&lt;a href="#voicevox-core-safety"&gt;書き込みについて有効&lt;/a&gt;でなければならない。
         ///  }
         /// </summary>
@@ -281,11 +281,11 @@ namespace VoicevoxCoreSharp.Core.Native
         ///
         ///  \safety{
         ///  - `synthesizer`は ::voicevox_synthesizer_new で得たものでなければならず、また ::voicevox_synthesizer_delete で解放されていてはいけない。
-        ///  - `model`は ::voicevox_voice_model_new_from_path で得たものでなければならず、また ::voicevox_voice_model_delete で解放されていてはいけない。
+        ///  - `model`は ::voicevox_voice_model_file_open で得たものでなければならず、また ::voicevox_voice_model_file_close で解放されていてはいけない。
         ///  }
         /// </summary>
         [DllImport(__DllName, EntryPoint = "voicevox_synthesizer_load_voice_model", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        internal static extern VoicevoxResultCode voicevox_synthesizer_load_voice_model(VoicevoxSynthesizer* synthesizer, VoicevoxVoiceModel* model);
+        internal static extern VoicevoxResultCode voicevox_synthesizer_load_voice_model(VoicevoxSynthesizer* synthesizer, VoicevoxVoiceModelFile* model);
 
         /// <summary>
         ///  音声モデルの読み込みを解除する。
@@ -895,7 +895,7 @@ namespace VoicevoxCoreSharp.Core.Native
     }
 
     [StructLayout(LayoutKind.Sequential)]
-    internal unsafe partial struct VoicevoxVoiceModel
+    internal unsafe partial struct VoicevoxVoiceModelFile
     {
     }
 

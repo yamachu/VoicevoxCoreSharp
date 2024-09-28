@@ -6,9 +6,9 @@ using VoicevoxCoreSharp.Core.Struct;
 
 namespace VoicevoxCoreSharp.Core
 {
-    internal class VoiceModelHandle : SafeHandle
+    internal class VoiceModelFileHandle : SafeHandle
     {
-        public VoiceModelHandle(IntPtr intPtr) : base(IntPtr.Zero, true)
+        public VoiceModelFileHandle(IntPtr intPtr) : base(IntPtr.Zero, true)
         {
             this.SetHandle(intPtr);
         }
@@ -19,41 +19,41 @@ namespace VoicevoxCoreSharp.Core
         {
             unsafe
             {
-                CoreUnsafe.voicevox_voice_model_delete((VoicevoxVoiceModel*)handle.ToPointer());
+                CoreUnsafe.voicevox_voice_model_file_close((VoicevoxVoiceModelFile*)handle.ToPointer());
                 handle = IntPtr.Zero;
             }
             return true;
         }
 
 
-        public static unsafe implicit operator VoicevoxVoiceModel*(VoiceModelHandle handle) => (VoicevoxVoiceModel*)handle.handle.ToPointer();
+        public static unsafe implicit operator VoicevoxVoiceModelFile*(VoiceModelFileHandle handle) => (VoicevoxVoiceModelFile*)handle.handle.ToPointer();
     }
 
-    public class VoiceModel : IDisposable
+    public class VoiceModelFile : IDisposable
     {
-        internal VoiceModelHandle Handle { get; private set; }
+        internal VoiceModelFileHandle Handle { get; private set; }
         private bool _disposed = false;
 
-        private unsafe VoiceModel(VoicevoxVoiceModel* modelHandle)
+        private unsafe VoiceModelFile(VoicevoxVoiceModelFile* modelHandle)
         {
-            Handle = new VoiceModelHandle(new IntPtr(modelHandle));
+            Handle = new VoiceModelFileHandle(new IntPtr(modelHandle));
         }
 
-        public static ResultCode New(string modelPath, out VoiceModel voiceModel)
+        public static ResultCode New(string modelPath, out VoiceModelFile voiceModel)
         {
             unsafe
             {
-                var p = (VoicevoxVoiceModel*)IntPtr.Zero.ToPointer();
+                var p = (VoicevoxVoiceModelFile*)IntPtr.Zero.ToPointer();
                 fixed (byte* ptr = System.Text.Encoding.UTF8.GetBytes(modelPath))
                 {
-                    var result = CoreUnsafe.voicevox_voice_model_new_from_path(ptr, &p).FromNative();
+                    var result = CoreUnsafe.voicevox_voice_model_file_open(ptr, &p).FromNative();
                     if (result == ResultCode.RESULT_OK)
                     {
-                        voiceModel = new VoiceModel(p);
+                        voiceModel = new VoiceModelFile(p);
                     }
                     else
                     {
-                        voiceModel = new VoiceModel(null);
+                        voiceModel = new VoiceModelFile(null);
                     }
 
                     return result;
@@ -67,7 +67,7 @@ namespace VoicevoxCoreSharp.Core
             {
                 unsafe
                 {
-                    var ptr = CoreUnsafe.voicevox_voice_model_id((VoicevoxVoiceModel*)Handle);
+                    var ptr = CoreUnsafe.voicevox_voice_model_file_id((VoicevoxVoiceModelFile*)Handle);
                     return StringConvertCompat.ToUTF8String((byte*)ptr);
                 }
             }
@@ -79,7 +79,7 @@ namespace VoicevoxCoreSharp.Core
             {
                 unsafe
                 {
-                    var ptr = CoreUnsafe.voicevox_voice_model_get_metas_json((VoicevoxVoiceModel*)Handle);
+                    var ptr = CoreUnsafe.voicevox_voice_model_file_get_metas_json((VoicevoxVoiceModelFile*)Handle);
                     return StringConvertCompat.ToUTF8String(ptr);
                 }
             }

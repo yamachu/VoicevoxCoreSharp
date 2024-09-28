@@ -19,7 +19,7 @@ namespace VoicevoxCoreSharp.Core.Tests
             }
             var synthesizerResult = Synthesizer.New(onnruntime, openJtalk, initializeOptions, out var synthesizer);
 
-            VoiceModel.New(Consts.SampleVoiceModel, out var voiceModel);
+            VoiceModelFile.New(Consts.SampleVoiceModel, out var voiceModel);
             var loadResult = synthesizer.LoadVoiceModel(voiceModel);
 
             Assert.Equal(ResultCode.RESULT_OK, synthesizerResult);
