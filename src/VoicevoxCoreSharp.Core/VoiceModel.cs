@@ -67,8 +67,9 @@ namespace VoicevoxCoreSharp.Core
             {
                 unsafe
                 {
-                    var ptr = CoreUnsafe.voicevox_voice_model_file_id((VoicevoxVoiceModelFile*)Handle);
-                    return StringConvertCompat.ToUTF8String((byte*)ptr);
+                    byte* ptr;
+                    CoreUnsafe.voicevox_voice_model_file_id((VoicevoxVoiceModelFile*)Handle, &ptr);
+                    return StringConvertCompat.ToUTF8String(ptr);
                 }
             }
         }
@@ -79,8 +80,10 @@ namespace VoicevoxCoreSharp.Core
             {
                 unsafe
                 {
-                    var ptr = CoreUnsafe.voicevox_voice_model_file_get_metas_json((VoicevoxVoiceModelFile*)Handle);
-                    return StringConvertCompat.ToUTF8String(ptr);
+                    var ptr = CoreUnsafe.voicevox_voice_model_file_create_metas_json((VoicevoxVoiceModelFile*)Handle);
+                    var json = StringConvertCompat.ToUTF8String(ptr);
+                    CoreUnsafe.voicevox_json_free(ptr);
+                    return json;
                 }
             }
         }
