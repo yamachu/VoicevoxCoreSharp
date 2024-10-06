@@ -201,18 +201,20 @@ namespace VoicevoxCoreSharp.Core.Native
         ///  ::VoicevoxVoiceModelFile からIDを取得する。
         ///
         ///  @param [in] model 音声モデル
-        ///
-        ///  @returns 音声モデルID
+        ///  @param [out] output_voice_model_id 音声モデルID
         ///
         ///  \safety{
         ///  - `model`は ::voicevox_voice_model_file_open で得たものでなければならず、また ::voicevox_voice_model_file_close で解放されていてはいけない。
+        ///  - `output_voice_model_id`は&lt;a href="#voicevox-core-safety"&gt;書き込みについて有効&lt;/a&gt;でなければならない。
         ///  }
         /// </summary>
         [DllImport(__DllName, EntryPoint = "voicevox_voice_model_file_id", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        internal static extern void/* byte[] */* voicevox_voice_model_file_id(VoicevoxVoiceModelFile* model);
+        internal static extern void voicevox_voice_model_file_id(VoicevoxVoiceModelFile* model, void/* byte[] */* output_voice_model_id);
 
         /// <summary>
         ///  ::VoicevoxVoiceModelFile からメタ情報を取得する。
+        ///
+        ///  JSONの解放は ::voicevox_json_free で行う。
         ///
         ///  @param [in] model 音声モデル
         ///
@@ -220,11 +222,10 @@ namespace VoicevoxCoreSharp.Core.Native
         ///
         ///  \safety{
         ///  - `model`は ::voicevox_voice_model_file_open で得たものでなければならず、また ::voicevox_voice_model_file_close で解放されていてはいけない。
-        ///  - 戻り値の文字列の&lt;b&gt;生存期間&lt;/b&gt;(_lifetime_)は次にこの関数が呼ばれるか、`model`が破棄されるまでである。この生存期間を越えて文字列にアクセスしてはならない。
         ///  }
         /// </summary>
-        [DllImport(__DllName, EntryPoint = "voicevox_voice_model_file_get_metas_json", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        internal static extern byte* voicevox_voice_model_file_get_metas_json(VoicevoxVoiceModelFile* model);
+        [DllImport(__DllName, EntryPoint = "voicevox_voice_model_file_create_metas_json", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        internal static extern byte* voicevox_voice_model_file_create_metas_json(VoicevoxVoiceModelFile* model);
 
         /// <summary>
         ///  ::VoicevoxVoiceModelFile を、所有しているファイルディスクリプタを閉じた上で&lt;b&gt;破棄&lt;/b&gt;(_destruct_)する。
@@ -670,6 +671,7 @@ namespace VoicevoxCoreSharp.Core.Native
         ///  \safety{
         ///  - `json`は以下のAPIで得られたポインタでなくてはいけない。
         ///      - ::voicevox_onnxruntime_create_supported_devices_json
+        ///      - ::voicevox_voice_model_file_create_metas_json
         ///      - ::voicevox_synthesizer_create_metas_json
         ///      - ::voicevox_synthesizer_create_audio_query
         ///      - ::voicevox_synthesizer_create_accent_phrases
