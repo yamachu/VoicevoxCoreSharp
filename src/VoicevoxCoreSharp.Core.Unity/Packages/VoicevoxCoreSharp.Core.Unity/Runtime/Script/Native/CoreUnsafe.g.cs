@@ -139,11 +139,6 @@ namespace VoicevoxCoreSharp.Core.Native
         ///
         ///  @param [in] open_jtalk Open JTalkのオブジェクト
         ///  @param [in] user_dict ユーザー辞書
-        ///
-        ///  \safety{
-        ///  - `open_jtalk`は ::voicevox_open_jtalk_rc_new で得たものでなければならず、また ::voicevox_open_jtalk_rc_delete で解放されていてはいけない。
-        ///  - `user_dict`は ::voicevox_user_dict_new で得たものでなければならず、また ::voicevox_user_dict_delete で解放されていてはいけない。
-        ///  }
         /// </summary>
         [DllImport(__DllName, EntryPoint = "voicevox_open_jtalk_rc_use_user_dict", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         internal static extern VoicevoxResultCode voicevox_open_jtalk_rc_use_user_dict(OpenJtalkRc* open_jtalk, VoicevoxUserDict* user_dict);
@@ -151,17 +146,16 @@ namespace VoicevoxCoreSharp.Core.Native
         /// <summary>
         ///  ::OpenJtalkRc を&lt;b&gt;破棄&lt;/b&gt;(_destruct_)する。
         ///
+        ///  破棄対象への他スレッドでのアクセスが存在する場合、それらがすべて終わるのを待ってから破棄する。
+        ///
+        ///  この関数の呼び出し後に破棄し終えた対象にアクセスすると、プロセスを異常終了する。
+        ///
         ///  @param [in] open_jtalk 破棄対象
         ///
         ///  \example{
         ///  ```c
         ///  voicevox_open_jtalk_rc_delete(open_jtalk);
         ///  ```
-        ///  }
-        ///
-        ///  \safety{
-        ///  - `open_jtalk`は ::voicevox_open_jtalk_rc_new で得たものでなければならず、また既にこの関数で解放されていてはいけない。
-        ///  - `open_jtalk`は以後&lt;b&gt;ダングリングポインタ&lt;/b&gt;(_dangling pointer_)として扱われなくてはならない。
         ///  }
         /// </summary>
         [DllImport(__DllName, EntryPoint = "voicevox_open_jtalk_rc_delete", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
@@ -204,7 +198,6 @@ namespace VoicevoxCoreSharp.Core.Native
         ///  @param [out] output_voice_model_id 音声モデルID
         ///
         ///  \safety{
-        ///  - `model`は ::voicevox_voice_model_file_open で得たものでなければならず、また ::voicevox_voice_model_file_close で解放されていてはいけない。
         ///  - `output_voice_model_id`は&lt;a href="#voicevox-core-safety"&gt;書き込みについて有効&lt;/a&gt;でなければならない。
         ///  }
         /// </summary>
@@ -219,10 +212,6 @@ namespace VoicevoxCoreSharp.Core.Native
         ///  @param [in] model 音声モデル
         ///
         ///  @returns メタ情報のJSON文字列
-        ///
-        ///  \safety{
-        ///  - `model`は ::voicevox_voice_model_file_open で得たものでなければならず、また ::voicevox_voice_model_file_close で解放されていてはいけない。
-        ///  }
         /// </summary>
         [DllImport(__DllName, EntryPoint = "voicevox_voice_model_file_create_metas_json", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         internal static extern byte* voicevox_voice_model_file_create_metas_json(VoicevoxVoiceModelFile* model);
@@ -230,12 +219,11 @@ namespace VoicevoxCoreSharp.Core.Native
         /// <summary>
         ///  ::VoicevoxVoiceModelFile を、所有しているファイルディスクリプタを閉じた上で&lt;b&gt;破棄&lt;/b&gt;(_destruct_)する。
         ///
-        ///  @param [in] model 破棄対象
+        ///  破棄対象への他スレッドでのアクセスが存在する場合、それらがすべて終わるのを待ってから破棄する。
         ///
-        ///  \safety{
-        ///  - `model`は ::voicevox_voice_model_file_open で得たものでなければならず、また既にこの関数で解放されていてはいけない。
-        ///  - `model`は以後&lt;b&gt;ダングリングポインタ&lt;/b&gt;(_dangling pointer_)として扱われなくてはならない。
-        ///  }
+        ///  この関数の呼び出し後に破棄し終えた対象にアクセスすると、プロセスを異常終了する。
+        ///
+        ///  @param [in] model 破棄対象
         /// </summary>
         [DllImport(__DllName, EntryPoint = "voicevox_voice_model_file_close", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         internal static extern void voicevox_voice_model_file_close(VoicevoxVoiceModelFile* model);
@@ -252,7 +240,6 @@ namespace VoicevoxCoreSharp.Core.Native
         ///
         ///  \safety{
         ///  - `onnxruntime`は ::voicevox_onnxruntime_load_once または ::voicevox_onnxruntime_init_once で得たものでなければならない。
-        ///  - `open_jtalk`は ::voicevox_voice_model_file_open で得たものでなければならず、また ::voicevox_open_jtalk_rc_new で解放されていてはいけない。
         ///  - `out_synthesizer`は&lt;a href="#voicevox-core-safety"&gt;書き込みについて有効&lt;/a&gt;でなければならない。
         ///  }
         /// </summary>
@@ -262,12 +249,11 @@ namespace VoicevoxCoreSharp.Core.Native
         /// <summary>
         ///  ::VoicevoxSynthesizer を&lt;b&gt;破棄&lt;/b&gt;(_destruct_)する。
         ///
-        ///  @param [in] synthesizer 破棄対象
+        ///  破棄対象への他スレッドでのアクセスが存在する場合、それらがすべて終わるのを待ってから破棄する。
         ///
-        ///  \safety{
-        ///  - `synthesizer`は ::voicevox_synthesizer_new で得たものでなければならず、また既にこの関数で解放されていてはいけない。
-        ///  - `synthesizer`は以後&lt;b&gt;ダングリングポインタ&lt;/b&gt;(_dangling pointer_)として扱われなくてはならない。
-        ///  }
+        ///  この関数の呼び出し後に破棄し終えた対象にアクセスすると、プロセスを異常終了する。
+        ///
+        ///  @param [in] synthesizer 破棄対象
         /// </summary>
         [DllImport(__DllName, EntryPoint = "voicevox_synthesizer_delete", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         internal static extern void voicevox_synthesizer_delete(VoicevoxSynthesizer* synthesizer);
@@ -279,11 +265,6 @@ namespace VoicevoxCoreSharp.Core.Native
         ///  @param [in] model 音声モデル
         ///
         ///  @returns 結果コード
-        ///
-        ///  \safety{
-        ///  - `synthesizer`は ::voicevox_synthesizer_new で得たものでなければならず、また ::voicevox_synthesizer_delete で解放されていてはいけない。
-        ///  - `model`は ::voicevox_voice_model_file_open で得たものでなければならず、また ::voicevox_voice_model_file_close で解放されていてはいけない。
-        ///  }
         /// </summary>
         [DllImport(__DllName, EntryPoint = "voicevox_synthesizer_load_voice_model", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         internal static extern VoicevoxResultCode voicevox_synthesizer_load_voice_model(VoicevoxSynthesizer* synthesizer, VoicevoxVoiceModelFile* model);
@@ -297,7 +278,6 @@ namespace VoicevoxCoreSharp.Core.Native
         ///  @returns 結果コード
         ///
         ///  \safety{
-        ///  - `synthesizer`は ::voicevox_synthesizer_new で得たものでなければならず、また ::voicevox_synthesizer_delete で解放されていてはいけない。
         ///  - `model_id`は&lt;a href="#voicevox-core-safety"&gt;読み込みについて有効&lt;/a&gt;でなければならない。
         ///  }
         /// </summary>
@@ -310,10 +290,6 @@ namespace VoicevoxCoreSharp.Core.Native
         ///  @param [in] synthesizer 音声シンセサイザ
         ///
         ///  @returns ::VoicevoxOnnxruntime のインスタンス
-        ///
-        ///  \safety{
-        ///  - `synthesizer`は ::voicevox_synthesizer_new で得たものでなければならず、また ::voicevox_synthesizer_delete で解放されていてはいけない。
-        ///  }
         /// </summary>
         [DllImport(__DllName, EntryPoint = "voicevox_synthesizer_get_onnxruntime", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         internal static extern VoicevoxOnnxruntime* voicevox_synthesizer_get_onnxruntime(VoicevoxSynthesizer* synthesizer);
@@ -324,10 +300,6 @@ namespace VoicevoxCoreSharp.Core.Native
         ///  @param [in] synthesizer 音声シンセサイザ
         ///
         ///  @returns GPUモードかどうか
-        ///
-        ///  \safety{
-        ///  - `synthesizer`は ::voicevox_synthesizer_new で得たものでなければならず、また ::voicevox_synthesizer_delete で解放されていてはいけない。
-        ///  }
         /// </summary>
         [DllImport(__DllName, EntryPoint = "voicevox_synthesizer_is_gpu_mode", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         [return: MarshalAs(UnmanagedType.U1)]
@@ -342,7 +314,6 @@ namespace VoicevoxCoreSharp.Core.Native
         ///  @returns モデルが読み込まれているかどうか
         ///
         ///  \safety{
-        ///  - `synthesizer`は ::voicevox_synthesizer_new で得たものでなければならず、また ::voicevox_synthesizer_delete で解放されていてはいけない。
         ///  - `model_id`は&lt;a href="#voicevox-core-safety"&gt;読み込みについて有効&lt;/a&gt;でなければならない。
         ///  }
         /// </summary>
@@ -358,10 +329,6 @@ namespace VoicevoxCoreSharp.Core.Native
         ///  @param [in] synthesizer 音声シンセサイザ
         ///
         ///  @return メタ情報のJSON文字列
-        ///
-        ///  \safety{
-        ///  - `synthesizer`は ::voicevox_synthesizer_new で得たものでなければならず、また ::voicevox_synthesizer_delete で解放されていてはいけない。
-        ///  }
         /// </summary>
         [DllImport(__DllName, EntryPoint = "voicevox_synthesizer_create_metas_json", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         internal static extern byte* voicevox_synthesizer_create_metas_json(VoicevoxSynthesizer* synthesizer);
@@ -415,7 +382,6 @@ namespace VoicevoxCoreSharp.Core.Native
         ///  }
         ///
         ///  \safety{
-        ///  - `synthesizer`は ::voicevox_synthesizer_new で得たものでなければならず、また ::voicevox_synthesizer_delete で解放されていてはいけない。
         ///  - `kana`はヌル終端文字列を指し、かつ&lt;a href="#voicevox-core-safety"&gt;読み込みについて有効&lt;/a&gt;でなければならない。
         ///  - `output_audio_query_json`は&lt;a href="#voicevox-core-safety"&gt;書き込みについて有効&lt;/a&gt;でなければならない。
         ///  }
@@ -445,7 +411,6 @@ namespace VoicevoxCoreSharp.Core.Native
         ///  }
         ///
         ///  \safety{
-        ///  - `synthesizer`は ::voicevox_synthesizer_new で得たものでなければならず、また ::voicevox_synthesizer_delete で解放されていてはいけない。
         ///  - `text`はヌル終端文字列を指し、かつ&lt;a href="#voicevox-core-safety"&gt;読み込みについて有効&lt;/a&gt;でなければならない。
         ///  - `output_audio_query_json`は&lt;a href="#voicevox-core-safety"&gt;書き込みについて有効&lt;/a&gt;でなければならない。
         ///  }
@@ -476,7 +441,6 @@ namespace VoicevoxCoreSharp.Core.Native
         ///  }
         ///
         ///  \safety{
-        ///  - `synthesizer`は ::voicevox_synthesizer_new で得たものでなければならず、また ::voicevox_synthesizer_delete で解放されていてはいけない。
         ///  - `kana`はヌル終端文字列を指し、かつ&lt;a href="#voicevox-core-safety"&gt;読み込みについて有効&lt;/a&gt;でなければならない。
         ///  - `output_audio_query_json`は&lt;a href="#voicevox-core-safety"&gt;書き込みについて有効&lt;/a&gt;でなければならない。
         ///  }
@@ -506,7 +470,6 @@ namespace VoicevoxCoreSharp.Core.Native
         ///  }
         ///
         ///  \safety{
-        ///  - `synthesizer`は ::voicevox_synthesizer_new で得たものでなければならず、また ::voicevox_synthesizer_delete で解放されていてはいけない。
         ///  - `text`はヌル終端文字列を指し、かつ&lt;a href="#voicevox-core-safety"&gt;読み込みについて有効&lt;/a&gt;でなければならない。
         ///  - `output_audio_query_json`は&lt;a href="#voicevox-core-safety"&gt;書き込みについて有効&lt;/a&gt;でなければならない。
         ///  }
@@ -527,7 +490,6 @@ namespace VoicevoxCoreSharp.Core.Native
         ///  @returns 結果コード
         ///
         ///  \safety{
-        ///  - `synthesizer`は ::voicevox_synthesizer_new で得たものでなければならず、また ::voicevox_synthesizer_delete で解放されていてはいけない。
         ///  - `accent_phrases_json`はヌル終端文字列を指し、かつ&lt;a href="#voicevox-core-safety"&gt;読み込みについて有効&lt;/a&gt;でなければならない。
         ///  - `output_audio_query_json`は&lt;a href="#voicevox-core-safety"&gt;書き込みについて有効&lt;/a&gt;でなければならない。
         ///  }
@@ -548,7 +510,6 @@ namespace VoicevoxCoreSharp.Core.Native
         ///  @returns 結果コード
         ///
         ///  \safety{
-        ///  - `synthesizer`は ::voicevox_synthesizer_new で得たものでなければならず、また ::voicevox_synthesizer_delete で解放されていてはいけない。
         ///  - `accent_phrases_json`はヌル終端文字列を指し、かつ&lt;a href="#voicevox-core-safety"&gt;読み込みについて有効&lt;/a&gt;でなければならない。
         ///  - `output_audio_query_json`は&lt;a href="#voicevox-core-safety"&gt;書き込みについて有効&lt;/a&gt;でなければならない。
         ///  }
@@ -569,7 +530,6 @@ namespace VoicevoxCoreSharp.Core.Native
         ///  @returns 結果コード
         ///
         ///  \safety{
-        ///  - `synthesizer`は ::voicevox_synthesizer_new で得たものでなければならず、また ::voicevox_synthesizer_delete で解放されていてはいけない。
         ///  - `accent_phrases_json`はヌル終端文字列を指し、かつ&lt;a href="#voicevox-core-safety"&gt;読み込みについて有効&lt;/a&gt;でなければならない。
         ///  - `output_audio_query_json`は&lt;a href="#voicevox-core-safety"&gt;書き込みについて有効&lt;/a&gt;でなければならない。
         ///  }
@@ -599,7 +559,6 @@ namespace VoicevoxCoreSharp.Core.Native
         ///  @returns 結果コード
         ///
         ///  \safety{
-        ///  - `synthesizer`は ::voicevox_synthesizer_new で得たものでなければならず、また ::voicevox_synthesizer_delete で解放されていてはいけない。
         ///  - `audio_query_json`はヌル終端文字列を指し、かつ&lt;a href="#voicevox-core-safety"&gt;読み込みについて有効&lt;/a&gt;でなければならない。
         ///  - `output_wav_length`は&lt;a href="#voicevox-core-safety"&gt;書き込みについて有効&lt;/a&gt;でなければならない。
         ///  - `output_wav`は&lt;a href="#voicevox-core-safety"&gt;書き込みについて有効&lt;/a&gt;でなければならない。
@@ -630,7 +589,6 @@ namespace VoicevoxCoreSharp.Core.Native
         ///  @returns 結果コード
         ///
         ///  \safety{
-        ///  - `synthesizer`は ::voicevox_synthesizer_new で得たものでなければならず、また ::voicevox_synthesizer_delete で解放されていてはいけない。
         ///  - `kana`はヌル終端文字列を指し、かつ&lt;a href="#voicevox-core-safety"&gt;読み込みについて有効&lt;/a&gt;でなければならない。
         ///  - `output_wav_length`は&lt;a href="#voicevox-core-safety"&gt;書き込みについて有効&lt;/a&gt;でなければならない。
         ///  - `output_wav`は&lt;a href="#voicevox-core-safety"&gt;書き込みについて有効&lt;/a&gt;でなければならない。
@@ -654,7 +612,6 @@ namespace VoicevoxCoreSharp.Core.Native
         ///  @returns 結果コード
         ///
         ///  \safety{
-        ///  - `synthesizer`は ::voicevox_synthesizer_new で得たものでなければならず、また ::voicevox_synthesizer_delete で解放されていてはいけない。
         ///  - `text`はヌル終端文字列を指し、かつ&lt;a href="#voicevox-core-safety"&gt;読み込みについて有効&lt;/a&gt;でなければならない。
         ///  - `output_wav_length`は&lt;a href="#voicevox-core-safety"&gt;書き込みについて有効&lt;/a&gt;でなければならない。
         ///  - `output_wav`は&lt;a href="#voicevox-core-safety"&gt;書き込みについて有効&lt;/a&gt;でなければならない。
@@ -754,7 +711,6 @@ namespace VoicevoxCoreSharp.Core.Native
         ///  @returns 結果コード
         ///
         ///  \safety{
-        ///  - `user_dict`は ::voicevox_user_dict_new で得たものでなければならず、また ::voicevox_user_dict_delete で解放されていてはいけない。
         ///  - `dict_path`はヌル終端文字列を指し、かつ&lt;a href="#voicevox-core-safety"&gt;読み込みについて有効&lt;/a&gt;でなければならない。
         ///  }
         /// </summary>
@@ -773,7 +729,6 @@ namespace VoicevoxCoreSharp.Core.Native
         ///  @param user_dict は有効な :VoicevoxUserDict のポインタであること
         ///
         ///  \safety{
-        ///  - `user_dict`は ::voicevox_user_dict_new で得たものでなければならず、また ::voicevox_user_dict_delete で解放されていてはいけない。
         ///  - `word-&gt;surface`と`word-&gt;pronunciation`はヌル終端文字列を指し、かつ&lt;a href="#voicevox-core-safety"&gt;読み込みについて有効&lt;/a&gt;でなければならない。
         ///  - `output_word_uuid`は&lt;a href="#voicevox-core-safety"&gt;書き込みについて有効&lt;/a&gt;でなければならない。
         ///  }
@@ -790,7 +745,6 @@ namespace VoicevoxCoreSharp.Core.Native
         ///  @returns 結果コード
         ///
         ///  \safety{
-        ///  - `user_dict`は ::voicevox_user_dict_new で得たものでなければならず、また ::voicevox_user_dict_delete で解放されていてはいけない。
         ///  - `word_uuid`は&lt;a href="#voicevox-core-safety"&gt;読み込みについて有効&lt;/a&gt;でなければならない。
         ///  - `word-&gt;surface`と`word-&gt;pronunciation`はヌル終端文字列を指し、かつ&lt;a href="#voicevox-core-safety"&gt;読み込みについて有効&lt;/a&gt;でなければならない。
         ///  }
@@ -806,7 +760,6 @@ namespace VoicevoxCoreSharp.Core.Native
         ///  @returns 結果コード
         ///
         ///  \safety{
-        ///  - `user_dict`は ::voicevox_user_dict_new で得たものでなければならず、また ::voicevox_user_dict_delete で解放されていてはいけない。
         ///  - `word_uuid`は&lt;a href="#voicevox-core-safety"&gt;読み込みについて有効&lt;/a&gt;でなければならない。
         ///  }
         /// </summary>
@@ -823,7 +776,6 @@ namespace VoicevoxCoreSharp.Core.Native
         ///  @returns 結果コード
         ///
         ///  \safety{
-        ///  - `user_dict`は ::voicevox_user_dict_new で得たものでなければならず、また ::voicevox_user_dict_delete で解放されていてはいけない。
         ///  - `output_json`は&lt;a href="#voicevox-core-safety"&gt;書き込みについて有効&lt;/a&gt;でなければならない。
         ///  }
         /// </summary>
@@ -836,10 +788,6 @@ namespace VoicevoxCoreSharp.Core.Native
         ///  @param [in] user_dict ユーザー辞書
         ///  @param [in] other_dict インポートするユーザー辞書
         ///  @returns 結果コード
-        ///
-        ///  \safety{
-        ///  - `user_dict`と`other_dict`は ::voicevox_user_dict_new で得たものでなければならず、また ::voicevox_user_dict_delete で解放されていてはいけない。
-        ///  }
         /// </summary>
         [DllImport(__DllName, EntryPoint = "voicevox_user_dict_import", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         internal static extern VoicevoxResultCode voicevox_user_dict_import(VoicevoxUserDict* user_dict, VoicevoxUserDict* other_dict);
@@ -851,7 +799,6 @@ namespace VoicevoxCoreSharp.Core.Native
         ///  @param [in] path 保存先のファイルパス
         ///
         ///  \safety{
-        ///  - `user_dict`は ::voicevox_user_dict_new で得たものでなければならず、また ::voicevox_user_dict_delete で解放されていてはいけない。
         ///  - `path`はヌル終端文字列を指し、かつ&lt;a href="#voicevox-core-safety"&gt;読み込みについて有効&lt;/a&gt;でなければならない。
         ///  }
         /// </summary>
@@ -861,11 +808,11 @@ namespace VoicevoxCoreSharp.Core.Native
         /// <summary>
         ///  ユーザー辞書を&lt;b&gt;破棄&lt;/b&gt;(_destruct_)する。
         ///
-        ///  @param [in] user_dict 破棄対象
+        ///  破棄対象への他スレッドでのアクセスが存在する場合、それらがすべて終わるのを待ってから破棄する。
         ///
-        ///  \safety{
-        ///  - `user_dict`は ::voicevox_user_dict_new で得たものでなければならず、また既にこの関数で解放されていてはいけない。
-        ///  }
+        ///  この関数の呼び出し後に破棄し終えた対象にアクセスすると、プロセスを異常終了する。
+        ///
+        ///  @param [in] user_dict 破棄対象
         /// </summary>
         [DllImport(__DllName, EntryPoint = "voicevox_user_dict_delete", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         internal static extern void voicevox_user_dict_delete(VoicevoxUserDict* user_dict);
