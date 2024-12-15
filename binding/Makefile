@@ -9,4 +9,10 @@ replace-hash:
 	$(shell sed -i.bak 's/<VoicevoxCoreCommitHash>.*<\/VoicevoxCoreCommitHash>/<VoicevoxCoreCommitHash>$(VERSION)<\/VoicevoxCoreCommitHash>/' ../src/VoicevoxCoreSharp.Core/VoicevoxCoreSharp.Core.Metas.props)
 
 build/dev-library:
-	cd voicevox_core; cargo build --release -p voicevox_core_c_api
+	cd voicevox_core; cargo build --release -p voicevox_core_c_api --features load-onnxruntime
+
+build/dev-library/ios:
+	cd voicevox_core; cargo build --release -p voicevox_core_c_api --features link-onnxruntime
+
+clean:
+	cargo clean

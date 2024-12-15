@@ -9,7 +9,7 @@ namespace VoicevoxCoreSharp.Core.Tests
         [Fact]
         public void Open()
         {
-            var openResult = VoiceModel.New(Consts.SampleVoiceModel, out var voiceModel);
+            var openResult = VoiceModelFile.New(Consts.SampleVoiceModel, out var voiceModel);
             Assert.Equal(ResultCode.RESULT_OK, openResult);
             Assert.NotNull(voiceModel);
 

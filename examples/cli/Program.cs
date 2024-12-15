@@ -23,7 +23,13 @@ static int RunTts(string text, string? resourcePath = "voicevox_core")
         return 1;
     }
 
-    result = Synthesizer.New(openJtalk, initializeOptions, out var synthesizer);
+    var loadOnnxruntimeOptions = LoadOnnxruntimeOptions.Default();
+    if (Onnxruntime.LoadOnce(loadOnnxruntimeOptions, out var onnxruntime) != ResultCode.RESULT_OK)
+    {
+        Console.Error.WriteLine("Failed to initialize onnxruntime");
+        return 1;
+    }
+    result = Synthesizer.New(onnxruntime, openJtalk, initializeOptions, out var synthesizer);
     if (result != ResultCode.RESULT_OK)
     {
         Console.Error.WriteLine(result.ToMessage());
@@ -37,7 +43,7 @@ static int RunTts(string text, string? resourcePath = "voicevox_core")
 
     foreach (var path in matcher.GetResultsInFullPath($"{resourcePath}/model"))
     {
-        result = VoiceModel.New(path, out var voiceModel);
+        result = VoiceModelFile.New(path, out var voiceModel);
         if (result != ResultCode.RESULT_OK)
         {
             Console.Error.WriteLine(result.ToMessage());

@@ -47,7 +47,13 @@ public partial class MainPageViewModel : ObservableObject
             return;
         }
 
-        openResult = Synthesizer.New(openJTalk, InitializeOptions.Default(), out var synthesizer);
+        var onnruntimeloadOption = LoadOnnxruntimeOptions.Default();
+        // NOTE: This call is not supporting iOS
+        if (Onnxruntime.LoadOnce(onnruntimeloadOption, out var onnruntime) != ResultCode.RESULT_OK)
+        {
+            return;
+        }
+        openResult = Synthesizer.New(onnruntime, openJTalk, InitializeOptions.Default(), out var synthesizer);
         if (openResult != ResultCode.RESULT_OK)
         {
             using (openJTalk) { }
@@ -72,7 +78,7 @@ public partial class MainPageViewModel : ObservableObject
 
         foreach (var path in matcher.GetResultsInFullPath(result.Folder.Path))
         {
-            var openResult = VoiceModel.New(path, out var voiceModel);
+            var openResult = VoiceModelFile.New(path, out var voiceModel);
             if (openResult != ResultCode.RESULT_OK)
             {
                 return;

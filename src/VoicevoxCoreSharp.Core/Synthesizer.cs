@@ -39,14 +39,14 @@ namespace VoicevoxCoreSharp.Core
             Handle = new SynthesizerHandle(new IntPtr(synthesizerHandle));
         }
 
-        public static ResultCode New(OpenJtalk openJtalk, InitializeOptions options, out Synthesizer synthesizer)
+        public static ResultCode New(Onnxruntime onnxruntime, OpenJtalk openJtalk, InitializeOptions options, out Synthesizer synthesizer)
         {
             unsafe
             {
                 var nativeOptions = options.ToNative();
 
                 var p = (VoicevoxSynthesizer*)IntPtr.Zero.ToPointer();
-                var result = CoreUnsafe.voicevox_synthesizer_new((OpenJtalkRc*)openJtalk.Handle, nativeOptions, &p).FromNative();
+                var result = CoreUnsafe.voicevox_synthesizer_new((VoicevoxOnnxruntime*)onnxruntime.Handle, (OpenJtalkRc*)openJtalk.Handle, nativeOptions, &p).FromNative();
                 if (result == ResultCode.RESULT_OK)
                 {
                     synthesizer = new Synthesizer(p);
@@ -60,11 +60,11 @@ namespace VoicevoxCoreSharp.Core
             }
         }
 
-        public ResultCode LoadVoiceModel(VoiceModel voiceModel)
+        public ResultCode LoadVoiceModel(VoiceModelFile voiceModel)
         {
             unsafe
             {
-                return CoreUnsafe.voicevox_synthesizer_load_voice_model((VoicevoxSynthesizer*)Handle, (VoicevoxVoiceModel*)voiceModel.Handle).FromNative();
+                return CoreUnsafe.voicevox_synthesizer_load_voice_model((VoicevoxSynthesizer*)Handle, (VoicevoxVoiceModelFile*)voiceModel.Handle).FromNative();
             }
         }
 
@@ -450,6 +450,20 @@ namespace VoicevoxCoreSharp.Core
 
                 }
             }
+        }
+
+        public Onnxruntime? Onnxruntime()
+        {
+            unsafe
+            {
+                var p = CoreUnsafe.voicevox_synthesizer_get_onnxruntime((VoicevoxSynthesizer*)Handle);
+                if ((IntPtr)p == IntPtr.Zero)
+                {
+                    return null;
+                }
+                return new Onnxruntime(p);
+            }
+
         }
 
         public void Dispose()

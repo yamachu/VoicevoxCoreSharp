@@ -26,7 +26,14 @@ public class SampleVoicevoxCoreSharpScript : MonoBehaviour
             return;
         }
 
-        result = Synthesizer.New(openJtalk, initializeOptions, out var synthesizer);
+        // TODO: This is platform dependent code, FIXME
+        var loadOnnxruntimeOptions = LoadOnnxruntimeOptions.Default();
+        if (Onnxruntime.LoadOnce(loadOnnxruntimeOptions, out var onnxruntime) != ResultCode.RESULT_OK)
+        {
+            Debug.LogError("Failed to initialize onnxruntime");
+            return;
+        }
+        result = Synthesizer.New(onnxruntime, openJtalk, initializeOptions, out var synthesizer);
         if (result != ResultCode.RESULT_OK)
         {
             Debug.LogError(result.ToMessage());
@@ -35,7 +42,7 @@ public class SampleVoicevoxCoreSharpScript : MonoBehaviour
 
         using (openJtalk) { }
 
-        result = VoiceModel.New(System.IO.Path.Combine(Application.streamingAssetsPath, "voicevox_core/model/0.vvm"), out var voiceModel);
+        result = VoiceModelFile.New(System.IO.Path.Combine(Application.streamingAssetsPath, "voicevox_core/model/sample.vvm"), out var voiceModel);
         if (result != ResultCode.RESULT_OK)
         {
             Debug.LogError(result.ToMessage());
@@ -73,7 +80,7 @@ public class SampleVoicevoxCoreSharpScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 
     private float[] ToWavHeaderSkippedFloatWavData(byte[] original)
