@@ -57,9 +57,14 @@ namespace VoicevoxCoreSharp.Core
 
         public ResultCode Load(string dictPath)
         {
+            var rawBytes = System.Text.Encoding.UTF8.GetBytes(dictPath);
+            var nullTerminatedBytes = new byte[rawBytes.Length + 1];
+            Array.Copy(rawBytes, nullTerminatedBytes, rawBytes.Length);
+            nullTerminatedBytes[rawBytes.Length] = 0; // null terminator
+
             unsafe
             {
-                fixed (byte* ptr = System.Text.Encoding.UTF8.GetBytes(dictPath))
+                fixed (byte* ptr = nullTerminatedBytes)
                 {
                     return CoreUnsafe.voicevox_user_dict_load((VoicevoxUserDict*)Handle, ptr).FromNative();
                 }
@@ -68,9 +73,14 @@ namespace VoicevoxCoreSharp.Core
 
         public ResultCode Save(string dictPath)
         {
+            var rawBytes = System.Text.Encoding.UTF8.GetBytes(dictPath);
+            var nullTerminatedBytes = new byte[rawBytes.Length + 1];
+            Array.Copy(rawBytes, nullTerminatedBytes, rawBytes.Length);
+            nullTerminatedBytes[rawBytes.Length] = 0; // null terminator
+
             unsafe
             {
-                fixed (byte* ptr = System.Text.Encoding.UTF8.GetBytes(dictPath))
+                fixed (byte* ptr = nullTerminatedBytes)
                 {
                     return CoreUnsafe.voicevox_user_dict_save((VoicevoxUserDict*)Handle, ptr).FromNative();
                 }

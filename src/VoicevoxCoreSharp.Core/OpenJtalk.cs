@@ -41,10 +41,15 @@ namespace VoicevoxCoreSharp.Core
 
         public static ResultCode New(string openJtalkDicDir, out OpenJtalk openJtalk)
         {
+            var rawBytes = System.Text.Encoding.UTF8.GetBytes(openJtalkDicDir);
+            var nullTerminatedBytes = new byte[rawBytes.Length + 1];
+            Array.Copy(rawBytes, nullTerminatedBytes, rawBytes.Length);
+            nullTerminatedBytes[rawBytes.Length] = 0; // null terminator
+
             unsafe
             {
                 var p = (OpenJtalkRc*)IntPtr.Zero.ToPointer();
-                fixed (byte* ptr = System.Text.Encoding.UTF8.GetBytes(openJtalkDicDir))
+                fixed (byte* ptr = nullTerminatedBytes)
                 {
                     var result = CoreUnsafe.voicevox_open_jtalk_rc_new(ptr, &p).FromNative();
                     if (result == ResultCode.RESULT_OK)

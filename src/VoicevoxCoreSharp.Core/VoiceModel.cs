@@ -41,10 +41,15 @@ namespace VoicevoxCoreSharp.Core
 
         public static ResultCode New(string modelPath, out VoiceModel voiceModel)
         {
+            var rawBytes = System.Text.Encoding.UTF8.GetBytes(modelPath);
+            var nullTerminatedBytes = new byte[rawBytes.Length + 1];
+            Array.Copy(rawBytes, nullTerminatedBytes, rawBytes.Length);
+            nullTerminatedBytes[rawBytes.Length] = 0; // null terminator
+
             unsafe
             {
                 var p = (VoicevoxVoiceModel*)IntPtr.Zero.ToPointer();
-                fixed (byte* ptr = System.Text.Encoding.UTF8.GetBytes(modelPath))
+                fixed (byte* ptr = nullTerminatedBytes)
                 {
                     var result = CoreUnsafe.voicevox_voice_model_new_from_path(ptr, &p).FromNative();
                     if (result == ResultCode.RESULT_OK)

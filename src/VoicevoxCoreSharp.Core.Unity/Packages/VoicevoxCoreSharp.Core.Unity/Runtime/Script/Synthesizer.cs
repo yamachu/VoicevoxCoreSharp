@@ -70,9 +70,14 @@ namespace VoicevoxCoreSharp.Core
 
         public ResultCode UnloadVoiceModel(string modelId)
         {
+            var rawBytes = System.Text.Encoding.UTF8.GetBytes(modelId);
+            var nullTerminatedBytes = new byte[rawBytes.Length + 1];
+            Array.Copy(rawBytes, nullTerminatedBytes, rawBytes.Length);
+            nullTerminatedBytes[rawBytes.Length] = 0; // null terminator
+
             unsafe
             {
-                fixed (byte* ptr = System.Text.Encoding.UTF8.GetBytes(modelId))
+                fixed (byte* ptr = nullTerminatedBytes)
                 {
                     return CoreUnsafe.voicevox_synthesizer_unload_voice_model((VoicevoxSynthesizer*)Handle, ptr).FromNative();
                 }
@@ -92,9 +97,14 @@ namespace VoicevoxCoreSharp.Core
 
         public bool IsLoadedVoiceModel(string modelId)
         {
+            var rawBytes = System.Text.Encoding.UTF8.GetBytes(modelId);
+            var nullTerminatedBytes = new byte[rawBytes.Length + 1];
+            Array.Copy(rawBytes, nullTerminatedBytes, rawBytes.Length);
+            nullTerminatedBytes[rawBytes.Length] = 0; // null terminator
+
             unsafe
             {
-                fixed (byte* ptr = System.Text.Encoding.UTF8.GetBytes(modelId))
+                fixed (byte* ptr = nullTerminatedBytes)
                 {
                     return CoreUnsafe.voicevox_synthesizer_is_loaded_voice_model((VoicevoxSynthesizer*)Handle, ptr);
                 }
@@ -115,9 +125,14 @@ namespace VoicevoxCoreSharp.Core
 
         public ResultCode CreateAudioQuery(string text, uint styleId, out string? audioQueryJson)
         {
+            var rawBytes = System.Text.Encoding.UTF8.GetBytes(text);
+            var nullTerminatedBytes = new byte[rawBytes.Length + 1];
+            Array.Copy(rawBytes, nullTerminatedBytes, rawBytes.Length);
+            nullTerminatedBytes[rawBytes.Length] = 0; // null terminator
+
             unsafe
             {
-                fixed (byte* ptr = System.Text.Encoding.UTF8.GetBytes(text))
+                fixed (byte* ptr = nullTerminatedBytes)
                 {
                     byte* resultJsonPtr;
 
@@ -139,9 +154,14 @@ namespace VoicevoxCoreSharp.Core
 
         public ResultCode CreateAudioQueryFromKana(string kana, uint styleId, out string? audioQueryJson)
         {
+            var rawBytes = System.Text.Encoding.UTF8.GetBytes(kana);
+            var nullTerminatedBytes = new byte[rawBytes.Length + 1];
+            Array.Copy(rawBytes, nullTerminatedBytes, rawBytes.Length);
+            nullTerminatedBytes[rawBytes.Length] = 0; // null terminator
+
             unsafe
             {
-                fixed (byte* ptr = System.Text.Encoding.UTF8.GetBytes(kana))
+                fixed (byte* ptr = rawBytes)
                 {
                     byte* resultJsonPtr;
 
@@ -163,9 +183,14 @@ namespace VoicevoxCoreSharp.Core
 
         public ResultCode CreateAccentPhrases(string text, uint styleId, out string? accentPhrasesJson)
         {
+            var rawBytes = System.Text.Encoding.UTF8.GetBytes(text);
+            var nullTerminatedBytes = new byte[rawBytes.Length + 1];
+            Array.Copy(rawBytes, nullTerminatedBytes, rawBytes.Length);
+            nullTerminatedBytes[rawBytes.Length] = 0; // null terminator
+
             unsafe
             {
-                fixed (byte* ptr = System.Text.Encoding.UTF8.GetBytes(text))
+                fixed (byte* ptr = nullTerminatedBytes)
                 {
                     byte* resultJsonPtr;
 
@@ -187,9 +212,14 @@ namespace VoicevoxCoreSharp.Core
 
         public ResultCode CreateAccentPhrasesFromKana(string kana, uint styleId, out string? accentPhrasesJson)
         {
+            var rawBytes = System.Text.Encoding.UTF8.GetBytes(kana);
+            var nullTerminatedBytes = new byte[rawBytes.Length + 1];
+            Array.Copy(rawBytes, nullTerminatedBytes, rawBytes.Length);
+            nullTerminatedBytes[rawBytes.Length] = 0; // null terminator
+
             unsafe
             {
-                fixed (byte* ptr = System.Text.Encoding.UTF8.GetBytes(kana))
+                fixed (byte* ptr = nullTerminatedBytes)
                 {
                     byte* resultJsonPtr;
 
@@ -211,9 +241,14 @@ namespace VoicevoxCoreSharp.Core
 
         public ResultCode ReplaceMoraData(string accentPhrasesJson, uint styleId, out string? outputAccentPhrasesJson)
         {
+            var rawBytes = System.Text.Encoding.UTF8.GetBytes(accentPhrasesJson);
+            var nullTerminatedBytes = new byte[rawBytes.Length + 1];
+            Array.Copy(rawBytes, nullTerminatedBytes, rawBytes.Length);
+            nullTerminatedBytes[rawBytes.Length] = 0; // null terminator
+
             unsafe
             {
-                fixed (byte* ptr = System.Text.Encoding.UTF8.GetBytes(accentPhrasesJson))
+                fixed (byte* ptr = nullTerminatedBytes)
                 {
                     byte* resultJsonPtr;
 
@@ -235,9 +270,14 @@ namespace VoicevoxCoreSharp.Core
 
         public ResultCode ReplacePhonemeLength(string accentPhrasesJson, uint styleId, out string? outputAccentPhrasesJson)
         {
+            var rawBytes = System.Text.Encoding.UTF8.GetBytes(accentPhrasesJson);
+            var nullTerminatedBytes = new byte[rawBytes.Length + 1];
+            Array.Copy(rawBytes, nullTerminatedBytes, rawBytes.Length);
+            nullTerminatedBytes[rawBytes.Length] = 0; // null terminator
+
             unsafe
             {
-                fixed (byte* ptr = System.Text.Encoding.UTF8.GetBytes(accentPhrasesJson))
+                fixed (byte* ptr = nullTerminatedBytes)
                 {
                     byte* resultJsonPtr;
 
@@ -259,9 +299,14 @@ namespace VoicevoxCoreSharp.Core
 
         public ResultCode ReplaceMoraPitch(string accentPhrasesJson, uint styleId, out string? outputAccentPhrasesJson)
         {
+            var rawBytes = System.Text.Encoding.UTF8.GetBytes(accentPhrasesJson);
+            var nullTerminatedBytes = new byte[rawBytes.Length + 1];
+            Array.Copy(rawBytes, nullTerminatedBytes, rawBytes.Length);
+            nullTerminatedBytes[rawBytes.Length] = 0; // null terminator
+
             unsafe
             {
-                fixed (byte* ptr = System.Text.Encoding.UTF8.GetBytes(accentPhrasesJson))
+                fixed (byte* ptr = nullTerminatedBytes)
                 {
                     byte* resultJsonPtr;
 
@@ -283,9 +328,14 @@ namespace VoicevoxCoreSharp.Core
 
         public ResultCode Synthesis(string audioQueryJson, uint styleId, SynthesisOptions options, out nuint outputWavLength, out byte[]? outputWav)
         {
+            var rawBytes = System.Text.Encoding.UTF8.GetBytes(audioQueryJson);
+            var nullTerminatedBytes = new byte[rawBytes.Length + 1];
+            Array.Copy(rawBytes, nullTerminatedBytes, rawBytes.Length);
+            nullTerminatedBytes[rawBytes.Length] = 0; // null terminator
+
             unsafe
             {
-                fixed (byte* ptr = System.Text.Encoding.UTF8.GetBytes(audioQueryJson))
+                fixed (byte* ptr = nullTerminatedBytes)
                 {
                     fixed (nuint* ptr2 = &outputWavLength)
                     {
@@ -320,9 +370,14 @@ namespace VoicevoxCoreSharp.Core
 
         public ResultCode Tts(string text, uint styleId, TtsOptions options, out nuint outputWavLength, out byte[]? outputWav)
         {
+            var rawBytes = System.Text.Encoding.UTF8.GetBytes(text);
+            var nullTerminatedBytes = new byte[rawBytes.Length + 1];
+            Array.Copy(rawBytes, nullTerminatedBytes, rawBytes.Length);
+            nullTerminatedBytes[rawBytes.Length] = 0; // null terminator
+
             unsafe
             {
-                fixed (byte* ptr = System.Text.Encoding.UTF8.GetBytes(text))
+                fixed (byte* ptr = nullTerminatedBytes)
                 {
                     fixed (nuint* ptr2 = &outputWavLength)
                     {
@@ -357,9 +412,14 @@ namespace VoicevoxCoreSharp.Core
 
         public ResultCode TtsFromKana(string kana, uint styleId, TtsOptions options, out nuint outputWavLength, out byte[]? outputWav)
         {
+            var rawBytes = System.Text.Encoding.UTF8.GetBytes(kana);
+            var nullTerminatedBytes = new byte[rawBytes.Length + 1];
+            Array.Copy(rawBytes, nullTerminatedBytes, rawBytes.Length);
+            nullTerminatedBytes[rawBytes.Length] = 0; // null terminator
+
             unsafe
             {
-                fixed (byte* ptr = System.Text.Encoding.UTF8.GetBytes(kana))
+                fixed (byte* ptr = nullTerminatedBytes)
                 {
                     fixed (nuint* ptr2 = &outputWavLength)
                     {

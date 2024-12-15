@@ -42,11 +42,21 @@ namespace VoicevoxCoreSharp.Core.Struct
 
         public static UserDictWord Create(string surface, string pronunciation)
         {
+            var rawBytesSurface = System.Text.Encoding.UTF8.GetBytes(surface);
+            var nullTerminatedBytesSurface = new byte[rawBytesSurface.Length + 1];
+            Array.Copy(rawBytesSurface, nullTerminatedBytesSurface, rawBytesSurface.Length);
+            nullTerminatedBytesSurface[rawBytesSurface.Length] = 0; // null terminator
+
+            var rawBytesPronunciation = System.Text.Encoding.UTF8.GetBytes(pronunciation);
+            var nullTerminatedBytesPronunciation = new byte[rawBytesPronunciation.Length + 1];
+            Array.Copy(rawBytesPronunciation, nullTerminatedBytesPronunciation, rawBytesPronunciation.Length);
+            nullTerminatedBytesPronunciation[rawBytesPronunciation.Length] = 0; // null terminator
+
             unsafe
             {
-                fixed (byte* ptrSurface = System.Text.Encoding.UTF8.GetBytes(surface))
+                fixed (byte* ptrSurface = nullTerminatedBytesSurface)
                 {
-                    fixed (byte* ptrPronunciation = System.Text.Encoding.UTF8.GetBytes(pronunciation))
+                    fixed (byte* ptrPronunciation = nullTerminatedBytesPronunciation)
                     {
                         var unsafeUserDictWord = CoreUnsafe.voicevox_user_dict_word_make(ptrSurface, ptrPronunciation);
                         return unsafeUserDictWord.FromNative();
