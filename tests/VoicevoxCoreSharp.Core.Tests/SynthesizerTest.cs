@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using VoicevoxCoreSharp.Core.Enum;
 using VoicevoxCoreSharp.Core.Struct;
 using Xunit;
@@ -12,7 +13,7 @@ namespace VoicevoxCoreSharp.Core.Tests
         {
             OpenJtalk.New(Consts.OpenJTalkDictDir, out var openJtalk);
             var initializeOptions = InitializeOptions.Default();
-            var onnxruntimeOptions = LoadOnnxruntimeOptions.Default();
+            var onnxruntimeOptions = new LoadOnnxruntimeOptions(Path.Join(AppContext.BaseDirectory, Helper.GetOnnxruntimeAssemblyName()));
             if (Onnxruntime.LoadOnce(onnxruntimeOptions, out var onnruntime) != ResultCode.RESULT_OK)
             {
                 Assert.Fail("Failed to initialize onnxruntime");
