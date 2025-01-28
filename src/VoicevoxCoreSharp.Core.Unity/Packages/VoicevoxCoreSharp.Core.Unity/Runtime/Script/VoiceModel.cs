@@ -19,7 +19,7 @@ namespace VoicevoxCoreSharp.Core
         {
             unsafe
             {
-                CoreUnsafe.voicevox_voice_model_file_close((VoicevoxVoiceModelFile*)handle.ToPointer());
+                CoreUnsafe.voicevox_voice_model_file_delete((VoicevoxVoiceModelFile*)handle.ToPointer());
                 handle = IntPtr.Zero;
             }
             return true;
