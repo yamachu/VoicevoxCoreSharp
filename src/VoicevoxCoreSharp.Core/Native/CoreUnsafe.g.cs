@@ -217,7 +217,7 @@ namespace VoicevoxCoreSharp.Core.Native
         internal static extern byte* voicevox_voice_model_file_create_metas_json(VoicevoxVoiceModelFile* model);
 
         /// <summary>
-        ///  ::VoicevoxVoiceModelFile を、所有しているファイルディスクリプタを閉じた上で&lt;b&gt;破棄&lt;/b&gt;(_destruct_)する。
+        ///  ::VoicevoxVoiceModelFile を、所有しているファイルディスクリプタを閉じた上で&lt;b&gt;破棄&lt;/b&gt;(_destruct_)する。ファイルの削除(_delete_)&lt;b&gt;ではない&lt;/b&gt;。
         ///
         ///  破棄対象への他スレッドでのアクセスが存在する場合、それらがすべて終わるのを待ってから破棄する。
         ///
@@ -225,8 +225,8 @@ namespace VoicevoxCoreSharp.Core.Native
         ///
         ///  @param [in] model 破棄対象
         /// </summary>
-        [DllImport(__DllName, EntryPoint = "voicevox_voice_model_file_close", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        internal static extern void voicevox_voice_model_file_close(VoicevoxVoiceModelFile* model);
+        [DllImport(__DllName, EntryPoint = "voicevox_voice_model_file_delete", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        internal static extern void voicevox_voice_model_file_delete(VoicevoxVoiceModelFile* model);
 
         /// <summary>
         ///  ::VoicevoxSynthesizer を&lt;b&gt;構築&lt;/b&gt;(_construct_)する。
@@ -891,7 +891,7 @@ namespace VoicevoxCoreSharp.Core.Native
         VOICEVOX_RESULT_STYLE_NOT_FOUND_ERROR = 6,
         VOICEVOX_RESULT_MODEL_NOT_FOUND_ERROR = 7,
         VOICEVOX_RESULT_RUN_MODEL_ERROR = 8,
-        VOICEVOX_RESULT_EXTRACT_FULL_CONTEXT_LABEL_ERROR = 11,
+        VOICEVOX_RESULT_ANALYZE_TEXT_ERROR = 11,
         VOICEVOX_RESULT_INVALID_UTF8_INPUT_ERROR = 12,
         VOICEVOX_RESULT_PARSE_KANA_ERROR = 13,
         VOICEVOX_RESULT_INVALID_AUDIO_QUERY_ERROR = 14,
