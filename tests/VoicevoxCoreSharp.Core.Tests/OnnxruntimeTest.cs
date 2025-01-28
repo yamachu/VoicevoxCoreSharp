@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Runtime.InteropServices;
 using VoicevoxCoreSharp.Core.Enum;
 using VoicevoxCoreSharp.Core.Struct;
@@ -19,7 +20,7 @@ namespace VoicevoxCoreSharp.Core.Tests
                 var _ when RuntimeInformation.IsOSPlatform(OSPlatform.OSX) => "libonnxruntime_another_path.dylib",
                 _ => throw new PlatformNotSupportedException()
             };
-            var option = new LoadOnnxruntimeOptions(libraryPath);
+            var option = new LoadOnnxruntimeOptions(Path.Join(AppContext.BaseDirectory, libraryPath));
             var result = Onnxruntime.LoadOnce(option, out var onnruntime);
 
             Assert.Equal(ResultCode.RESULT_OK, result);

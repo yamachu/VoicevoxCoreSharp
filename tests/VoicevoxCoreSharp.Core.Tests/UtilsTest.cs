@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using VoicevoxCoreSharp.Core.Enum;
 using VoicevoxCoreSharp.Core.Struct;
 using Xunit;
@@ -10,7 +11,7 @@ namespace VoicevoxCoreSharp.Core.Tests
         [Fact]
         public void CreateSupportedDevicesJson()
         {
-            var option = LoadOnnxruntimeOptions.Default();
+            var option = new LoadOnnxruntimeOptions(Path.Join(AppContext.BaseDirectory, Helper.GetOnnxruntimeAssemblyName()));
             if (Onnxruntime.LoadOnce(option, out var onnruntime) != ResultCode.RESULT_OK)
             {
                 Assert.Fail("Failed to initialize onnxruntime");

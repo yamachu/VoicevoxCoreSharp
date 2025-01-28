@@ -25,6 +25,19 @@ runs:
       working-directory: ./binding
       run: make build/dev-library
     - if: ${{ steps.restore-dev-library.outputs.cache-hit != 'true' }}
+      shell: bash
+      working-directory: ./binding/voicevox_core/target/release
+      # ライブラリのシンボリックリンクをコピーしてリンクを解除する
+      run: |
+        find . -type l | while read link; do
+          target=$(readlink "$link")
+          if [ -f "$target" ]; then
+            cp "$target" "$link".tmp
+            unlink "$link"
+            mv "$link".tmp "$link"
+          fi
+        done
+    - if: ${{ steps.restore-dev-library.outputs.cache-hit != 'true' }}
       uses: actions/cache/save@v4
       with:
         path: ${{ inputs.cache-path }}

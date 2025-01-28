@@ -1,7 +1,7 @@
 name: CI
 
 on:
-  push:
+  pull_request:
     branches-ignore:
       - 'auto.**'
   workflow_call:
@@ -24,7 +24,9 @@ jobs:
         ref: ${{ inputs.checkout-ref || github.head_ref }}
     - uses: ./.github/composite/build-dev-rust
       with:
-        cache-path: ./binding/voicevox_core/target/release/libvoicevox_core.so
+        cache-path: |
+          ./binding/voicevox_core/target/release/libvoicevox_core.so
+          ./binding/voicevox_core/target/release/libonnxruntime.so
         cache-key: ${{ runner.os }}-dev-library-${{ hashFiles('**/Cargo.lock', '**/VoicevoxCoreSharp.Core.Metas.props') }}
 
   test-dotnet:
@@ -40,9 +42,13 @@ jobs:
         dotnet-version: 6
     - uses: actions/cache/restore@v4
       with:
-        path: ./binding/voicevox_core/target/release/libvoicevox_core.so
+        path: |
+          ./binding/voicevox_core/target/release/libvoicevox_core.so
+          ./binding/voicevox_core/target/release/libonnxruntime.so
         key: ${{ runner.os }}-dev-library-${{ hashFiles('**/Cargo.lock', '**/VoicevoxCoreSharp.Core.Metas.props') }}
-    - run: cp ./binding/voicevox_core/target/release/libvoicevox_core.so ./tests/VoicevoxCoreSharp.Core.Tests/resources/libvoicevox_core.so
+    - run: |
+        cp ./binding/voicevox_core/target/release/libvoicevox_core.so ./tests/VoicevoxCoreSharp.Core.Tests/resources/libvoicevox_core.so
+        cp ./binding/voicevox_core/target/release/libonnxruntime.so ./tests/VoicevoxCoreSharp.Core.Tests/resources/libonnxruntime.so
     - uses: ./.github/composite/download-openjtalk-dict
       with:
         cache-path: open_jtalk_dic_utf_8-1.11.tar.gz
@@ -67,10 +73,14 @@ jobs:
         dotnet-version: 8
     - uses: actions/cache/restore@v4
       with:
-        path: ./binding/voicevox_core/target/release/libvoicevox_core.so
+        path: |
+          ./binding/voicevox_core/target/release/libvoicevox_core.so
+          ./binding/voicevox_core/target/release/libonnxruntime.so
         key: ${{ runner.os }}-dev-library-${{ hashFiles('**/Cargo.lock', '**/VoicevoxCoreSharp.Core.Metas.props') }}
     - run: mkdir -p ./examples/cli/voicevox_core
-    - run: cp ./binding/voicevox_core/target/release/libvoicevox_core.so ./examples/cli/voicevox_core/libvoicevox_core.so
+    - run: |
+        cp ./binding/voicevox_core/target/release/libvoicevox_core.so ./examples/cli/voicevox_core/libvoicevox_core.so
+        cp ./binding/voicevox_core/target/release/libonnxruntime.so ./examples/cli/voicevox_core/libonnxruntime.so
     - uses: ./.github/composite/download-openjtalk-dict
       with:
         cache-path: open_jtalk_dic_utf_8-1.11.tar.gz
