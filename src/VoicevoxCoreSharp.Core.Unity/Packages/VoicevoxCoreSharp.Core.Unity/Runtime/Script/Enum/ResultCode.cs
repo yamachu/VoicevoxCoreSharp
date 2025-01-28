@@ -41,9 +41,9 @@ namespace VoicevoxCoreSharp.Core.Enum
         /// </summary>
         RESULT_RUN_MODEL_ERROR = 8,
         /// <summary>
-        /// コンテキストラベル出力に失敗した
+        /// 入力テキストの解析に失敗した
         /// </summary>
-        RESULT_EXTRACT_FULL_CONTEXT_LABEL_ERROR = 11,
+        RESULT_ANALYZE_TEXT_ERROR = 11,
         /// <summary>
         /// 無効なutf8文字列が入力された
         /// </summary>
@@ -124,7 +124,7 @@ namespace VoicevoxCoreSharp.Core.Enum
                 VoicevoxResultCode.VOICEVOX_RESULT_STYLE_NOT_FOUND_ERROR => ResultCode.RESULT_STYLE_NOT_FOUND_ERROR,
                 VoicevoxResultCode.VOICEVOX_RESULT_MODEL_NOT_FOUND_ERROR => ResultCode.RESULT_MODEL_NOT_FOUND_ERROR,
                 VoicevoxResultCode.VOICEVOX_RESULT_RUN_MODEL_ERROR => ResultCode.RESULT_RUN_MODEL_ERROR,
-                VoicevoxResultCode.VOICEVOX_RESULT_EXTRACT_FULL_CONTEXT_LABEL_ERROR => ResultCode.RESULT_EXTRACT_FULL_CONTEXT_LABEL_ERROR,
+                VoicevoxResultCode.VOICEVOX_RESULT_ANALYZE_TEXT_ERROR => ResultCode.RESULT_ANALYZE_TEXT_ERROR,
                 VoicevoxResultCode.VOICEVOX_RESULT_INVALID_UTF8_INPUT_ERROR => ResultCode.RESULT_INVALID_UTF8_INPUT_ERROR,
                 VoicevoxResultCode.VOICEVOX_RESULT_PARSE_KANA_ERROR => ResultCode.RESULT_PARSE_KANA_ERROR,
                 VoicevoxResultCode.VOICEVOX_RESULT_INVALID_AUDIO_QUERY_ERROR => ResultCode.RESULT_INVALID_AUDIO_QUERY_ERROR,
@@ -157,7 +157,7 @@ namespace VoicevoxCoreSharp.Core.Enum
                 ResultCode.RESULT_STYLE_NOT_FOUND_ERROR => VoicevoxResultCode.VOICEVOX_RESULT_STYLE_NOT_FOUND_ERROR,
                 ResultCode.RESULT_MODEL_NOT_FOUND_ERROR => VoicevoxResultCode.VOICEVOX_RESULT_MODEL_NOT_FOUND_ERROR,
                 ResultCode.RESULT_RUN_MODEL_ERROR => VoicevoxResultCode.VOICEVOX_RESULT_RUN_MODEL_ERROR,
-                ResultCode.RESULT_EXTRACT_FULL_CONTEXT_LABEL_ERROR => VoicevoxResultCode.VOICEVOX_RESULT_EXTRACT_FULL_CONTEXT_LABEL_ERROR,
+                ResultCode.RESULT_ANALYZE_TEXT_ERROR => VoicevoxResultCode.VOICEVOX_RESULT_ANALYZE_TEXT_ERROR,
                 ResultCode.RESULT_INVALID_UTF8_INPUT_ERROR => VoicevoxResultCode.VOICEVOX_RESULT_INVALID_UTF8_INPUT_ERROR,
                 ResultCode.RESULT_PARSE_KANA_ERROR => VoicevoxResultCode.VOICEVOX_RESULT_PARSE_KANA_ERROR,
                 ResultCode.RESULT_INVALID_AUDIO_QUERY_ERROR => VoicevoxResultCode.VOICEVOX_RESULT_INVALID_AUDIO_QUERY_ERROR,
