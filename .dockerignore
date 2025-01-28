@@ -1,0 +1,10 @@
+.git
+.local
+# build artifacts
+binding/**/target
+**/bin
+**/obj
+
+examples
+src/VoicevoxCoreSharp.Core.Unity
+

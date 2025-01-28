@@ -1,0 +1,20 @@
+FROM rust:1.84.0 as rust-builder
+
+RUN apt-get update && apt-get install -y cmake
+
+WORKDIR /app
+RUN mkdir /dist
+RUN --mount=type=bind,source=binding/voicevox_core,target=/app,readwrite \
+    cargo build --release -p voicevox_core_c_api --features load-onnxruntime && \
+    cd /app/target/release && \
+    find . -type l | while read link; do \
+        target=$(readlink "$link"); \
+        if [ -f "$target" ]; then \
+            cp "$target" "$link".tmp; \
+            unlink "$link"; \
+            mv "$link".tmp "$link"; \
+        fi \
+    done && \
+    cp *.so *.so.* /dist
+
+# Run dotnet or copy to local

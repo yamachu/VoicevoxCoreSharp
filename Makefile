@@ -17,3 +17,7 @@ submodule/checkout:
 
 clean:
 	git clean -fxde .local
+
+# development
+docker/linux/mount:
+	DOCKER_BUILDKIT=1 docker build -f development/Dockerfile.linux-local .
