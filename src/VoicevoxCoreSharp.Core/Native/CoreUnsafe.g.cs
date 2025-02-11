@@ -29,6 +29,8 @@ namespace VoicevoxCoreSharp.Core.Native
         ///  \availability{
         ///    [リリース](https://github.com/voicevox/voicevox_core/releases)されているライブラリではiOSを除くプラットフォームで利用可能。詳細は&lt;a href="#voicevox-core-availability"&gt;ファイルレベルの"Availability"の節&lt;/a&gt;を参照。
         ///  }
+        ///
+        ///  \orig-impl{voicevox_get_onnxruntime_lib_versioned_filename}
         /// </summary>
         [DllImport(__DllName, EntryPoint = "voicevox_get_onnxruntime_lib_versioned_filename", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         internal static extern byte* voicevox_get_onnxruntime_lib_versioned_filename();
@@ -39,6 +41,8 @@ namespace VoicevoxCoreSharp.Core.Native
         ///  \availability{
         ///    [リリース](https://github.com/voicevox/voicevox_core/releases)されているライブラリではiOSを除くプラットフォームで利用可能。詳細は&lt;a href="#voicevox-core-availability"&gt;ファイルレベルの"Availability"の節&lt;/a&gt;を参照。
         ///  }
+        ///
+        ///  \orig-impl{voicevox_get_onnxruntime_lib_unversioned_filename}
         /// </summary>
         [DllImport(__DllName, EntryPoint = "voicevox_get_onnxruntime_lib_unversioned_filename", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         internal static extern byte* voicevox_get_onnxruntime_lib_unversioned_filename();
@@ -51,6 +55,8 @@ namespace VoicevoxCoreSharp.Core.Native
         ///  \availability{
         ///    [リリース](https://github.com/voicevox/voicevox_core/releases)されているライブラリではiOSを除くプラットフォームで利用可能。詳細は&lt;a href="#voicevox-core-availability"&gt;ファイルレベルの"Availability"の節&lt;/a&gt;を参照。
         ///  }
+        ///
+        ///  \no-orig-impl{voicevox_make_default_load_onnxruntime_options}
         /// </summary>
         [DllImport(__DllName, EntryPoint = "voicevox_make_default_load_onnxruntime_options", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         internal static extern VoicevoxLoadOnnxruntimeOptions voicevox_make_default_load_onnxruntime_options();
@@ -61,6 +67,8 @@ namespace VoicevoxCoreSharp.Core.Native
         ///  作られていなければ`NULL`を返す。
         ///
         ///  @returns ::VoicevoxOnnxruntime のインスタンス
+        ///
+        ///  \orig-impl{voicevox_onnxruntime_get}
         /// </summary>
         [DllImport(__DllName, EntryPoint = "voicevox_onnxruntime_get", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         internal static extern VoicevoxOnnxruntime* voicevox_onnxruntime_get();
@@ -83,6 +91,8 @@ namespace VoicevoxCoreSharp.Core.Native
         ///  - `options.filename`はヌル終端文字列を指し、かつ&lt;a href="#voicevox-core-safety"&gt;読み込みについて有効&lt;/a&gt;でなければならない。
         ///  - `out_onnxruntime`は&lt;a href="#voicevox-core-safety"&gt;書き込みについて有効&lt;/a&gt;でなければならない。
         ///  }
+        ///
+        ///  \orig-impl{voicevox_onnxruntime_load_once}
         /// </summary>
         [DllImport(__DllName, EntryPoint = "voicevox_onnxruntime_load_once", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         internal static extern VoicevoxResultCode voicevox_onnxruntime_load_once(VoicevoxLoadOnnxruntimeOptions options, VoicevoxOnnxruntime** out_onnxruntime);
@@ -103,6 +113,8 @@ namespace VoicevoxCoreSharp.Core.Native
         ///  \safety{
         ///  - `out_onnxruntime`は&lt;a href="#voicevox-core-safety"&gt;書き込みについて有効&lt;/a&gt;でなければならない。
         ///  }
+        ///
+        ///  \orig-impl{voicevox_onnxruntime_init_once}
         /// </summary>
         [DllImport(__DllName, EntryPoint = "voicevox_onnxruntime_init_once", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         internal static extern VoicevoxResultCode voicevox_onnxruntime_init_once(VoicevoxOnnxruntime** out_onnxruntime);
@@ -128,6 +140,8 @@ namespace VoicevoxCoreSharp.Core.Native
         ///  - `open_jtalk_dic_dir`はヌル終端文字列を指し、かつ&lt;a href="#voicevox-core-safety"&gt;読み込みについて有効&lt;/a&gt;でなければならない。
         ///  - `out_open_jtalk`は&lt;a href="#voicevox-core-safety"&gt;書き込みについて有効&lt;/a&gt;でなければならない。
         ///  }
+        ///
+        ///  \orig-impl{voicevox_open_jtalk_rc_new}
         /// </summary>
         [DllImport(__DllName, EntryPoint = "voicevox_open_jtalk_rc_new", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         internal static extern VoicevoxResultCode voicevox_open_jtalk_rc_new(byte* open_jtalk_dic_dir, OpenJtalkRc** out_open_jtalk);
@@ -139,6 +153,8 @@ namespace VoicevoxCoreSharp.Core.Native
         ///
         ///  @param [in] open_jtalk Open JTalkのオブジェクト
         ///  @param [in] user_dict ユーザー辞書
+        ///
+        ///  \orig-impl{voicevox_open_jtalk_rc_use_user_dict}
         /// </summary>
         [DllImport(__DllName, EntryPoint = "voicevox_open_jtalk_rc_use_user_dict", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         internal static extern VoicevoxResultCode voicevox_open_jtalk_rc_use_user_dict(OpenJtalkRc* open_jtalk, VoicevoxUserDict* user_dict);
@@ -157,6 +173,8 @@ namespace VoicevoxCoreSharp.Core.Native
         ///  voicevox_open_jtalk_rc_delete(open_jtalk);
         ///  ```
         ///  }
+        ///
+        ///  \no-orig-impl{voicevox_open_jtalk_rc_delete}
         /// </summary>
         [DllImport(__DllName, EntryPoint = "voicevox_open_jtalk_rc_delete", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         internal static extern void voicevox_open_jtalk_rc_delete(OpenJtalkRc* open_jtalk);
@@ -164,6 +182,8 @@ namespace VoicevoxCoreSharp.Core.Native
         /// <summary>
         ///  デフォルトの初期化オプションを生成する
         ///  @return デフォルト値が設定された初期化オプション
+        ///
+        ///  \no-orig-impl{voicevox_make_default_initialize_options}
         /// </summary>
         [DllImport(__DllName, EntryPoint = "voicevox_make_default_initialize_options", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         internal static extern VoicevoxInitializeOptions voicevox_make_default_initialize_options();
@@ -171,6 +191,8 @@ namespace VoicevoxCoreSharp.Core.Native
         /// <summary>
         ///  voicevoxのバージョンを取得する。
         ///  @return SemVerでフォーマットされたバージョン。
+        ///
+        ///  \orig-impl{voicevox_get_version}
         /// </summary>
         [DllImport(__DllName, EntryPoint = "voicevox_get_version", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         internal static extern byte* voicevox_get_version();
@@ -187,6 +209,8 @@ namespace VoicevoxCoreSharp.Core.Native
         ///  - `path`はヌル終端文字列を指し、かつ&lt;a href="#voicevox-core-safety"&gt;読み込みについて有効&lt;/a&gt;でなければならない。
         ///  - `out_model`は&lt;a href="#voicevox-core-safety"&gt;書き込みについて有効&lt;/a&gt;でなければならない。
         ///  }
+        ///
+        ///  \orig-impl{voicevox_voice_model_file_open}
         /// </summary>
         [DllImport(__DllName, EntryPoint = "voicevox_voice_model_file_open", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         internal static extern VoicevoxResultCode voicevox_voice_model_file_open(byte* path, VoicevoxVoiceModelFile** out_model);
@@ -200,6 +224,8 @@ namespace VoicevoxCoreSharp.Core.Native
         ///  \safety{
         ///  - `output_voice_model_id`は&lt;a href="#voicevox-core-safety"&gt;書き込みについて有効&lt;/a&gt;でなければならない。
         ///  }
+        ///
+        ///  \orig-impl{voicevox_voice_model_file_id}
         /// </summary>
         [DllImport(__DllName, EntryPoint = "voicevox_voice_model_file_id", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         internal static extern void voicevox_voice_model_file_id(VoicevoxVoiceModelFile* model, void/* byte[] */* output_voice_model_id);
@@ -212,6 +238,8 @@ namespace VoicevoxCoreSharp.Core.Native
         ///  @param [in] model 音声モデル
         ///
         ///  @returns メタ情報のJSON文字列
+        ///
+        ///  \orig-impl{voicevox_voice_model_file_create_metas_json}
         /// </summary>
         [DllImport(__DllName, EntryPoint = "voicevox_voice_model_file_create_metas_json", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         internal static extern byte* voicevox_voice_model_file_create_metas_json(VoicevoxVoiceModelFile* model);
@@ -224,6 +252,8 @@ namespace VoicevoxCoreSharp.Core.Native
         ///  この関数の呼び出し後に破棄し終えた対象にアクセスすると、プロセスを異常終了する。
         ///
         ///  @param [in] model 破棄対象
+        ///
+        ///  \no-orig-impl{voicevox_voice_model_file_delete}
         /// </summary>
         [DllImport(__DllName, EntryPoint = "voicevox_voice_model_file_delete", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         internal static extern void voicevox_voice_model_file_delete(VoicevoxVoiceModelFile* model);
@@ -242,6 +272,8 @@ namespace VoicevoxCoreSharp.Core.Native
         ///  - `onnxruntime`は ::voicevox_onnxruntime_load_once または ::voicevox_onnxruntime_init_once で得たものでなければならない。
         ///  - `out_synthesizer`は&lt;a href="#voicevox-core-safety"&gt;書き込みについて有効&lt;/a&gt;でなければならない。
         ///  }
+        ///
+        ///  \orig-impl{voicevox_synthesizer_new}
         /// </summary>
         [DllImport(__DllName, EntryPoint = "voicevox_synthesizer_new", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         internal static extern VoicevoxResultCode voicevox_synthesizer_new(VoicevoxOnnxruntime* onnxruntime, OpenJtalkRc* open_jtalk, VoicevoxInitializeOptions options, VoicevoxSynthesizer** out_synthesizer);
@@ -254,6 +286,8 @@ namespace VoicevoxCoreSharp.Core.Native
         ///  この関数の呼び出し後に破棄し終えた対象にアクセスすると、プロセスを異常終了する。
         ///
         ///  @param [in] synthesizer 破棄対象
+        ///
+        ///  \no-orig-impl{voicevox_synthesizer_delete}
         /// </summary>
         [DllImport(__DllName, EntryPoint = "voicevox_synthesizer_delete", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         internal static extern void voicevox_synthesizer_delete(VoicevoxSynthesizer* synthesizer);
@@ -265,6 +299,8 @@ namespace VoicevoxCoreSharp.Core.Native
         ///  @param [in] model 音声モデル
         ///
         ///  @returns 結果コード
+        ///
+        ///  \orig-impl{voicevox_synthesizer_load_voice_model}
         /// </summary>
         [DllImport(__DllName, EntryPoint = "voicevox_synthesizer_load_voice_model", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         internal static extern VoicevoxResultCode voicevox_synthesizer_load_voice_model(VoicevoxSynthesizer* synthesizer, VoicevoxVoiceModelFile* model);
@@ -280,6 +316,8 @@ namespace VoicevoxCoreSharp.Core.Native
         ///  \safety{
         ///  - `model_id`は&lt;a href="#voicevox-core-safety"&gt;読み込みについて有効&lt;/a&gt;でなければならない。
         ///  }
+        ///
+        ///  \orig-impl{voicevox_synthesizer_unload_voice_model}
         /// </summary>
         [DllImport(__DllName, EntryPoint = "voicevox_synthesizer_unload_voice_model", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         internal static extern VoicevoxResultCode voicevox_synthesizer_unload_voice_model(VoicevoxSynthesizer* synthesizer, void/* byte[] */* model_id);
@@ -290,6 +328,8 @@ namespace VoicevoxCoreSharp.Core.Native
         ///  @param [in] synthesizer 音声シンセサイザ
         ///
         ///  @returns ::VoicevoxOnnxruntime のインスタンス
+        ///
+        ///  \orig-impl{voicevox_synthesizer_get_onnxruntime}
         /// </summary>
         [DllImport(__DllName, EntryPoint = "voicevox_synthesizer_get_onnxruntime", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         internal static extern VoicevoxOnnxruntime* voicevox_synthesizer_get_onnxruntime(VoicevoxSynthesizer* synthesizer);
@@ -300,6 +340,8 @@ namespace VoicevoxCoreSharp.Core.Native
         ///  @param [in] synthesizer 音声シンセサイザ
         ///
         ///  @returns GPUモードかどうか
+        ///
+        ///  \orig-impl{voicevox_synthesizer_is_gpu_mode}
         /// </summary>
         [DllImport(__DllName, EntryPoint = "voicevox_synthesizer_is_gpu_mode", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         [return: MarshalAs(UnmanagedType.U1)]
@@ -316,6 +358,8 @@ namespace VoicevoxCoreSharp.Core.Native
         ///  \safety{
         ///  - `model_id`は&lt;a href="#voicevox-core-safety"&gt;読み込みについて有効&lt;/a&gt;でなければならない。
         ///  }
+        ///
+        ///  \orig-impl{voicevox_synthesizer_is_loaded_voice_model}
         /// </summary>
         [DllImport(__DllName, EntryPoint = "voicevox_synthesizer_is_loaded_voice_model", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         [return: MarshalAs(UnmanagedType.U1)]
@@ -329,6 +373,8 @@ namespace VoicevoxCoreSharp.Core.Native
         ///  @param [in] synthesizer 音声シンセサイザ
         ///
         ///  @return メタ情報のJSON文字列
+        ///
+        ///  \orig-impl{voicevox_synthesizer_create_metas_json}
         /// </summary>
         [DllImport(__DllName, EntryPoint = "voicevox_synthesizer_create_metas_json", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         internal static extern byte* voicevox_synthesizer_create_metas_json(VoicevoxSynthesizer* synthesizer);
@@ -356,6 +402,8 @@ namespace VoicevoxCoreSharp.Core.Native
         ///  - `onnxruntime`は ::voicevox_onnxruntime_load_once または ::voicevox_onnxruntime_init_once で得たものでなければならない。
         ///  - `output_supported_devices_json`は&lt;a href="#voicevox-core-safety"&gt;書き込みについて有効&lt;/a&gt;でなければならない。
         ///  }
+        ///
+        ///  \orig-impl{voicevox_onnxruntime_create_supported_devices_json}
         /// </summary>
         [DllImport(__DllName, EntryPoint = "voicevox_onnxruntime_create_supported_devices_json", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         internal static extern VoicevoxResultCode voicevox_onnxruntime_create_supported_devices_json(VoicevoxOnnxruntime* onnxruntime, byte** output_supported_devices_json);
@@ -385,6 +433,8 @@ namespace VoicevoxCoreSharp.Core.Native
         ///  - `kana`はヌル終端文字列を指し、かつ&lt;a href="#voicevox-core-safety"&gt;読み込みについて有効&lt;/a&gt;でなければならない。
         ///  - `output_audio_query_json`は&lt;a href="#voicevox-core-safety"&gt;書き込みについて有効&lt;/a&gt;でなければならない。
         ///  }
+        ///
+        ///  \orig-impl{voicevox_synthesizer_create_audio_query_from_kana}
         /// </summary>
         [DllImport(__DllName, EntryPoint = "voicevox_synthesizer_create_audio_query_from_kana", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         internal static extern VoicevoxResultCode voicevox_synthesizer_create_audio_query_from_kana(VoicevoxSynthesizer* synthesizer, byte* kana, uint style_id, byte** output_audio_query_json);
@@ -414,6 +464,8 @@ namespace VoicevoxCoreSharp.Core.Native
         ///  - `text`はヌル終端文字列を指し、かつ&lt;a href="#voicevox-core-safety"&gt;読み込みについて有効&lt;/a&gt;でなければならない。
         ///  - `output_audio_query_json`は&lt;a href="#voicevox-core-safety"&gt;書き込みについて有効&lt;/a&gt;でなければならない。
         ///  }
+        ///
+        ///  \orig-impl{voicevox_synthesizer_create_audio_query}
         /// </summary>
         [DllImport(__DllName, EntryPoint = "voicevox_synthesizer_create_audio_query", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         internal static extern VoicevoxResultCode voicevox_synthesizer_create_audio_query(VoicevoxSynthesizer* synthesizer, byte* text, uint style_id, byte** output_audio_query_json);
@@ -444,6 +496,8 @@ namespace VoicevoxCoreSharp.Core.Native
         ///  - `kana`はヌル終端文字列を指し、かつ&lt;a href="#voicevox-core-safety"&gt;読み込みについて有効&lt;/a&gt;でなければならない。
         ///  - `output_audio_query_json`は&lt;a href="#voicevox-core-safety"&gt;書き込みについて有効&lt;/a&gt;でなければならない。
         ///  }
+        ///
+        ///  \orig-impl{voicevox_synthesizer_create_accent_phrases_from_kana}
         /// </summary>
         [DllImport(__DllName, EntryPoint = "voicevox_synthesizer_create_accent_phrases_from_kana", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         internal static extern VoicevoxResultCode voicevox_synthesizer_create_accent_phrases_from_kana(VoicevoxSynthesizer* synthesizer, byte* kana, uint style_id, byte** output_accent_phrases_json);
@@ -473,6 +527,8 @@ namespace VoicevoxCoreSharp.Core.Native
         ///  - `text`はヌル終端文字列を指し、かつ&lt;a href="#voicevox-core-safety"&gt;読み込みについて有効&lt;/a&gt;でなければならない。
         ///  - `output_audio_query_json`は&lt;a href="#voicevox-core-safety"&gt;書き込みについて有効&lt;/a&gt;でなければならない。
         ///  }
+        ///
+        ///  \orig-impl{voicevox_synthesizer_create_accent_phrases}
         /// </summary>
         [DllImport(__DllName, EntryPoint = "voicevox_synthesizer_create_accent_phrases", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         internal static extern VoicevoxResultCode voicevox_synthesizer_create_accent_phrases(VoicevoxSynthesizer* synthesizer, byte* text, uint style_id, byte** output_accent_phrases_json);
@@ -493,6 +549,8 @@ namespace VoicevoxCoreSharp.Core.Native
         ///  - `accent_phrases_json`はヌル終端文字列を指し、かつ&lt;a href="#voicevox-core-safety"&gt;読み込みについて有効&lt;/a&gt;でなければならない。
         ///  - `output_audio_query_json`は&lt;a href="#voicevox-core-safety"&gt;書き込みについて有効&lt;/a&gt;でなければならない。
         ///  }
+        ///
+        ///  \orig-impl{voicevox_synthesizer_replace_mora_data}
         /// </summary>
         [DllImport(__DllName, EntryPoint = "voicevox_synthesizer_replace_mora_data", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         internal static extern VoicevoxResultCode voicevox_synthesizer_replace_mora_data(VoicevoxSynthesizer* synthesizer, byte* accent_phrases_json, uint style_id, byte** output_accent_phrases_json);
@@ -513,6 +571,8 @@ namespace VoicevoxCoreSharp.Core.Native
         ///  - `accent_phrases_json`はヌル終端文字列を指し、かつ&lt;a href="#voicevox-core-safety"&gt;読み込みについて有効&lt;/a&gt;でなければならない。
         ///  - `output_audio_query_json`は&lt;a href="#voicevox-core-safety"&gt;書き込みについて有効&lt;/a&gt;でなければならない。
         ///  }
+        ///
+        ///  \orig-impl{voicevox_synthesizer_replace_phoneme_length}
         /// </summary>
         [DllImport(__DllName, EntryPoint = "voicevox_synthesizer_replace_phoneme_length", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         internal static extern VoicevoxResultCode voicevox_synthesizer_replace_phoneme_length(VoicevoxSynthesizer* synthesizer, byte* accent_phrases_json, uint style_id, byte** output_accent_phrases_json);
@@ -533,6 +593,8 @@ namespace VoicevoxCoreSharp.Core.Native
         ///  - `accent_phrases_json`はヌル終端文字列を指し、かつ&lt;a href="#voicevox-core-safety"&gt;読み込みについて有効&lt;/a&gt;でなければならない。
         ///  - `output_audio_query_json`は&lt;a href="#voicevox-core-safety"&gt;書き込みについて有効&lt;/a&gt;でなければならない。
         ///  }
+        ///
+        ///  \orig-impl{voicevox_synthesizer_replace_mora_pitch}
         /// </summary>
         [DllImport(__DllName, EntryPoint = "voicevox_synthesizer_replace_mora_pitch", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         internal static extern VoicevoxResultCode voicevox_synthesizer_replace_mora_pitch(VoicevoxSynthesizer* synthesizer, byte* accent_phrases_json, uint style_id, byte** output_accent_phrases_json);
@@ -540,6 +602,8 @@ namespace VoicevoxCoreSharp.Core.Native
         /// <summary>
         ///  デフォルトの `voicevox_synthesizer_synthesis` のオプションを生成する
         ///  @return デフォルト値が設定された `voicevox_synthesizer_synthesis` のオプション
+        ///
+        ///  \no-orig-impl{voicevox_make_default_synthesis_options}
         /// </summary>
         [DllImport(__DllName, EntryPoint = "voicevox_make_default_synthesis_options", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         internal static extern VoicevoxSynthesisOptions voicevox_make_default_synthesis_options();
@@ -563,6 +627,8 @@ namespace VoicevoxCoreSharp.Core.Native
         ///  - `output_wav_length`は&lt;a href="#voicevox-core-safety"&gt;書き込みについて有効&lt;/a&gt;でなければならない。
         ///  - `output_wav`は&lt;a href="#voicevox-core-safety"&gt;書き込みについて有効&lt;/a&gt;でなければならない。
         ///  }
+        ///
+        ///  \orig-impl{voicevox_synthesizer_synthesis}
         /// </summary>
         [DllImport(__DllName, EntryPoint = "voicevox_synthesizer_synthesis", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         internal static extern VoicevoxResultCode voicevox_synthesizer_synthesis(VoicevoxSynthesizer* synthesizer, byte* audio_query_json, uint style_id, VoicevoxSynthesisOptions options, nuint* output_wav_length, byte** output_wav);
@@ -570,6 +636,8 @@ namespace VoicevoxCoreSharp.Core.Native
         /// <summary>
         ///  デフォルトのテキスト音声合成オプションを生成する
         ///  @return テキスト音声合成オプション
+        ///
+        ///  \no-orig-impl{voicevox_make_default_tts_options}
         /// </summary>
         [DllImport(__DllName, EntryPoint = "voicevox_make_default_tts_options", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         internal static extern VoicevoxTtsOptions voicevox_make_default_tts_options();
@@ -593,6 +661,8 @@ namespace VoicevoxCoreSharp.Core.Native
         ///  - `output_wav_length`は&lt;a href="#voicevox-core-safety"&gt;書き込みについて有効&lt;/a&gt;でなければならない。
         ///  - `output_wav`は&lt;a href="#voicevox-core-safety"&gt;書き込みについて有効&lt;/a&gt;でなければならない。
         ///  }
+        ///
+        ///  \orig-impl{voicevox_synthesizer_tts_from_kana}
         /// </summary>
         [DllImport(__DllName, EntryPoint = "voicevox_synthesizer_tts_from_kana", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         internal static extern VoicevoxResultCode voicevox_synthesizer_tts_from_kana(VoicevoxSynthesizer* synthesizer, byte* kana, uint style_id, VoicevoxTtsOptions options, nuint* output_wav_length, byte** output_wav);
@@ -616,6 +686,8 @@ namespace VoicevoxCoreSharp.Core.Native
         ///  - `output_wav_length`は&lt;a href="#voicevox-core-safety"&gt;書き込みについて有効&lt;/a&gt;でなければならない。
         ///  - `output_wav`は&lt;a href="#voicevox-core-safety"&gt;書き込みについて有効&lt;/a&gt;でなければならない。
         ///  }
+        ///
+        ///  \orig-impl{voicevox_synthesizer_tts}
         /// </summary>
         [DllImport(__DllName, EntryPoint = "voicevox_synthesizer_tts", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         internal static extern VoicevoxResultCode voicevox_synthesizer_tts(VoicevoxSynthesizer* synthesizer, byte* text, uint style_id, VoicevoxTtsOptions options, nuint* output_wav_length, byte** output_wav);
@@ -640,6 +712,8 @@ namespace VoicevoxCoreSharp.Core.Native
         ///  - `json`は&lt;a href="#voicevox-core-safety"&gt;読み込みと書き込みについて有効&lt;/a&gt;でなければならない。
         ///  - `json`は以後&lt;b&gt;ダングリングポインタ&lt;/b&gt;(_dangling pointer_)として扱われなくてはならない。
         ///  }
+        ///
+        ///  \no-orig-impl{voicevox_json_free}
         /// </summary>
         [DllImport(__DllName, EntryPoint = "voicevox_json_free", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         internal static extern void voicevox_json_free(byte* json);
@@ -656,6 +730,8 @@ namespace VoicevoxCoreSharp.Core.Native
         ///  - `wav`は&lt;a href="#voicevox-core-safety"&gt;読み込みと書き込みについて有効&lt;/a&gt;でなければならない。
         ///  - `wav`は以後&lt;b&gt;ダングリングポインタ&lt;/b&gt;(_dangling pointer_)として扱われなくてはならない。
         ///  }
+        ///
+        ///  \no-orig-impl{voicevox_wav_free}
         /// </summary>
         [DllImport(__DllName, EntryPoint = "voicevox_wav_free", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         internal static extern void voicevox_wav_free(byte* wav);
@@ -681,6 +757,8 @@ namespace VoicevoxCoreSharp.Core.Native
         ///  assert(strcmp(actual, EXPECTED) == 0);
         ///  ```
         ///  }
+        ///
+        ///  \no-orig-impl{voicevox_error_result_to_message}
         /// </summary>
         [DllImport(__DllName, EntryPoint = "voicevox_error_result_to_message", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         internal static extern byte* voicevox_error_result_to_message(VoicevoxResultCode result_code);
@@ -691,6 +769,8 @@ namespace VoicevoxCoreSharp.Core.Native
         ///  @param [in] surface 表記
         ///  @param [in] pronunciation 読み
         ///  @returns ::VoicevoxUserDictWord
+        ///
+        ///  \orig-impl{voicevox_user_dict_word_make}
         /// </summary>
         [DllImport(__DllName, EntryPoint = "voicevox_user_dict_word_make", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         internal static extern VoicevoxUserDictWord voicevox_user_dict_word_make(byte* surface, byte* pronunciation);
@@ -699,6 +779,8 @@ namespace VoicevoxCoreSharp.Core.Native
         ///  ユーザー辞書をb&gt;構築&lt;/b&gt;(_construct_)する。
         ///
         ///  @returns ::VoicevoxUserDict
+        ///
+        ///  \orig-impl{voicevox_user_dict_new}
         /// </summary>
         [DllImport(__DllName, EntryPoint = "voicevox_user_dict_new", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         internal static extern VoicevoxUserDict* voicevox_user_dict_new();
@@ -713,6 +795,8 @@ namespace VoicevoxCoreSharp.Core.Native
         ///  \safety{
         ///  - `dict_path`はヌル終端文字列を指し、かつ&lt;a href="#voicevox-core-safety"&gt;読み込みについて有効&lt;/a&gt;でなければならない。
         ///  }
+        ///
+        ///  \orig-impl{voicevox_user_dict_load}
         /// </summary>
         [DllImport(__DllName, EntryPoint = "voicevox_user_dict_load", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         internal static extern VoicevoxResultCode voicevox_user_dict_load(VoicevoxUserDict* user_dict, byte* dict_path);
@@ -732,6 +816,8 @@ namespace VoicevoxCoreSharp.Core.Native
         ///  - `word-&gt;surface`と`word-&gt;pronunciation`はヌル終端文字列を指し、かつ&lt;a href="#voicevox-core-safety"&gt;読み込みについて有効&lt;/a&gt;でなければならない。
         ///  - `output_word_uuid`は&lt;a href="#voicevox-core-safety"&gt;書き込みについて有効&lt;/a&gt;でなければならない。
         ///  }
+        ///
+        ///  \orig-impl{voicevox_user_dict_add_word}
         /// </summary>
         [DllImport(__DllName, EntryPoint = "voicevox_user_dict_add_word", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         internal static extern VoicevoxResultCode voicevox_user_dict_add_word(VoicevoxUserDict* user_dict, VoicevoxUserDictWord* word, void/* byte[] */* output_word_uuid);
@@ -748,6 +834,8 @@ namespace VoicevoxCoreSharp.Core.Native
         ///  - `word_uuid`は&lt;a href="#voicevox-core-safety"&gt;読み込みについて有効&lt;/a&gt;でなければならない。
         ///  - `word-&gt;surface`と`word-&gt;pronunciation`はヌル終端文字列を指し、かつ&lt;a href="#voicevox-core-safety"&gt;読み込みについて有効&lt;/a&gt;でなければならない。
         ///  }
+        ///
+        ///  \orig-impl{voicevox_user_dict_update_word}
         /// </summary>
         [DllImport(__DllName, EntryPoint = "voicevox_user_dict_update_word", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         internal static extern VoicevoxResultCode voicevox_user_dict_update_word(VoicevoxUserDict* user_dict, void/* byte[] */* word_uuid, VoicevoxUserDictWord* word);
@@ -762,6 +850,8 @@ namespace VoicevoxCoreSharp.Core.Native
         ///  \safety{
         ///  - `word_uuid`は&lt;a href="#voicevox-core-safety"&gt;読み込みについて有効&lt;/a&gt;でなければならない。
         ///  }
+        ///
+        ///  \orig-impl{voicevox_user_dict_remove_word}
         /// </summary>
         [DllImport(__DllName, EntryPoint = "voicevox_user_dict_remove_word", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         internal static extern VoicevoxResultCode voicevox_user_dict_remove_word(VoicevoxUserDict* user_dict, void/* byte[] */* word_uuid);
@@ -778,6 +868,8 @@ namespace VoicevoxCoreSharp.Core.Native
         ///  \safety{
         ///  - `output_json`は&lt;a href="#voicevox-core-safety"&gt;書き込みについて有効&lt;/a&gt;でなければならない。
         ///  }
+        ///
+        ///  \orig-impl{voicevox_user_dict_to_json}
         /// </summary>
         [DllImport(__DllName, EntryPoint = "voicevox_user_dict_to_json", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         internal static extern VoicevoxResultCode voicevox_user_dict_to_json(VoicevoxUserDict* user_dict, byte** output_json);
@@ -788,6 +880,8 @@ namespace VoicevoxCoreSharp.Core.Native
         ///  @param [in] user_dict ユーザー辞書
         ///  @param [in] other_dict インポートするユーザー辞書
         ///  @returns 結果コード
+        ///
+        ///  \orig-impl{voicevox_user_dict_import}
         /// </summary>
         [DllImport(__DllName, EntryPoint = "voicevox_user_dict_import", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         internal static extern VoicevoxResultCode voicevox_user_dict_import(VoicevoxUserDict* user_dict, VoicevoxUserDict* other_dict);
@@ -801,6 +895,8 @@ namespace VoicevoxCoreSharp.Core.Native
         ///  \safety{
         ///  - `path`はヌル終端文字列を指し、かつ&lt;a href="#voicevox-core-safety"&gt;読み込みについて有効&lt;/a&gt;でなければならない。
         ///  }
+        ///
+        ///  \orig-impl{voicevox_user_dict_save}
         /// </summary>
         [DllImport(__DllName, EntryPoint = "voicevox_user_dict_save", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         internal static extern VoicevoxResultCode voicevox_user_dict_save(VoicevoxUserDict* user_dict, byte* path);
@@ -813,6 +909,8 @@ namespace VoicevoxCoreSharp.Core.Native
         ///  この関数の呼び出し後に破棄し終えた対象にアクセスすると、プロセスを異常終了する。
         ///
         ///  @param [in] user_dict 破棄対象
+        ///
+        ///  \no-orig-impl{voicevox_user_dict_delete}
         /// </summary>
         [DllImport(__DllName, EntryPoint = "voicevox_user_dict_delete", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         internal static extern void voicevox_user_dict_delete(VoicevoxUserDict* user_dict);
