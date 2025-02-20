@@ -53,7 +53,8 @@ namespace VoicevoxCoreSharp.Core.Tests
 
             var result = userDict.ToJson(out var json);
             Assert.Equal(ResultCode.RESULT_OK, result);
-            Assert.Equal($"{{\"{wordUuid}\":{{\"surface\":\"ｈｏｇｅ\",\"pronunciation\":\"{pronunciation}\",\"accent_type\":{accentType},\"word_type\":\"ADJECTIVE\",\"priority\":{priority},\"mora_count\":2}}}}", json);
+            var expectedJson = $"{{\"{wordUuid}\":{{\"surface\":\"ｈｏｇｅ\",\"priority\":{priority},\"context_id\":20,\"part_of_speech\":\"形容詞\",\"part_of_speech_detail_1\":\"自立\",\"part_of_speech_detail_2\":\"*\",\"part_of_speech_detail_3\":\"*\",\"inflectional_type\":\"*\",\"inflectional_form\":\"*\",\"stem\":\"*\",\"yomi\":\"ホゲ\",\"pronunciation\":\"{pronunciation}\",\"accent_type\":{accentType},\"mora_count\":2,\"accent_associative_rule\":\"*\"}}}}";
+            Assert.Equal(expectedJson, json);
 
             var removeResult = userDict.RemoveWord(wordUuid);
             Assert.Equal(ResultCode.RESULT_OK, removeResult);
