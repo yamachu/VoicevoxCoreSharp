@@ -40,7 +40,7 @@ namespace VoicevoxCoreSharp.Core.Struct
         /// </summary>
         public uint Priority { get; set; }
 
-        public static UserDictWord Create(string surface, string pronunciation)
+        public static UserDictWord Create(string surface, string pronunciation, nuint accentType)
         {
             unsafe
             {
@@ -48,7 +48,7 @@ namespace VoicevoxCoreSharp.Core.Struct
                 {
                     fixed (byte* ptrPronunciation = System.Text.Encoding.UTF8.GetBytes(pronunciation))
                     {
-                        var unsafeUserDictWord = CoreUnsafe.voicevox_user_dict_word_make(ptrSurface, ptrPronunciation);
+                        var unsafeUserDictWord = CoreUnsafe.voicevox_user_dict_word_make(ptrSurface, ptrPronunciation, accentType);
                         return unsafeUserDictWord.FromNative();
                     }
                 }

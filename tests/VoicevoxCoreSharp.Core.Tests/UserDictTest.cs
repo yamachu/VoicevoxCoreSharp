@@ -43,9 +43,8 @@ namespace VoicevoxCoreSharp.Core.Tests
             nuint accentType = 2;
             var wordType = UserDictWordType.ADJECTIVE;
 
-            var word = UserDictWord.Create("hoge", pronunciation);
+            var word = UserDictWord.Create("hoge", pronunciation, accentType);
             word.WordType = wordType;
-            word.AccentType = accentType;
             word.Priority = priority;
 
             var addResult = userDict.AddWord(word, out var wordUuid);
