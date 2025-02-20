@@ -768,12 +768,13 @@ namespace VoicevoxCoreSharp.Core.Native
         ///
         ///  @param [in] surface 表記
         ///  @param [in] pronunciation 読み
+        ///  @param [in] accent_type アクセント型
         ///  @returns ::VoicevoxUserDictWord
         ///
         ///  \orig-impl{voicevox_user_dict_word_make}
         /// </summary>
         [DllImport(__DllName, EntryPoint = "voicevox_user_dict_word_make", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        internal static extern VoicevoxUserDictWord voicevox_user_dict_word_make(byte* surface, byte* pronunciation);
+        internal static extern VoicevoxUserDictWord voicevox_user_dict_word_make(byte* surface, byte* pronunciation, nuint accent_type);
 
         /// <summary>
         ///  ユーザー辞書をb&gt;構築&lt;/b&gt;(_construct_)する。
