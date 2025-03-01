@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.IO;
 using VoicevoxCoreSharp.Core.Enum;
 using VoicevoxCoreSharp.Core.Struct;
