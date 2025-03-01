@@ -35,5 +35,27 @@ namespace VoicevoxCoreSharp.Core
                 return StringConvertCompat.ToUTF8String(CoreUnsafe.voicevox_get_version());
             }
         }
+
+        public static ResultCode CreateAudioQueryFromAccentPhrases(string accentPhrasesJson, out string? outputAudioQueryJson)
+        {
+            unsafe
+            {
+                byte* outputAudioQueryJsonPtr;
+                fixed (byte* ptr = System.Text.Encoding.UTF8.GetBytes(accentPhrasesJson))
+                {
+                    var result = CoreUnsafe.voicevox_audio_query_create_from_accent_phrases(ptr, &outputAudioQueryJsonPtr);
+                    if (result == VoicevoxResultCode.VOICEVOX_RESULT_OK)
+                    {
+                        outputAudioQueryJson = StringConvertCompat.ToUTF8String(outputAudioQueryJsonPtr);
+                        CoreUnsafe.voicevox_json_free(outputAudioQueryJsonPtr);
+                    }
+                    else
+                    {
+                        outputAudioQueryJson = null;
+                    }
+                    return result.FromNative();
+                }
+            }
+        }
     }
 }

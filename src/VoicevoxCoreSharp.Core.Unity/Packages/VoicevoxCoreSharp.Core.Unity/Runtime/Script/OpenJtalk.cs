@@ -61,6 +61,28 @@ namespace VoicevoxCoreSharp.Core
             }
         }
 
+        public ResultCode Analyze(string text, out string? outputAccentPhrasesJson)
+        {
+            unsafe
+            {
+                byte* output;
+                fixed (byte* ptr = System.Text.Encoding.UTF8.GetBytes(text))
+                {
+                    var result = CoreUnsafe.voicevox_open_jtalk_rc_analyze((OpenJtalkRc*)Handle, ptr, &output);
+                    if (result == VoicevoxResultCode.VOICEVOX_RESULT_OK)
+                    {
+                        outputAccentPhrasesJson = StringConvertCompat.ToUTF8String(output);
+                        CoreUnsafe.voicevox_json_free(output);
+                    }
+                    else
+                    {
+                        outputAccentPhrasesJson = null;
+                    }
+                    return result.FromNative();
+                }
+            }
+        }
+
         public ResultCode UseUserDict(UserDict userDict)
         {
             unsafe

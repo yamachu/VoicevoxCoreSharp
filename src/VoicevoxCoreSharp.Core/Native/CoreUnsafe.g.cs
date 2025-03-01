@@ -160,6 +160,20 @@ namespace VoicevoxCoreSharp.Core.Native
         internal static extern VoicevoxResultCode voicevox_open_jtalk_rc_use_user_dict(OpenJtalkRc* open_jtalk, VoicevoxUserDict* user_dict);
 
         /// <summary>
+        ///  日本語のテキストを解析する。
+        ///
+        ///  生成したJSON文字列を解放するには ::voicevox_json_free を使う。
+        ///
+        ///  @param [in] open_jtalk Open JTalkのオブジェクト
+        ///  @param [in] text UTF-8の日本語テキスト
+        ///  @param [out] output_accent_phrases_json 生成先
+        ///
+        ///  \orig-impl{voicevox_open_jtalk_rc_use_user_dict}
+        /// </summary>
+        [DllImport(__DllName, EntryPoint = "voicevox_open_jtalk_rc_analyze", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        internal static extern VoicevoxResultCode voicevox_open_jtalk_rc_analyze(OpenJtalkRc* open_jtalk, byte* text, byte** output_accent_phrases_json);
+
+        /// <summary>
         ///  ::OpenJtalkRc を&lt;b&gt;破棄&lt;/b&gt;(_destruct_)する。
         ///
         ///  破棄対象への他スレッドでのアクセスが存在する場合、それらがすべて終わるのを待ってから破棄する。
@@ -196,6 +210,24 @@ namespace VoicevoxCoreSharp.Core.Native
         /// </summary>
         [DllImport(__DllName, EntryPoint = "voicevox_get_version", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         internal static extern byte* voicevox_get_version();
+
+        /// <summary>
+        ///  AccentPhraseの配列からAudioQueryを作る。
+        ///
+        ///  生成したJSON文字列を解放するには ::voicevox_json_free を使う。
+        ///
+        ///  @param [in] accent_phrases_json AccentPhraseの配列のJSON文字列
+        ///  @param [out] output_accent_phrases_json 生成先
+        ///
+        ///  \safety{
+        ///  - `accent_phrases_json`はヌル終端文字列を指し、かつ&lt;a href="#voicevox-core-safety"&gt;読み込みについて有効&lt;/a&gt;でなければならない。
+        ///  - `output_audio_query_json`は&lt;a href="#voicevox-core-safety"&gt;書き込みについて有効&lt;/a&gt;でなければならない。
+        ///  }
+        ///
+        ///  \orig-impl{voicevox_audio_query_create_from_accent_phrases}
+        /// </summary>
+        [DllImport(__DllName, EntryPoint = "voicevox_audio_query_create_from_accent_phrases", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        internal static extern VoicevoxResultCode voicevox_audio_query_create_from_accent_phrases(byte* accent_phrases_json, byte** output_audio_query_json);
 
         /// <summary>
         ///  VVMファイルを開く。
@@ -444,6 +476,9 @@ namespace VoicevoxCoreSharp.Core.Native
         ///
         ///  生成したJSON文字列を解放するには ::voicevox_json_free を使う。
         ///
+        ///  ::voicevox_synthesizer_create_accent_phrases と ::voicevox_audio_query_create_from_accent_phrases
+        ///  が一体になったショートハンド。詳細は[テキスト音声合成の流れ]を参照。
+        ///
         ///  @param [in] synthesizer 音声シンセサイザ
         ///  @param [in] text UTF-8の日本語テキスト
         ///  @param [in] style_id スタイルID
@@ -466,6 +501,8 @@ namespace VoicevoxCoreSharp.Core.Native
         ///  }
         ///
         ///  \orig-impl{voicevox_synthesizer_create_audio_query}
+        ///
+        ///  [テキスト音声合成の流れ]: https://github.com/VOICEVOX/voicevox_core/blob/main/docs/guide/user/tts-process.md
         /// </summary>
         [DllImport(__DllName, EntryPoint = "voicevox_synthesizer_create_audio_query", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         internal static extern VoicevoxResultCode voicevox_synthesizer_create_audio_query(VoicevoxSynthesizer* synthesizer, byte* text, uint style_id, byte** output_audio_query_json);
@@ -507,6 +544,9 @@ namespace VoicevoxCoreSharp.Core.Native
         ///
         ///  生成したJSON文字列を解放するには ::voicevox_json_free を使う。
         ///
+        ///  ::voicevox_open_jtalk_rc_analyze と ::voicevox_synthesizer_replace_mora_data
+        ///  が一体になったショートハンド。詳細は[テキスト音声合成の流れ]を参照。
+        ///
         ///  @param [in] synthesizer 音声シンセサイザ
         ///  @param [in] text UTF-8の日本語テキスト
         ///  @param [in] style_id スタイルID
@@ -529,6 +569,8 @@ namespace VoicevoxCoreSharp.Core.Native
         ///  }
         ///
         ///  \orig-impl{voicevox_synthesizer_create_accent_phrases}
+        ///
+        ///  [テキスト音声合成の流れ]: https://github.com/VOICEVOX/voicevox_core/blob/main/docs/guide/user/tts-process.md
         /// </summary>
         [DllImport(__DllName, EntryPoint = "voicevox_synthesizer_create_accent_phrases", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         internal static extern VoicevoxResultCode voicevox_synthesizer_create_accent_phrases(VoicevoxSynthesizer* synthesizer, byte* text, uint style_id, byte** output_accent_phrases_json);
@@ -537,6 +579,9 @@ namespace VoicevoxCoreSharp.Core.Native
         ///  AccentPhraseの配列の音高・音素長を、特定の声で生成しなおす。
         ///
         ///  生成したJSON文字列を解放するには ::voicevox_json_free を使う。
+        ///
+        ///  ::voicevox_synthesizer_replace_phoneme_length と ::voicevox_synthesizer_replace_mora_pitch
+        ///  が一体になったショートハンド。詳細は[テキスト音声合成の流れ]を参照。
         ///
         ///  @param [in] synthesizer 音声シンセサイザ
         ///  @param [in] accent_phrases_json AccentPhraseの配列のJSON文字列
@@ -551,6 +596,8 @@ namespace VoicevoxCoreSharp.Core.Native
         ///  }
         ///
         ///  \orig-impl{voicevox_synthesizer_replace_mora_data}
+        ///
+        ///  [テキスト音声合成の流れ]: https://github.com/VOICEVOX/voicevox_core/blob/main/docs/guide/user/tts-process.md
         /// </summary>
         [DllImport(__DllName, EntryPoint = "voicevox_synthesizer_replace_mora_data", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         internal static extern VoicevoxResultCode voicevox_synthesizer_replace_mora_data(VoicevoxSynthesizer* synthesizer, byte* accent_phrases_json, uint style_id, byte** output_accent_phrases_json);
@@ -672,6 +719,9 @@ namespace VoicevoxCoreSharp.Core.Native
         ///
         ///  生成したWAVデータを解放するには ::voicevox_wav_free を使う。
         ///
+        ///  ::voicevox_synthesizer_create_audio_query と ::voicevox_synthesizer_synthesis
+        ///  が一体になったショートハンド。詳細は[テキスト音声合成の流れ]を参照。
+        ///
         ///  @param [in] synthesizer
         ///  @param [in] text UTF-8の日本語テキスト
         ///  @param [in] style_id スタイルID
@@ -688,6 +738,8 @@ namespace VoicevoxCoreSharp.Core.Native
         ///  }
         ///
         ///  \orig-impl{voicevox_synthesizer_tts}
+        ///
+        ///  [テキスト音声合成の流れ]: https://github.com/VOICEVOX/voicevox_core/blob/main/docs/guide/user/tts-process.md
         /// </summary>
         [DllImport(__DllName, EntryPoint = "voicevox_synthesizer_tts", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         internal static extern VoicevoxResultCode voicevox_synthesizer_tts(VoicevoxSynthesizer* synthesizer, byte* text, uint style_id, VoicevoxTtsOptions options, nuint* output_wav_length, byte** output_wav);
@@ -699,8 +751,10 @@ namespace VoicevoxCoreSharp.Core.Native
         ///
         ///  \safety{
         ///  - `json`は以下のAPIで得られたポインタでなくてはいけない。
+        ///      - ::voicevox_audio_query_create_from_accent_phrases
         ///      - ::voicevox_onnxruntime_create_supported_devices_json
         ///      - ::voicevox_voice_model_file_create_metas_json
+        ///      - ::voicevox_open_jtalk_rc_analyze
         ///      - ::voicevox_synthesizer_create_metas_json
         ///      - ::voicevox_synthesizer_create_audio_query
         ///      - ::voicevox_synthesizer_create_accent_phrases
