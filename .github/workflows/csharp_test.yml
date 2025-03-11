@@ -39,7 +39,7 @@ jobs:
         ref: ${{ inputs.checkout-ref || github.head_ref }}
     - uses: actions/setup-dotnet@v4
       with:
-        dotnet-version: 8
+        dotnet-version: 9
     - uses: actions/cache/restore@v4
       with:
         path: |
@@ -70,7 +70,7 @@ jobs:
         ref: ${{ inputs.checkout-ref || github.head_ref }}
     - uses: actions/setup-dotnet@v4
       with:
-        dotnet-version: 8
+        dotnet-version: 9
     - uses: actions/cache/restore@v4
       with:
         path: |
@@ -102,5 +102,5 @@ jobs:
         ref: ${{ inputs.checkout-ref || github.head_ref }}
     - uses: actions/setup-dotnet@v4
       with:
-        dotnet-version: 8
+        dotnet-version: 9
     - run: make format/check
