@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
 		<TargetFrameworks>net9.0-android;net9.0-ios;net9.0-maccatalyst</TargetFrameworks>
@@ -73,8 +73,8 @@
 	</ItemGroup>
 
   <ItemGroup>
-    <None Include="voicevox_core\libvoicevox_core.dylib" Link="libvoicevox_core.dylib" Visible="false" Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'maccatalyst'" CopyToOutputDirectory="PreserveNewest" PublishFolderType="Assembly" />
-    <None Include="voicevox_core\libonnxruntime.$(VoicevoxOnnxRuntimeVersion).dylib" Link="libonnxruntime.$(VoicevoxOnnxRuntimeVersion).dylib" Visible="false" Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'maccatalyst'" CopyToOutputDirectory="PreserveNewest" PublishFolderType="Assembly" />
+    <None Include="voicevox_core\c_api\lib\libvoicevox_core.dylib" Link="libvoicevox_core.dylib" Visible="false" Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'maccatalyst'" CopyToOutputDirectory="PreserveNewest" PublishFolderType="Assembly" />
+    <None Include="voicevox_core\onnxruntime\lib\libvoicevox_onnxruntime.$(VoicevoxOnnxRuntimeVersion).dylib" Link="libvoicevox_onnxruntime.$(VoicevoxOnnxRuntimeVersion).dylib" Visible="false" Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'maccatalyst'" CopyToOutputDirectory="PreserveNewest" PublishFolderType="Assembly" />
   </ItemGroup>
 
   <ItemGroup>
