@@ -1,1 +1,6 @@
 /voicevox_core
+/Resources/Raw/dict
+/Resources/Raw/models
+
+# テンプレートを書き換えて使ってもらう
+Env.props
