@@ -72,9 +72,42 @@
 		<PackageReference Include="Plugin.Maui.Audio" Version="3.0.1" />
 	</ItemGroup>
 
-  <ItemGroup>
-    <None Include="voicevox_core\c_api\lib\libvoicevox_core.dylib" Link="libvoicevox_core.dylib" Visible="false" Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'maccatalyst'" CopyToOutputDirectory="PreserveNewest" PublishFolderType="Assembly" />
-    <None Include="voicevox_core\onnxruntime\lib\libvoicevox_onnxruntime.$(VoicevoxOnnxRuntimeVersion).dylib" Link="libvoicevox_onnxruntime.$(VoicevoxOnnxRuntimeVersion).dylib" Visible="false" Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'maccatalyst'" CopyToOutputDirectory="PreserveNewest" PublishFolderType="Assembly" />
+  <ItemGroup Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'maccatalyst'">
+    <None Include="voicevox_core\c_api\lib\libvoicevox_core.dylib" Link="libvoicevox_core.dylib" Visible="false" CopyToOutputDirectory="PreserveNewest" PublishFolderType="Assembly" />
+    <None Include="voicevox_core\onnxruntime\lib\libvoicevox_onnxruntime.$(VoicevoxOnnxRuntimeVersion).dylib" Link="libvoicevox_onnxruntime.$(VoicevoxOnnxRuntimeVersion).dylib" Visible="false" CopyToOutputDirectory="PreserveNewest" PublishFolderType="Assembly" />
+  </ItemGroup>
+
+  <ItemGroup Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios'">
+    <!-- NOTE: downloaderが未対応なため、voicevox_core/ios というディレクトリを生やして、そこに格納している -->
+    <NativeReference Include="voicevox_core/ios/voicevox_onnxruntime.xcframework">
+      <Kind>Framework</Kind>
+    </NativeReference>
+    <NativeReference Include="voicevox_core/ios/voicevox_core.xcframework">
+      <Kind>Framework</Kind>
+    </NativeReference>
+  </ItemGroup>
+
+  <ItemGroup Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">
+    <!-- NOTE: downloaderが未対応なため、voicevox_core/android というディレクトリを生やして、そこに格納している -->
+    <!-- https://developer.android.com/ndk/guides/abis?hl=ja -->
+    <AndroidNativeLibrary Include="voicevox_core/android/voicevox_onnxruntime-android-arm64-1.17.3/lib/libvoicevox_onnxruntime.so">
+      <Abi>arm64-v8a</Abi>
+    </AndroidNativeLibrary>
+    <AndroidNativeLibrary Include="voicevox_core/android/voicevox_onnxruntime-android-x64-1.17.3/lib/libvoicevox_onnxruntime.so">
+      <Abi>x86_64</Abi>
+    </AndroidNativeLibrary>
+        <AndroidNativeLibrary Include="voicevox_core/android/voicevox_core-android-arm64-0.16.0-preview.1/lib/libvoicevox_core.so">
+      <Abi>arm64-v8a</Abi>
+    </AndroidNativeLibrary>
+    <AndroidNativeLibrary Include="voicevox_core/android/voicevox_core-android-x86_64-0.16.0-preview.1/lib/libvoicevox_core.so">
+      <Abi>x86_64</Abi>
+    </AndroidNativeLibrary>
+    <AndroidNativeLibrary Include="$(ANDROID_NDK_SYSROOT)/sysroot/usr/lib/aarch64-linux-android/libc++_shared.so">
+      <Abi>arm64-v8a</Abi>
+    </AndroidNativeLibrary>
+    <AndroidNativeLibrary Include="$(ANDROID_NDK_SYSROOT)/sysroot/usr/lib/x86_64-linux-android/libc++_shared.so">
+      <Abi>x86_64</Abi>
+    </AndroidNativeLibrary>
   </ItemGroup>
 
   <ItemGroup>
