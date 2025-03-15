@@ -191,7 +191,7 @@ public partial class MainPageViewModel : ObservableObject
     /// <summary>
     /// プラットフォームに応じてOpenJTalk辞書の絶対パスを取得します
     /// </summary>
-    private async Task<string> GetOpenJTalkDictionaryPath()
+    private async Task<string?> GetOpenJTalkDictionaryPath()
     {
 #if IOS
         var cachePath = Path.Combine(
@@ -270,7 +270,7 @@ public partial class MainPageViewModel : ObservableObject
         foreach (string dir in Directory.GetDirectories(sourceDir))
         {
             string destSubDir = Path.Combine(destDir, Path.GetFileName(dir));
-            CopyDirectory(dir, destSubDir);
+            await CopyDirectory(dir, destSubDir);
         }
 
         await Task.CompletedTask;
