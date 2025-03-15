@@ -10,7 +10,7 @@ public static class CoreHelper
     /// <summary>
     /// Initialize VoicevoxCore for loading voicevox_core.framework
     /// </summary>
-    /// <param name="overrideVoicevoxCoreDynamicLibraryPath">if pass `null`, using iOS default framework path.</param>
+    /// <param name="overrideVoicevoxCoreDynamicLibraryPath">if pass `null`, using Android default native library directory.</param>
     /// <exception cref="DllNotFoundException"></exception>
     /// <exception cref="ArgumentNullException"></exception>
     public static void Initialize(string? overrideVoicevoxCoreDynamicLibraryPath)
