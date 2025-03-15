@@ -138,20 +138,16 @@ public partial class MainPageViewModel : ObservableObject
         var bundlePath = Foundation.NSBundle.MainBundle.BundlePath;
         var sourceModelPath = Path.Combine(bundlePath, "models", "vvms");
 
-        if (!Directory.Exists(destDir))
-        {
-            await CopyAccessibleDirectory(sourceModelPath, destDir);
-        }
+        // TODO: .done みたいなファイルを置いたりして、何度もコピーを走らせないようにしたりするとよさそう
+        await CopyAccessibleDirectory(sourceModelPath, destDir);
 
         return destDir;
 #elif ANDROID
         var filesDir = Android.App.Application.Context.FilesDir.AbsolutePath;
         var destDir = Path.Combine(filesDir, "models", "vvms");
 
-        if (!Directory.Exists(destDir))
-        {
-            await CopyAccessibleDirectory("models/vvms", destDir);
-        }
+        // TODO: .done みたいなファイルを置いたりして、何度もコピーを走らせないようにしたりするとよさそう
+        await CopyAccessibleDirectory("models/vvms", destDir);
 
         return destDir;
 #else
@@ -203,10 +199,8 @@ public partial class MainPageViewModel : ObservableObject
         var bundlePath = Foundation.NSBundle.MainBundle.BundlePath;
         var sourceDictPath = Path.Combine(bundlePath, "dict", "open_jtalk_dic_utf_8-1.11");
 
-        if (!Directory.Exists(destDir))
-        {
-            await CopyAccessibleDirectory(sourceDictPath, destDir);
-        }
+        // TODO: .done みたいなファイルを置いたりして、何度もコピーを走らせないようにしたりするとよさそう
+        await CopyAccessibleDirectory(sourceDictPath, destDir);
 
         return destDir;
 #elif ANDROID
@@ -215,10 +209,8 @@ public partial class MainPageViewModel : ObservableObject
         var filesDir = context.FilesDir.AbsolutePath;
         var destDir = Path.Combine(filesDir, "open_jtalk_dic");
 
-        if (!Directory.Exists(destDir))
-        {
-            await CopyAccessibleDirectory("dict/open_jtalk_dic_utf_8-1.11", destDir);
-        }
+        // TODO: .done みたいなファイルを置いたりして、何度もコピーを走らせないようにしたりするとよさそう
+        await CopyAccessibleDirectory("dict/open_jtalk_dic_utf_8-1.11", destDir);
 
         return destDir;
 #else
@@ -237,9 +229,15 @@ public partial class MainPageViewModel : ObservableObject
     /// </summary>
     private async Task CopyAccessibleDirectory(string sourceDir, string targetDir)
     {
-#if IOS || ANDROID
-        Directory.CreateDirectory(targetDir);
+#if IOS
         if (!Directory.Exists(sourceDir))
+        {
+            throw new FileNotFoundException($"source directory not found: {sourceDir}");
+        }
+
+        await CopyDirectory(sourceDir, targetDir);
+#elif ANDROID
+        if (Android.App.Application.Context.Assets?.List(sourceDir) is null)
         {
             throw new FileNotFoundException($"source directory not found: {sourceDir}");
         }
