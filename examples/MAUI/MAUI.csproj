@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
 		<TargetFrameworks>net9.0-android;net9.0-ios;net9.0-maccatalyst</TargetFrameworks>
@@ -78,7 +78,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\VoicevoxCoreSharp.Core\VoicevoxCoreSharp.Core.csproj" />
+    <ProjectReference Include="..\..\src\VoicevoxCoreSharp.MAUI\VoicevoxCoreSharp.MAUI.csproj" />
   </ItemGroup>
 
 	<!-- Build Properties must be defined within these property groups to ensure successful publishing
