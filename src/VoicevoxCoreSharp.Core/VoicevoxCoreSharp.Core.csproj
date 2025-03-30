@@ -13,7 +13,24 @@
     <EnableTrimAnalyzer>true</EnableTrimAnalyzer>
     <EnableSingleFileAnalyzer>true</EnableSingleFileAnalyzer>
     <EnableAotAnalyzer>true</EnableAotAnalyzer>
+
+    <!-- NuGet Package Properties -->
+    <PackageId>VoicevoxCoreSharp.Core</PackageId>
+    <Authors>yamachu</Authors>
+    <Description>VoicevoxCore C# binding library</Description>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageProjectUrl>https://github.com/yamachu/VoicevoxCoreSharp</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/yamachu/VoicevoxCoreSharp</RepositoryUrl>
+    <PackageTags>voicevox;tts</PackageTags>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+
+    <!-- when packaging, dotnet pack -p:PackageVersion=0.16.0 -c Release -->
+    <!-- <Version>0.0.0</Version> -->
   </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="../../README.md" Pack="true" PackagePath="/" />
+  </ItemGroup>
 
   <Import Project="VoicevoxCoreSharp.Core.Metas.props" />
 
