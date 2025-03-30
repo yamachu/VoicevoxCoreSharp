@@ -9,6 +9,7 @@
 		<SingleProject>true</SingleProject>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>
+		<SkipValidateMauiImplicitPackageReferences>true</SkipValidateMauiImplicitPackageReferences>
 
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios'">15.0</SupportedOSPlatformVersion>
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'maccatalyst'">15.0</SupportedOSPlatformVersion>
@@ -21,7 +22,6 @@
 		<PackageId>VoicevoxCoreSharp.MAUI</PackageId>
 		<Authors>yamachu</Authors>
 		<Description>VoicevoxCore MAUI support library</Description>
-		<PackageLicenseExpression>MIT</PackageLicenseExpression>
 		<PackageProjectUrl>https://github.com/yamachu/VoicevoxCoreSharp</PackageProjectUrl>
 		<RepositoryUrl>https://github.com/yamachu/VoicevoxCoreSharp</RepositoryUrl>
 		<PackageTags>voicevox;tts;maui</PackageTags>
