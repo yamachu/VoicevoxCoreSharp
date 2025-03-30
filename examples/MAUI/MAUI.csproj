@@ -96,10 +96,10 @@
     <AndroidNativeLibrary Include="voicevox_core/android/voicevox_onnxruntime-android-x64-1.17.3/lib/libvoicevox_onnxruntime.so">
       <Abi>x86_64</Abi>
     </AndroidNativeLibrary>
-        <AndroidNativeLibrary Include="voicevox_core/android/voicevox_core-android-arm64-0.16.0-preview.1/lib/libvoicevox_core.so">
+        <AndroidNativeLibrary Include="voicevox_core/android/voicevox_core-android-arm64-0.16.0/lib/libvoicevox_core.so">
       <Abi>arm64-v8a</Abi>
     </AndroidNativeLibrary>
-    <AndroidNativeLibrary Include="voicevox_core/android/voicevox_core-android-x86_64-0.16.0-preview.1/lib/libvoicevox_core.so">
+    <AndroidNativeLibrary Include="voicevox_core/android/voicevox_core-android-x86_64-0.16.0/lib/libvoicevox_core.so">
       <Abi>x86_64</Abi>
     </AndroidNativeLibrary>
     <AndroidNativeLibrary Include="$(ANDROID_NDK_SYSROOT)/sysroot/usr/lib/aarch64-linux-android/libc++_shared.so">

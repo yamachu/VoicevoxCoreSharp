@@ -12,12 +12,13 @@ https://github.com/VOICEVOX/voicevox_core/tree/main/example/cpp/unix を参考�
 
 ```sh
 # macOS Arm64の場合
-$ ./download-osx-arm64 --version 0.15.0-preview.15
+$ ./download-osx-arm64 --c-api-version 0.16.0 --onnxruntime-version voicevox_onnxruntime-1.17.3 -o voicevox_core
 ```
 
-2024/09/28 現在 main ブランチのみをサポートしています。
-そのため上記の Downloader を用いた製品版の利用はできません。
-互換のあるバージョンは [こちら](../../src/VoicevoxCoreSharp.Core/VoicevoxCoreSharp.Core.Metas.props) の `VoicevoxCoreCommitHash` に記載されているコミットハッシュを参照してください。
+このリポジトリは voicevox_core の main ブランチに追従しているため、examples/cli のコードが動作しない場合もあります。
+動作しない場合、Release タグが打たれているバージョンに switch して実行してください。
+
+トラッキングしている main のバージョンは[こちら](../../src/VoicevoxCoreSharp.Core/VoicevoxCoreSharp.Core.Metas.props) の `VoicevoxCoreCommitHash` に記載されているコミットハッシュを参照してください。
 
 ダウンロードが完了すると `voicevox_core` ディレクトリに必要なファイルが配置されます。
 
