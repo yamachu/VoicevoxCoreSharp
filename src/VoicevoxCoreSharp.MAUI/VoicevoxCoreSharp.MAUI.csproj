@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
 		<TargetFrameworks>net8.0-android;net8.0-ios;net8.0-maccatalyst</TargetFrameworks>
@@ -16,14 +16,44 @@
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.17763.0</SupportedOSPlatformVersion>
 		<TargetPlatformMinVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.17763.0</TargetPlatformMinVersion>
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'tizen'">6.5</SupportedOSPlatformVersion>
+
+		<!-- NuGet Package Properties -->
+		<PackageId>VoicevoxCoreSharp.MAUI</PackageId>
+		<Authors>yamachu</Authors>
+		<Description>VoicevoxCore MAUI support library</Description>
+		<PackageLicenseExpression>MIT</PackageLicenseExpression>
+		<PackageProjectUrl>https://github.com/yamachu/VoicevoxCoreSharp</PackageProjectUrl>
+		<RepositoryUrl>https://github.com/yamachu/VoicevoxCoreSharp</RepositoryUrl>
+		<PackageTags>voicevox;tts;maui</PackageTags>
+		<PackageReadmeFile>README.md</PackageReadmeFile>
+
+		<DebugType>portable</DebugType>
+		<IncludeSymbols>true</IncludeSymbols>
+		<SymbolPackageFormat>snupkg</SymbolPackageFormat>
+		<PublishRepositoryUrl>true</PublishRepositoryUrl>
+		<EmbedUntrackedSources>true</EmbedUntrackedSources>
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Microsoft.Maui.Controls" Version="$(MauiVersion)" />
+		<ProjectReference Include="..\VoicevoxCoreSharp.Core\VoicevoxCoreSharp.Core.csproj">
+			<PrivateAssets>None</PrivateAssets>
+		</ProjectReference>
 	</ItemGroup>
 
 	<ItemGroup>
-	  <ProjectReference Include="..\VoicevoxCoreSharp.Core\VoicevoxCoreSharp.Core.csproj" />
+		<None Include="README.md" Pack="true" PackagePath="/" />
 	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Microsoft.SourceLink.GitHub" Version="8.0.0" PrivateAssets="All"/>
+	</ItemGroup>
+
+	<!-- https://blog.azyobuzi.net/2020/05/03/01-projectref/ -->
+	<!-- dotnet pack -p:CoreVersion=0.16.0 -p:PackageVersion=0.16.0 -->
+	<Target Name="SetDependencyVersion" AfterTargets="_GetProjectReferenceVersions">
+		<ItemGroup>
+			<_ProjectReferencesWithVersions Update="..\VoicevoxCoreSharp.Core\VoicevoxCoreSharp.Core.csproj" ProjectVersion="$(CoreVersion)" />
+		</ItemGroup>
+	</Target>
 
 </Project>
