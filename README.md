@@ -5,6 +5,29 @@
 
 CLI アプリケーションや MAUI、Unity アプリケーションなどで、直接 voicevox_core を扱うことを目的としています。
 
+## Install
+
+[NuGet](https://www.nuget.org/packages/VoicevoxCoreSharp.Core/) からインストールできます。
+
+```bash
+$ dotnet add package VoicevoxCoreSharp.Core
+```
+
+Unity の場合は Package Manager から以下の URL を追加してください。
+`#0.16.0` はバージョンを指定しています。
+
+```
+https://github.com/yamachu/VoicevoxCoreSharp.git?path=/src/VoicevoxCoreSharp.Core.Unity#0.16.0
+```
+
+MAUI の場合は以下のパッケージを追加すると便利です。
+
+https://www.nuget.org/packages/VoicevoxCoreSharp.MAUI
+
+```bash
+$ dotnet add package VoicevoxCoreSharp.MAUI
+```
+
 ## Usage
 
 このライブラリを使用するには、voicevox_core のライブラリを自身で用意する必要があります。
