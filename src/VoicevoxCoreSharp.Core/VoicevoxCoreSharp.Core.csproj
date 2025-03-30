@@ -24,12 +24,21 @@
     <PackageTags>voicevox;tts</PackageTags>
     <PackageReadmeFile>README.md</PackageReadmeFile>
 
+    <DebugType>portable</DebugType>
+    <IncludeSymbols>true</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+    <PublishRepositoryUrl>true</PublishRepositoryUrl>
+    <EmbedUntrackedSources>true</EmbedUntrackedSources>
     <!-- when packaging, dotnet pack -p:PackageVersion=0.16.0 -c Release -->
     <!-- <Version>0.0.0</Version> -->
   </PropertyGroup>
 
   <ItemGroup>
     <None Include="../../README.md" Pack="true" PackagePath="/" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="8.0.0" PrivateAssets="All"/>
   </ItemGroup>
 
   <Import Project="VoicevoxCoreSharp.Core.Metas.props" />
