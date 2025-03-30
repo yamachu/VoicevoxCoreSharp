@@ -3,23 +3,43 @@
 [voicevox_core](https://github.com/voicevox/voicevox_core) を C# から使用するためのラッパー。
 薄いラッパーであるため、基本的には voicevox_core のドキュメントを参照し使用できます。
 
-CLI アプリケーションや Unity アプリケーションなどで、直接 voicevox_core を扱うことを目的としています。
+CLI アプリケーションや MAUI、Unity アプリケーションなどで、直接 voicevox_core を扱うことを目的としています。
 
-## Notice
+## Usage
 
-現在 voicevox_core の main ブランチをトラッキングしているため、製品版のリリースとの互換性がありません。
-今後のリリースで、voicevox_engine で利用されている compatible_engine や、製品版 core に含まれている c_api の対応を予定しています。
+このライブラリを使用するには、voicevox_core のライブラリを自身で用意する必要があります。
+[voicevox_core](https://github.com/voicevox/voicevox_core) の Release ページから対応するバージョンのライブラリをダウンロードしてください。
 
-詳細なトラッキングしているバージョンは Git Submodule として取得している [voicevox_core](./binding/voicevox_core) のコミットハッシュ、もしくは [VoicevoxCoreCommitHash](./src/VoicevoxCoreSharp.Core/VoicevoxCoreSharp.Core.Metas.props) を参照してください。
+それぞれダウンロードしたライブラリを .NET アプリケーションから参照できるように配置してください。
+各プラットフォームやアプリケーションの種類によって配置先が異なる場合があります。
+
+以下の Sample に CLI、MAUI、Unity のサンプルがあるため、そのサンプルの csproj などを参考にしてください。
+
+特に MAUI アプリケーションで Android や iOS で使用する場合は、Native Library のパス解決の問題があるため、[VoicevoxCoreSharp.MAUI](./src/VoicevoxCoreSharp.MAUI) を使用することをお勧めします。
 
 ## Sample
 
 [examples/cli](./examples/cli) にコマンドラインから実行するサンプル実装があります。
 
-[examples/UnitySample](./examples/UnitySample) に Unity アプリケーションのサンプルがあります（Editor 上では音声の生成に失敗することがあるため、パッケージングを行ってください）。
+[examples/UnitySample](./examples/UnitySample) に Unity アプリケーションのサンプルがあります。
+
+[examples/MAUI](./examples/MAUI) に MAUI アプリケーションのサンプルがあります。
 
 ## Supported
 
 - .NET Standard 2.0
 - C# 9.0
   - Unity 2021.3 (LTS) を最低限サポートするため
+
+## Notice
+
+本リポジトリは voicevox_core の main ブランチをトラッキングしているため、main ブランチの状態は製品版のリリースとの互換性がない場合があります。
+voicevox_core のリリースに合わせて、Release タグや、nuget パッケージを提供しているため、実際に利用する場合はそちらを利用してください。
+
+詳細なトラッキングしているバージョンは Git Submodule として取得している [voicevox_core](./binding/voicevox_core) のコミットハッシュ、もしくは [VoicevoxCoreCommitHash](./src/VoicevoxCoreSharp.Core/VoicevoxCoreSharp.Core.Metas.props) を参照してください。
+
+今後のリリースで、voicevox_engine で利用されている compatible_engine などの対応を検討しています。
+
+## License
+
+[MIT](./LICENSE)
