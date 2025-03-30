@@ -54,7 +54,7 @@ public static class CoreHelper
                     return handle;
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 // Java.Lang.JavaSystem.LoadLibrary("voicevox_core");
                 throw;
