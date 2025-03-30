@@ -3,7 +3,7 @@
 import subprocess
 
 src_root = 'src/VoicevoxCoreSharp.Core/'
-unity_root = 'src/VoicevoxCoreSharp.Core.Unity/Packages/VoicevoxCoreSharp.Core.Unity/Runtime/Script/'
+unity_root = 'src/VoicevoxCoreSharp.Core.Unity/Runtime/Script/'
 
 process_result = subprocess.run("git diff --staged --name-status | grep '.cs$'", capture_output=True, shell=True, encoding="utf-8")
 

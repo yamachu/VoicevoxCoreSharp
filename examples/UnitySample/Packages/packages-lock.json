@@ -226,7 +226,7 @@
       "url": "https://packages.unity.com"
     },
     "dev.yamachu.voicevoxcoresharpcoreunity": {
-      "version": "file:../../../src/VoicevoxCoreSharp.Core.Unity/Packages/VoicevoxCoreSharp.Core.Unity",
+      "version": "file:../../../src/VoicevoxCoreSharp.Core.Unity",
       "depth": 0,
       "source": "local",
       "dependencies": {}
