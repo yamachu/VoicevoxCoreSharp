@@ -82,7 +82,7 @@ jobs:
         key: ${{ runner.os }}-dev-library-${{ hashFiles('**/Cargo.lock', '**/VoicevoxCoreSharp.Core.Metas.props') }}
     - run: mkdir -p ./examples/cli/voicevox_core
     - run: |
-        cp ./binding/voicevox_core/target/release/libvoicevox_core.so ./examples/cli/voicevox_core/libvoicevox_core.so
+        cp ./binding/voicevox_core/target/release/libvoicevox_core.so ./examples/cli/voicevox_core/c_api/lib/libvoicevox_core.so
         cp ./binding/voicevox_core/target/release/libonnxruntime.so ./examples/cli/voicevox_core/libonnxruntime.so
     - uses: ./.github/composite/download-openjtalk-dict
       with:
