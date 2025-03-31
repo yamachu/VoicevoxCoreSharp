@@ -21,6 +21,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VoicevoxCoreSharp.MAUI", "s
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VoicevoxCoreSharp.Experimental", "src\VoicevoxCoreSharp.Experimental\VoicevoxCoreSharp.Experimental.csproj", "{3531C4F1-AFD7-44EA-8E23-D2ECE7BF7F15}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VoicevoxCoreSharp.Experimental.SourceGenerator", "src\VoicevoxCoreSharp.Experimental.SourceGenerator\VoicevoxCoreSharp.Experimental.SourceGenerator.csproj", "{E111A7F6-FE25-4D2E-B3BC-7E43446B4D67}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -103,6 +105,18 @@ Global
 		{3531C4F1-AFD7-44EA-8E23-D2ECE7BF7F15}.Release|x64.Build.0 = Release|Any CPU
 		{3531C4F1-AFD7-44EA-8E23-D2ECE7BF7F15}.Release|x86.ActiveCfg = Release|Any CPU
 		{3531C4F1-AFD7-44EA-8E23-D2ECE7BF7F15}.Release|x86.Build.0 = Release|Any CPU
+		{E111A7F6-FE25-4D2E-B3BC-7E43446B4D67}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E111A7F6-FE25-4D2E-B3BC-7E43446B4D67}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E111A7F6-FE25-4D2E-B3BC-7E43446B4D67}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{E111A7F6-FE25-4D2E-B3BC-7E43446B4D67}.Debug|x64.Build.0 = Debug|Any CPU
+		{E111A7F6-FE25-4D2E-B3BC-7E43446B4D67}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{E111A7F6-FE25-4D2E-B3BC-7E43446B4D67}.Debug|x86.Build.0 = Debug|Any CPU
+		{E111A7F6-FE25-4D2E-B3BC-7E43446B4D67}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E111A7F6-FE25-4D2E-B3BC-7E43446B4D67}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E111A7F6-FE25-4D2E-B3BC-7E43446B4D67}.Release|x64.ActiveCfg = Release|Any CPU
+		{E111A7F6-FE25-4D2E-B3BC-7E43446B4D67}.Release|x64.Build.0 = Release|Any CPU
+		{E111A7F6-FE25-4D2E-B3BC-7E43446B4D67}.Release|x86.ActiveCfg = Release|Any CPU
+		{E111A7F6-FE25-4D2E-B3BC-7E43446B4D67}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -114,5 +128,6 @@ Global
 		{309220E2-D985-46E5-8395-5CF577DADC1A} = {4E36224D-8030-459C-A802-07F3E19C2513}
 		{21CB00D8-653D-4927-A811-87C7F7F3C241} = {4C7CC788-A86A-4A03-9957-A26BF35AE261}
 		{3531C4F1-AFD7-44EA-8E23-D2ECE7BF7F15} = {4C7CC788-A86A-4A03-9957-A26BF35AE261}
+		{E111A7F6-FE25-4D2E-B3BC-7E43446B4D67} = {4C7CC788-A86A-4A03-9957-A26BF35AE261}
 	EndGlobalSection
 EndGlobal
