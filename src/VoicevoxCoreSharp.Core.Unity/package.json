@@ -1,7 +1,7 @@
 {
   "name": "dev.yamachu.voicevoxcoresharpcoreunity",
   "author": "yamachu",
-  "version": "0.16.0",
+  "version": "0.16.0+patch.1",
   "displayName": "VoicevoxCoreSharp.Core.Unity",
   "description": "VoicevoxCoreSharp.Core for Unity",
   "unity": "2021.3"
