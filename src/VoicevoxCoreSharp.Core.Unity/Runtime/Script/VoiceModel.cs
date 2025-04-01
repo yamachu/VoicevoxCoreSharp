@@ -39,7 +39,13 @@ namespace VoicevoxCoreSharp.Core
             Handle = new VoiceModelFileHandle(new IntPtr(modelHandle));
         }
 
+        [Obsolete("Use VoiceModelFile.Open(string modelPath, out VoiceModelFile voiceModel) instead.")]
         public static ResultCode New(string modelPath, out VoiceModelFile voiceModel)
+        {
+            return Open(modelPath, out voiceModel);
+        }
+
+        public static ResultCode Open(string modelPath, out VoiceModelFile voiceModel)
         {
             unsafe
             {

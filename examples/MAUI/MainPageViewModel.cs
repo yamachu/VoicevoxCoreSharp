@@ -165,7 +165,7 @@ public partial class MainPageViewModel : ObservableObject
 
         foreach (var path in matcher.GetResultsInFullPath(directoryPath))
         {
-            var openResult = VoiceModelFile.New(path, out var voiceModel);
+            var openResult = VoiceModelFile.Open(path, out var voiceModel);
             if (openResult != ResultCode.RESULT_OK)
             {
                 continue;
