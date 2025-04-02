@@ -8,6 +8,7 @@ using Plugin.Maui.Audio;
 using VoicevoxCoreSharp.Core;
 using VoicevoxCoreSharp.Core.Enum;
 using VoicevoxCoreSharp.Core.Struct;
+using VoicevoxCoreSharp.Experimental;
 
 public partial class MainPageViewModel : ObservableObject
 {
@@ -30,6 +31,12 @@ public partial class MainPageViewModel : ObservableObject
 
     [RelayCommand]
     private async Task PickOpenJTalkDirectory()
+    {
+        await PickOpenJTalkDirectoryImpl();
+        // await PickOpenJTalkDirectoryImplAsync();
+    }
+
+    private async Task PickOpenJTalkDirectoryImpl()
     {
         Synthesizer = null;
         OpenJTalkDictPath = "";
@@ -84,6 +91,51 @@ public partial class MainPageViewModel : ObservableObject
         VvmModelDirectoryPath = "";
     }
 
+    private async Task PickOpenJTalkDirectoryImplAsync()
+    {
+        Synthesizer = null;
+        OpenJTalkDictPath = "";
+        VvmModelDirectoryPath = "";
+
+        var openJtalkDictPath = await GetOpenJTalkDictionaryPath();
+        if (openJtalkDictPath is null)
+        {
+            return;
+        }
+        var openJTalk = await OpenJtalkExtensions.NewAsync(openJtalkDictPath);
+
+        var libraryPath = "";
+#if MACCATALYST
+        var bundlePath = Foundation.NSBundle.MainBundle.BundlePath;
+        libraryPath = Path.Combine(bundlePath, "Contents", "MonoBundle", "libvoicevox_onnxruntime.1.17.3.dylib");
+#elif ANDROID
+        var bundlePath = Android.App.Application.Context.ApplicationInfo?.NativeLibraryDir;
+        libraryPath = Path.Combine(bundlePath, "libvoicevox_onnxruntime.so");
+#elif LINUX
+        libraryPath = Path.Combine(AppContext.BaseDirectory, "libvoicevox_onnxruntime.so");
+#elif WINDOWS
+        // TODO: Check the actual path
+        libraryPath = Path.Combine(AppContext.BaseDirectory, "libvoicevox_onnxruntime.dll");
+#endif
+
+        var onnxruntimeloadOption = new LoadOnnxruntimeOptions(libraryPath);
+#if IOS
+        var onnxruntime = await OnnxruntimeExtensions.InitOnceAsync();
+#else
+        var onnxruntime = await OnnxruntimeExtensions.LoadOnceAsync(onnxruntimeloadOption);
+#endif
+        var openResult = Synthesizer.New(onnxruntime, openJTalk, InitializeOptions.Default(), out var synthesizer);
+        if (openResult != ResultCode.RESULT_OK)
+        {
+            using (openJTalk) { }
+            return;
+        }
+
+        Synthesizer = synthesizer;
+        OpenJTalkDictPath = openJtalkDictPath;
+        VvmModelDirectoryPath = "";
+    }
+
     [RelayCommand(CanExecute = nameof(CanPickVVMDirectory))]
     private async Task PickVVMDirectory()
     {
@@ -104,7 +156,13 @@ public partial class MainPageViewModel : ObservableObject
     }
 
     [RelayCommand(CanExecute = nameof(CanGenerateAndPlay))]
-    private void GenerateAndPlay()
+    private async Task GenerateAndPlay()
+    {
+        GenerateAndPlayImpl();
+        // await GenerateAndPlayImplAsync();
+    }
+
+    private void GenerateAndPlayImpl()
     {
         // TODO: Select StyleID
         var result = Synthesizer.Tts(SynthesisText, 0, TtsOptions.Default(), out var outputWavLength, out var outputWav);
@@ -112,6 +170,17 @@ public partial class MainPageViewModel : ObservableObject
         {
             return;
         }
+
+        using var stream = new MemoryStream(outputWav, 0, (int)outputWavLength);
+
+        var audioPlayer = AudioManager.Current.CreatePlayer(stream);
+        audioPlayer.Play();
+    }
+
+    private async Task GenerateAndPlayImplAsync()
+    {
+        // TODO: Select StyleID
+        var (outputWavLength, outputWav) = await Synthesizer.TtsAsync(SynthesisText, 0, TtsOptions.Default());
 
         using var stream = new MemoryStream(outputWav, 0, (int)outputWavLength);
 
@@ -160,6 +229,12 @@ public partial class MainPageViewModel : ObservableObject
     /// </summary>
     private async Task LoadVVMModels(string directoryPath)
     {
+        await LoadVVMModelsImpl(directoryPath);
+        // await LoadVVMModelsImplAsync(directoryPath);
+    }
+
+    private async Task LoadVVMModelsImpl(string directoryPath)
+    {
         var matcher = new Matcher();
         matcher.AddIncludePatterns(new[] { "*.vvm" });
 
@@ -182,6 +257,18 @@ public partial class MainPageViewModel : ObservableObject
         }
 
         await Task.CompletedTask;
+    }
+
+    private async Task LoadVVMModelsImplAsync(string directoryPath)
+    {
+        var matcher = new Matcher();
+        matcher.AddIncludePatterns(new[] { "*.vvm" });
+
+        foreach (var path in matcher.GetResultsInFullPath(directoryPath))
+        {
+            using var voiceModel = await VoiceModelFileExtensions.NewAsync(path);
+            await Synthesizer.LoadVoiceModelAsync(voiceModel);
+        }
     }
 
     /// <summary>

@@ -112,6 +112,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\src\VoicevoxCoreSharp.MAUI\VoicevoxCoreSharp.MAUI.csproj" />
+    <ProjectReference Include="..\..\src\VoicevoxCoreSharp.Experimental\VoicevoxCoreSharp.Experimental.csproj" />
   </ItemGroup>
 
 	<!-- Build Properties must be defined within these property groups to ensure successful publishing
