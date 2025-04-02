@@ -1,9 +1,16 @@
-﻿using System.Linq;
+﻿using System;
+using System.Collections.Immutable;
+using System.Linq;
 using System.Text;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.Text;
+
+namespace System.Runtime.CompilerServices
+{
+    internal static class IsExternalInit { }
+}
 
 namespace VoicevoxCoreSharp.Experimental.SourceGenerator
 {
@@ -19,61 +26,59 @@ namespace VoicevoxCoreSharp.Experimental.SourceGenerator
             isEnabledByDefault: true
         );
 
+        private record MethodInfo(
+            string Namespace,
+            string ClassName,
+            string MethodName,
+            string ReturnType,
+            bool IsExtensionMethod,
+            int OutParameterCount,
+            ImmutableArray<(string Type, string Name)> Parameters
+        ) : IEquatable<MethodInfo>;
+
         public void Initialize(IncrementalGeneratorInitializationContext context)
         {
-            var methodDeclarations = context.SyntaxProvider.ForAttributeWithMetadataName(
+            var methodInfos = context.SyntaxProvider.ForAttributeWithMetadataName(
                 "VoicevoxCoreSharp.Experimental.Attribute.NonBlockingAttribute",
-                static (_, _) => true,
+                static (node, _) => node is MethodDeclarationSyntax,
                 static (ctx, _) =>
                 {
-                    // TODO: Convert to primitive Record type
-                    return ctx;
+                    var methodDecl = (MethodDeclarationSyntax)ctx.TargetNode;
+                    var methodSymbol = ctx.SemanticModel.GetDeclaredSymbol(methodDecl)!;
+                    var containingType = methodSymbol.ContainingType;
+
+                    var taskGenericType = GetTaskGenericType(methodSymbol.ReturnType);
+                    var isVoidTask = SymbolEqualityComparer.Default.Equals(methodSymbol.ReturnType, taskGenericType);
+                    var isMultipleReturnValue = taskGenericType.IsTupleType;
+
+                    var outParameterCount = isMultipleReturnValue
+                        ? ((INamedTypeSymbol)taskGenericType).TupleElements.Length
+                        : isVoidTask
+                            ? 0
+                            : 1;
+
+                    return new MethodInfo(
+                        containingType.ContainingNamespace.ToDisplayString(),
+                        containingType.Name,
+                        methodSymbol.Name,
+                        methodSymbol.ReturnType.ToString(),
+                        methodSymbol.IsExtensionMethod,
+                        outParameterCount,
+                        methodSymbol.Parameters.Select(p => (p.Type.ToString(), p.Name)).ToImmutableArray()
+                    );
                 });
 
-            context.RegisterSourceOutput(methodDeclarations, Execute);
+            context.RegisterSourceOutput(methodInfos, Execute);
         }
 
-        private static void Execute(SourceProductionContext context, GeneratorAttributeSyntaxContext generatorAttributeSyntaxContext)
+        private static void Execute(SourceProductionContext context, MethodInfo methodInfo)
         {
-            var methodDecl = (MethodDeclarationSyntax)generatorAttributeSyntaxContext.TargetNode;
-            var methodSymbol = generatorAttributeSyntaxContext.SemanticModel.GetDeclaredSymbol(methodDecl)!;
+            var paramsDeclaration = BuildMethodParameters(methodInfo);
+            var methodCall = BuildMethodCall(methodInfo);
 
-            var containingType = methodSymbol.ContainingType;
-            var namespaceName = containingType.ContainingNamespace.ToDisplayString();
-            var className = containingType.Name;
-            var methodName = methodSymbol.Name;
-            var returnType = methodSymbol.ReturnType.ToString();
-
-            var taskGenericType = GetTaskGenericType(methodSymbol.ReturnType);
-            var isVoidTask = SymbolEqualityComparer.Default.Equals(methodSymbol.ReturnType, taskGenericType);
-
-            var isMultipleReturnValue = taskGenericType.IsTupleType;
-
-            var outParameterCount = isMultipleReturnValue
-                ? ((INamedTypeSymbol)taskGenericType).TupleElements.Length
-                : isVoidTask
-                    ? 0
-                    : 1;
-
-            var parameters = methodSymbol.Parameters;
-
-            // 引数が存在し、かつ先頭のパラメータが this 型名 引数名 だった場合
-            // つまり、拡張メソッドだった場合
-            // 例: public static partial Task<string> AnalyzeAsync(this OpenJtalk openJtalk, string text);
-            // 先頭の this 型名 引数名 を除外して、残りの引数を取得する
-            var isNonStaticClassMethod = parameters.Length > 0 &&
-                                         methodSymbol.IsExtensionMethod;
-
-            var baseParamsDeclaration = string.Join(", ", parameters.Select(p => $"{p.Type} {p.Name}"));
-            var paramsDeclaration = isNonStaticClassMethod ? "this " + baseParamsDeclaration : baseParamsDeclaration;
-            var paramsUsage = isNonStaticClassMethod ? string.Join(", ", parameters.Skip(1).Select(p => p.Name)) : string.Join(", ", parameters.Select(p => p.Name));
-
-            var targetClassName = className.Substring(0, className.Length - "Extensions".Length);
-            var syncMethodName = methodName.Substring(0, methodName.Length - "Async".Length);
-
-            var syncMethodTemplate = isNonStaticClassMethod ? $"{parameters.First().Name}.{syncMethodName}" : $"{targetClassName}.{syncMethodName}";
-
-            var effectiveSyncMethodCall = $"{syncMethodTemplate}({paramsUsage}{(outParameterCount > 0 ? (paramsUsage == "" ? "" : ", ") + string.Join(", ", (new int[outParameterCount]).Select((_, i) => $"out var returnValue{i}")) : "")})";
+            var returnStatement = methodInfo.OutParameterCount == 0
+                ? ""
+                : "(" + string.Join(", ", Enumerable.Range(0, methodInfo.OutParameterCount).Select(i => $"returnValue{i}")) + ")";
 
             var source = $@"
 using System.Threading.Tasks;
@@ -81,20 +86,20 @@ using VoicevoxCoreSharp.Experimental.Exception;
 using VoicevoxCoreSharp.Core.Enum;
 using VoicevoxCoreSharp.Core;
 
-namespace {namespaceName}
+namespace {methodInfo.Namespace}
 {{
-    public static partial class {className}
+    public static partial class {methodInfo.ClassName}
     {{
-        public static partial {returnType} {methodName}({paramsDeclaration})
+        public static partial {methodInfo.ReturnType} {methodInfo.MethodName}({paramsDeclaration})
         {{
             return Task.Run(() =>
             {{
-                var resultCode = {effectiveSyncMethodCall};
+                var resultCode = {methodCall};
                 if (resultCode != ResultCode.RESULT_OK)
                 {{
                     throw new VoicevoxCoreResultException(resultCode);
                 }}
-                return {(outParameterCount == 0 ? "" : "(" + string.Join(", ", Enumerable.Range(0, outParameterCount).Select(i => $"returnValue{i}")) + ")")};
+                return {returnStatement};
             }});
         }}
     }}
@@ -108,7 +113,32 @@ namespace {namespaceName}
             //     )
             // );
 
-            context.AddSource($"{className}.{methodName}.g.cs", SourceText.From(source, Encoding.UTF8));
+            context.AddSource($"{methodInfo.ClassName}.{methodInfo.MethodName}.g.cs", SourceText.From(source, Encoding.UTF8));
+        }
+
+        private static string BuildMethodParameters(MethodInfo info)
+        {
+            var baseParams = string.Join(", ", info.Parameters.Select(p => $"{p.Type} {p.Name}"));
+            return info.IsExtensionMethod ? "this " + baseParams : baseParams;
+        }
+
+        private static string BuildMethodCall(MethodInfo info)
+        {
+            var paramUsage = info.IsExtensionMethod
+                ? string.Join(", ", info.Parameters.Skip(1).Select(p => p.Name))
+                : string.Join(", ", info.Parameters.Select(p => p.Name));
+
+            var targetClassName = info.ClassName.Substring(0, info.ClassName.Length - "Extensions".Length);
+            var syncMethodName = info.MethodName.Substring(0, info.MethodName.Length - "Async".Length);
+            var methodTemplate = info.IsExtensionMethod
+                ? $"{info.Parameters[0].Name}.{syncMethodName}"
+                : $"{targetClassName}.{syncMethodName}";
+
+            var outParams = info.OutParameterCount > 0
+                ? (paramUsage == "" ? "" : ", ") + string.Join(", ", Enumerable.Range(0, info.OutParameterCount).Select(i => $"out var returnValue{i}"))
+                : "";
+
+            return $"{methodTemplate}({paramUsage}{outParams})";
         }
 
         private static ITypeSymbol GetTaskGenericType(ITypeSymbol returnType)
