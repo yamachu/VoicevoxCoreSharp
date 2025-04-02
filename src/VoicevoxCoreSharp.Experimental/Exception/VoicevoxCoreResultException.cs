@@ -1,4 +1,4 @@
-using VoicevoxCoreSharp.Core.Enum;
+﻿using VoicevoxCoreSharp.Core.Enum;
 
 namespace VoicevoxCoreSharp.Experimental.Exception
 {
