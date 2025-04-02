@@ -25,11 +25,6 @@ jobs:
       with:
         submodules: true
         ref: ${{ inputs.checkout-ref || github.head_ref }}
-    # https://github.com/yamachu/VoicevoxCoreSharp/issues/194 の対応のため一旦 CMake のバージョンを下げている
-    # CMake 4.0.0 でもビルドが通るようになったら消す
-    - uses: jwlawson/actions-setup-cmake@802fa1a2c4e212495c05bf94dba2704a92a472be # v2.0.2
-      with:
-        cmake-version: 3.31.6
     - uses: ./.github/composite/build-dev-rust
       with:
         cache-path: |
