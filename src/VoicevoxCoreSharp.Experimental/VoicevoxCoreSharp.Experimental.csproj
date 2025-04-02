@@ -4,13 +4,55 @@
     <TargetFramework>netstandard2.0</TargetFramework>
     <Nullable>enable</Nullable>
     <LangVersion>9.0</LangVersion>
+
+    <!-- Over .NET 8 -->
+    <IsAotCompatible>true</IsAotCompatible>
+    <!-- Previous .NET 8 -->
+    <IsTrimmable>true</IsTrimmable>
+    <EnableTrimAnalyzer>true</EnableTrimAnalyzer>
+    <EnableSingleFileAnalyzer>true</EnableSingleFileAnalyzer>
+    <EnableAotAnalyzer>true</EnableAotAnalyzer>
+
+    <!-- NuGet Package Properties -->
+    <PackageId>VoicevoxCoreSharp.Experimental</PackageId>
+    <Authors>yamachu</Authors>
+    <Description>VoicevoxCore C# binding library (experimental)</Description>
+    <PackageProjectUrl>https://github.com/yamachu/VoicevoxCoreSharp</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/yamachu/VoicevoxCoreSharp</RepositoryUrl>
+    <PackageTags>voicevox;tts</PackageTags>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <PackageLicenseFile>LICENSE</PackageLicenseFile>
+
+    <DebugType>portable</DebugType>
+    <IncludeSymbols>true</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+    <PublishRepositoryUrl>true</PublishRepositoryUrl>
+    <EmbedUntrackedSources>true</EmbedUntrackedSources>
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\VoicevoxCoreSharp.Core\VoicevoxCoreSharp.Core.csproj" />
+    <None Include="README.md" Pack="true" PackagePath="/" />
+    <None Include="../../LICENSE" Pack="true" PackagePath="/" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\VoicevoxCoreSharp.Core\VoicevoxCoreSharp.Core.csproj">
+      <PrivateAssets>None</PrivateAssets>
+    </ProjectReference>
     <ProjectReference Include="..\VoicevoxCoreSharp.Experimental.SourceGenerator\VoicevoxCoreSharp.Experimental.SourceGenerator.csproj"
                       OutputItemType="Analyzer"
                       ReferenceOutputAssembly="false" />
   </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="8.0.0" PrivateAssets="All"/>
+  </ItemGroup>
+
+  <!-- dotnet pack -p:CoreVersion=0.16.0 -p:PackageVersion=0.16.0 -->
+  <Target Name="SetDependencyVersion" AfterTargets="_GetProjectReferenceVersions">
+    <ItemGroup>
+      <_ProjectReferencesWithVersions Update="..\VoicevoxCoreSharp.Core\VoicevoxCoreSharp.Core.csproj" ProjectVersion="$(CoreVersion)" />
+    </ItemGroup>
+  </Target>
 
 </Project>
