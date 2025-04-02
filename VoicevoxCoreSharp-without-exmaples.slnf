@@ -3,7 +3,8 @@
     "path": "VoicevoxCoreSharp.sln",
     "projects": [
       "src\\VoicevoxCoreSharp.Core\\VoicevoxCoreSharp.Core.csproj",
-      "tests\\VoicevoxCoreSharp.Core.Tests\\VoicevoxCoreSharp.Core.Tests.csproj"
+      "tests\\VoicevoxCoreSharp.Core.Tests\\VoicevoxCoreSharp.Core.Tests.csproj",
+      "src\\VoicevoxCoreSharp.Experimental\\VoicevoxCoreSharp.Experimental.csproj"
     ]
   }
 }
