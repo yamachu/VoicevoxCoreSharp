@@ -21,7 +21,7 @@ dependencies = [
 [[package]]
 name = "csbindgen"
 version = "1.9.3"
-source = "git+https://github.com/yamachu/csbindgen?branch=for-voicevoxcoresharp-csbindgen#7ff5db9b5a6068518767453e0e74e143ed10eed8"
+source = "git+https://github.com/yamachu/csbindgen?branch=for-voicevoxcoresharp-csbindgen#4f51767a268d86e756b4bdb920e3df8e31fe7e0c"
 dependencies = [
  "regex",
  "syn",
