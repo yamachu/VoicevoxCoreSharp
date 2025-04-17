@@ -34,9 +34,22 @@ namespace VoicevoxCoreSharp.Core
         internal VoiceModelFileHandle Handle { get; private set; }
         private bool _disposed = false;
 
-        private unsafe VoiceModelFile(VoicevoxVoiceModelFile* modelHandle)
+        public string Id { get; private set; }
+
+        public string MetasJson { get; private set; }
+
+        private VoiceModelFile()
+        {
+            Handle = new VoiceModelFileHandle(IntPtr.Zero);
+            Id = string.Empty;
+            MetasJson = string.Empty;
+        }
+
+        private unsafe VoiceModelFile(VoicevoxVoiceModelFile* modelHandle, string id, string metasJson)
         {
             Handle = new VoiceModelFileHandle(new IntPtr(modelHandle));
+            Id = id;
+            MetasJson = metasJson;
         }
 
         [Obsolete("Use VoiceModelFile.Open(string modelPath, out VoiceModelFile voiceModel) instead.")]
@@ -55,11 +68,19 @@ namespace VoicevoxCoreSharp.Core
                     var result = CoreUnsafe.voicevox_voice_model_file_open(ptr, &p).FromNative();
                     if (result == ResultCode.RESULT_OK)
                     {
-                        voiceModel = new VoiceModelFile(p);
+                        byte* idPtr = stackalloc byte[16];
+                        CoreUnsafe.voicevox_voice_model_file_id(p, idPtr);
+                        var id = NativeUuid.ToUUIDv4(idPtr);
+
+                        var jsonPtr = CoreUnsafe.voicevox_voice_model_file_create_metas_json(p);
+                        var json = StringConvertCompat.ToUTF8String(jsonPtr);
+                        CoreUnsafe.voicevox_json_free(jsonPtr);
+
+                        voiceModel = new VoiceModelFile(p, id, json);
                     }
                     else
                     {
-                        voiceModel = new VoiceModelFile(null);
+                        voiceModel = new VoiceModelFile();
                     }
 
                     return result;
@@ -67,32 +88,6 @@ namespace VoicevoxCoreSharp.Core
             }
         }
 
-        public string Id
-        {
-            get
-            {
-                unsafe
-                {
-                    byte* ptr = stackalloc byte[16];
-                    CoreUnsafe.voicevox_voice_model_file_id((VoicevoxVoiceModelFile*)Handle, ptr);
-                    return NativeUuid.ToUUIDv4(ptr);
-                }
-            }
-        }
-
-        public string MetasJson
-        {
-            get
-            {
-                unsafe
-                {
-                    var ptr = CoreUnsafe.voicevox_voice_model_file_create_metas_json((VoicevoxVoiceModelFile*)Handle);
-                    var json = StringConvertCompat.ToUTF8String(ptr);
-                    CoreUnsafe.voicevox_json_free(ptr);
-                    return json;
-                }
-            }
-        }
 
         public void Dispose()
         {
