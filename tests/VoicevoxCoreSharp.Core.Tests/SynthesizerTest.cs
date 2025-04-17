@@ -33,5 +33,25 @@ namespace VoicevoxCoreSharp.Core.Tests
             Assert.True(wavLength > 0);
             Assert.NotNull(wav);
         }
+
+        [Fact]
+        public void VoiceModelLoaded()
+        {
+            OpenJtalk.New(Consts.OpenJTalkDictDir, out var openJtalk);
+            var initializeOptions = InitializeOptions.Default();
+            var onnxruntimeOptions = new LoadOnnxruntimeOptions(Path.Join(AppContext.BaseDirectory, Helper.GetOnnxruntimeAssemblyName()));
+            if (Onnxruntime.LoadOnce(onnxruntimeOptions, out var onnruntime) != ResultCode.RESULT_OK)
+            {
+                Assert.Fail("Failed to initialize onnxruntime");
+            }
+            Synthesizer.New(onnruntime, openJtalk, initializeOptions, out var synthesizer);
+
+            VoiceModelFile.Open(Consts.SampleVoiceModel, out var voiceModel);
+            synthesizer.LoadVoiceModel(voiceModel);
+
+            Assert.True(synthesizer.IsLoadedVoiceModel(voiceModel.Id));
+            synthesizer.UnloadVoiceModel(voiceModel.Id);
+            Assert.False(synthesizer.IsLoadedVoiceModel(voiceModel.Id));
+        }
     }
 }

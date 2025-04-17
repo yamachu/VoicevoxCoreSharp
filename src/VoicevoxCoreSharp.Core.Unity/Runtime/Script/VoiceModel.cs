@@ -75,7 +75,7 @@ namespace VoicevoxCoreSharp.Core
                 {
                     byte* ptr = stackalloc byte[16];
                     CoreUnsafe.voicevox_voice_model_file_id((VoicevoxVoiceModelFile*)Handle, ptr);
-                    return StringConvertCompat.ToUTF8String(ptr);
+                    return NativeUuid.ToUUIDv4(ptr);
                 }
             }
         }

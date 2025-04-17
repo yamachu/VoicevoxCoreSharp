@@ -72,7 +72,7 @@ namespace VoicevoxCoreSharp.Core
         {
             unsafe
             {
-                fixed (byte* ptr = System.Text.Encoding.UTF8.GetBytes(modelId))
+                fixed (byte* ptr = NativeUuid.ToUUIDv4ByteArray(modelId))
                 {
                     return CoreUnsafe.voicevox_synthesizer_unload_voice_model((VoicevoxSynthesizer*)Handle, ptr).FromNative();
                 }
@@ -94,7 +94,7 @@ namespace VoicevoxCoreSharp.Core
         {
             unsafe
             {
-                fixed (byte* ptr = System.Text.Encoding.UTF8.GetBytes(modelId))
+                fixed (byte* ptr = NativeUuid.ToUUIDv4ByteArray(modelId))
                 {
                     return CoreUnsafe.voicevox_synthesizer_is_loaded_voice_model((VoicevoxSynthesizer*)Handle, ptr);
                 }
