@@ -61,8 +61,6 @@ voicevox_core のリリースに合わせて、Release タグや、nuget パッ�
 
 詳細なトラッキングしているバージョンは Git Submodule として取得している [voicevox_core](./binding/voicevox_core) のコミットハッシュ、もしくは [VoicevoxCoreCommitHash](./src/VoicevoxCoreSharp.Core/VoicevoxCoreSharp.Core.Metas.props) を参照してください。
 
-サブモジュールの更新は GitHub Dependabot により自動的に PR が作成されます。PR の説明には変更内容のサマリーが含まれ、変更の追跡が容易になっています。
-
 今後のリリースで、voicevox_engine で利用されている compatible_engine などの対応を検討しています。
 
 ## License
