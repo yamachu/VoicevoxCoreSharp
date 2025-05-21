@@ -68,15 +68,21 @@ namespace VoicevoxCoreSharp.Core
             }
         }
 
-        public ResultCode UnloadVoiceModel(string modelId)
+        public ResultCode UnloadVoiceModel(VoiceModelId modelId)
         {
             unsafe
             {
-                fixed (byte* ptr = NativeUuid.ToUUIDv4ByteArray(modelId))
+                fixed (byte* ptr = NativeUuid.ToUUIDv4ByteArray(modelId.Id))
                 {
                     return CoreUnsafe.voicevox_synthesizer_unload_voice_model((VoicevoxSynthesizer*)Handle, ptr).FromNative();
                 }
             }
+        }
+        
+        // For backward compatibility
+        public ResultCode UnloadVoiceModel(string modelId)
+        {
+            return UnloadVoiceModel(new VoiceModelId(modelId));
         }
 
         public bool IsGpuMode
@@ -90,15 +96,21 @@ namespace VoicevoxCoreSharp.Core
             }
         }
 
-        public bool IsLoadedVoiceModel(string modelId)
+        public bool IsLoadedVoiceModel(VoiceModelId modelId)
         {
             unsafe
             {
-                fixed (byte* ptr = NativeUuid.ToUUIDv4ByteArray(modelId))
+                fixed (byte* ptr = NativeUuid.ToUUIDv4ByteArray(modelId.Id))
                 {
                     return CoreUnsafe.voicevox_synthesizer_is_loaded_voice_model((VoicevoxSynthesizer*)Handle, ptr);
                 }
             }
+        }
+        
+        // For backward compatibility
+        public bool IsLoadedVoiceModel(string modelId)
+        {
+            return IsLoadedVoiceModel(new VoiceModelId(modelId));
         }
 
         public string MetasJson
