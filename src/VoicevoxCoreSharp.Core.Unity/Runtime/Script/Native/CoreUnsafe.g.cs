@@ -180,7 +180,7 @@ namespace VoicevoxCoreSharp.Core.Native
         ///
         ///  この関数の呼び出し後に破棄し終えた対象にアクセスすると、プロセスを異常終了する。
         ///
-        ///  @param [in] open_jtalk 破棄対象
+        ///  @param [in] open_jtalk 破棄対象。nullable
         ///
         ///  \example{
         ///  ```c
@@ -283,7 +283,7 @@ namespace VoicevoxCoreSharp.Core.Native
         ///
         ///  この関数の呼び出し後に破棄し終えた対象にアクセスすると、プロセスを異常終了する。
         ///
-        ///  @param [in] model 破棄対象
+        ///  @param [in] model 破棄対象。nullable
         ///
         ///  \no-orig-impl{voicevox_voice_model_file_delete}
         /// </summary>
@@ -317,7 +317,7 @@ namespace VoicevoxCoreSharp.Core.Native
         ///
         ///  この関数の呼び出し後に破棄し終えた対象にアクセスすると、プロセスを異常終了する。
         ///
-        ///  @param [in] synthesizer 破棄対象
+        ///  @param [in] synthesizer 破棄対象。nullable
         ///
         ///  \no-orig-impl{voicevox_synthesizer_delete}
         /// </summary>
@@ -747,10 +747,10 @@ namespace VoicevoxCoreSharp.Core.Native
         /// <summary>
         ///  JSON文字列を解放する。
         ///
-        ///  @param [in] json 解放するJSON文字列
+        ///  @param [in] json 解放するJSON文字列。nullable
         ///
         ///  \safety{
-        ///  - `json`は以下のAPIで得られたポインタでなくてはいけない。
+        ///  - `json`がヌルポインタでないならば、以下のAPIで得られたポインタでなくてはいけない。
         ///      - ::voicevox_audio_query_create_from_accent_phrases
         ///      - ::voicevox_onnxruntime_create_supported_devices_json
         ///      - ::voicevox_voice_model_file_create_metas_json
@@ -763,8 +763,8 @@ namespace VoicevoxCoreSharp.Core.Native
         ///      - ::voicevox_synthesizer_replace_mora_pitch
         ///      - ::voicevox_user_dict_to_json
         ///  - 文字列の長さは生成時より変更されていてはならない。
-        ///  - `json`は&lt;a href="#voicevox-core-safety"&gt;読み込みと書き込みについて有効&lt;/a&gt;でなければならない。
-        ///  - `json`は以後&lt;b&gt;ダングリングポインタ&lt;/b&gt;(_dangling pointer_)として扱われなくてはならない。
+        ///  - `json`がヌルポインタでないならば、&lt;a href="#voicevox-core-safety"&gt;読み込みと書き込みについて有効&lt;/a&gt;でなければならない。
+        ///  - `json`がヌルポインタでないならば、以後&lt;b&gt;ダングリングポインタ&lt;/b&gt;(_dangling pointer_)として扱われなくてはならない。
         ///  }
         ///
         ///  \no-orig-impl{voicevox_json_free}
@@ -775,14 +775,14 @@ namespace VoicevoxCoreSharp.Core.Native
         /// <summary>
         ///  WAVデータを解放する。
         ///
-        ///  @param [in] wav 解放するWAVデータ
+        ///  @param [in] wav 解放するWAVデータ。nullable
         ///
         ///  \safety{
-        ///  - `wav`は以下のAPIで得られたポインタでなくてはいけない。
+        ///  - `wav`がヌルポインタでないならば、以下のAPIで得られたポインタでなくてはいけない。
         ///      - ::voicevox_synthesizer_synthesis
         ///      - ::voicevox_synthesizer_tts
-        ///  - `wav`は&lt;a href="#voicevox-core-safety"&gt;読み込みと書き込みについて有効&lt;/a&gt;でなければならない。
-        ///  - `wav`は以後&lt;b&gt;ダングリングポインタ&lt;/b&gt;(_dangling pointer_)として扱われなくてはならない。
+        ///  - `wav`がヌルポインタでないならば、&lt;a href="#voicevox-core-safety"&gt;読み込みと書き込みについて有効&lt;/a&gt;でなければならない。
+        ///  - `wav`がヌルポインタでないならば、以後&lt;b&gt;ダングリングポインタ&lt;/b&gt;(_dangling pointer_)として扱われなくてはならない。
         ///  }
         ///
         ///  \no-orig-impl{voicevox_wav_free}
@@ -963,7 +963,7 @@ namespace VoicevoxCoreSharp.Core.Native
         ///
         ///  この関数の呼び出し後に破棄し終えた対象にアクセスすると、プロセスを異常終了する。
         ///
-        ///  @param [in] user_dict 破棄対象
+        ///  @param [in] user_dict 破棄対象。nullable
         ///
         ///  \no-orig-impl{voicevox_user_dict_delete}
         /// </summary>
