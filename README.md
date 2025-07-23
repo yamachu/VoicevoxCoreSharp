@@ -61,6 +61,8 @@ voicevox_core のリリースに合わせて、Release タグや、nuget パッ�
 
 詳細なトラッキングしているバージョンは Git Submodule として取得している [voicevox_core](./binding/voicevox_core) のコミットハッシュ、もしくは [VoicevoxCoreCommitHash](./src/VoicevoxCoreSharp.Core/VoicevoxCoreSharp.Core.Metas.props) を参照してください。
 
+リリースに対応するバージョンは [VERSIONS.md](./VERSIONS.md) を参照してください。
+
 今後のリリースで、voicevox_engine で利用されている compatible_engine などの対応を検討しています。
 
 ## License
