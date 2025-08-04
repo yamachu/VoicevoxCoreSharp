@@ -1,0 +1,20 @@
+<Solution>
+  <Configurations>
+    <Platform Name="Any CPU" />
+    <Platform Name="x64" />
+    <Platform Name="x86" />
+  </Configurations>
+  <Folder Name="/examples/">
+    <Project Path="examples/cli/cli.csproj" />
+    <Project Path="examples/MAUI/MAUI.csproj" />
+  </Folder>
+  <Folder Name="/src/">
+    <Project Path="src/VoicevoxCoreSharp.Core/VoicevoxCoreSharp.Core.csproj" />
+    <Project Path="src/VoicevoxCoreSharp.Experimental.SourceGenerator/VoicevoxCoreSharp.Experimental.SourceGenerator.csproj" />
+    <Project Path="src/VoicevoxCoreSharp.Experimental/VoicevoxCoreSharp.Experimental.csproj" />
+    <Project Path="src/VoicevoxCoreSharp.MAUI/VoicevoxCoreSharp.MAUI.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/VoicevoxCoreSharp.Core.Tests/VoicevoxCoreSharp.Core.Tests.csproj" />
+  </Folder>
+</Solution>
