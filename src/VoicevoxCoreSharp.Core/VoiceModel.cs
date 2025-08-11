@@ -34,21 +34,21 @@ namespace VoicevoxCoreSharp.Core
         internal VoiceModelFileHandle Handle { get; private set; }
         private bool _disposed = false;
 
-        public string Id { get; private set; }
+        public VoiceModelId Id { get; private set; }
 
         public string MetasJson { get; private set; }
 
         private VoiceModelFile()
         {
             Handle = new VoiceModelFileHandle(IntPtr.Zero);
-            Id = string.Empty;
+            Id = new VoiceModelId(string.Empty);
             MetasJson = string.Empty;
         }
 
         private unsafe VoiceModelFile(VoicevoxVoiceModelFile* modelHandle, string id, string metasJson)
         {
             Handle = new VoiceModelFileHandle(new IntPtr(modelHandle));
-            Id = id;
+            Id = new VoiceModelId(id);
             MetasJson = metasJson;
         }
 
