@@ -21,7 +21,7 @@ jobs:
       run:
         working-directory: ./binding
     steps:
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@v5
       with:
         submodules: true
         ref: ${{ inputs.checkout-ref || github.head_ref }}
@@ -36,7 +36,7 @@ jobs:
     runs-on: ubuntu-latest
     needs: build-native-dev-library
     steps:
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@v5
       with:
         submodules: true
         ref: ${{ inputs.checkout-ref || github.head_ref }}
@@ -67,7 +67,7 @@ jobs:
     runs-on: ubuntu-latest
     needs: build-native-dev-library
     steps:
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@v5
       with:
         submodules: true
         ref: ${{ inputs.checkout-ref || github.head_ref }}
@@ -100,7 +100,7 @@ jobs:
     runs-on: ubuntu-latest
     needs: build-native-dev-library
     steps:
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@v5
       with:
         submodules: true
         ref: ${{ inputs.checkout-ref || github.head_ref }}
