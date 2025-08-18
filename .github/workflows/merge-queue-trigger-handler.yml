@@ -28,7 +28,7 @@ jobs:
         # if use ACT, uncomment-out the following line
         # with:
         #   required-codeowners: 'false'
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
         with:
           fetch-depth: 0
           ref: ${{ fromJSON(steps.precheck.outputs.base-branch) }}
