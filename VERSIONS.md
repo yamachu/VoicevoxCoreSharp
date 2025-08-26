@@ -7,3 +7,4 @@
 | VoicevoxCoreSharp | voicevox_core |
 |-------------------|---------------|
 | 0.16.0 - 0.16.1   | 0.16.0        |
+| Unreleased        | 0.16.1        |

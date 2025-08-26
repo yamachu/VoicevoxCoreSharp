@@ -251,7 +251,7 @@ namespace VoicevoxCoreSharp.Core.Native
         ///  ::VoicevoxVoiceModelFile からIDを取得する。
         ///
         ///  @param [in] model 音声モデル
-        ///  @param [out] output_voice_model_id 音声モデルID
+        ///  @param [out] output_voice_model_id 音声モデルID。詳細は ::VoicevoxVoiceModelId
         ///
         ///  \safety{
         ///  - `output_voice_model_id`は&lt;a href="#voicevox-core-safety"&gt;書き込みについて有効&lt;/a&gt;でなければならない。
