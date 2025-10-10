@@ -1,0 +1,16 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/suzuki-shunsuke/pinact/refs/heads/main/json-schema/pinact.json
+# pinact - https://github.com/suzuki-shunsuke/pinact
+version: 3
+files:
+  - pattern: .github/workflows/*.yml
+  - pattern: .github/composite/*/action.yml
+
+ignore_actions:
+  - name: yamachu/merge-queue-action/.*
+    ref: main
+# - name: slsa-framework/slsa-github-generator/\.github/workflows/generator_generic_slsa3\.yml
+#   ref: v\d+\.\d+\.\d+
+# - name: actions/.*
+#   ref: main
+# - name: suzuki-shunsuke/.*
+#   ref: release-.*

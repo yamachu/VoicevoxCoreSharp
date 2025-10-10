@@ -38,12 +38,12 @@ jobs:
     steps:
       # is PR
       - if: needs.parse-tag.outputs.tag != null
-        uses: actions/checkout@v5
+        uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
         with:
           ref: refs/pull/${{ github.event.issue.number }}/merge
       # is workflow_dispatch
       - if: needs.parse-tag.outputs.release-tag != null
-        uses: actions/checkout@v5
+        uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
       - if: ${{ github.event.issue.pull_request != null }}
         run: gh pr comment ${PR_NUMBER} -b "Running ${ACTION_URL}"
         env:
@@ -51,7 +51,7 @@ jobs:
           ACTION_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
           GH_TOKEN: ${{ github.token }}
       - id: download-voicevox_core
-        uses: sevenc-nanashi/setup-voicevox@v0.1.1
+        uses: sevenc-nanashi/setup-voicevox@7945c1c225e6f7d65ce1e1f62ec9653ac75c6fbb # v0.1.1
         with:
           download-item: "core"
           path: voicevox_core_resources
