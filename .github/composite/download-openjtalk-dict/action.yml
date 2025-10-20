@@ -11,7 +11,7 @@ inputs:
 runs:
   using: composite
   steps:
-    - uses: actions/cache/restore@v4
+    - uses: actions/cache/restore@0057852bfaa89a56745cba8c7296529d2fc39830 # v4.3.0
       id: restore-open-jtalk-dictionary
       with:
         path: ${{ inputs.cache-path }}
@@ -20,7 +20,7 @@ runs:
       shell: bash
       run: curl -sSLfo open_jtalk_dic_utf_8-1.11.tar.gz https://jaist.dl.sourceforge.net/project/open-jtalk/Dictionary/open_jtalk_dic-1.11/open_jtalk_dic_utf_8-1.11.tar.gz
     - if: ${{ steps.restore-open-jtalk-dictionary.outputs.cache-hit != 'true' }}
-      uses: actions/cache/save@v4
+      uses: actions/cache/save@0057852bfaa89a56745cba8c7296529d2fc39830 # v4.3.0
       with:
         path: ${{ inputs.cache-path }}
         key: ${{ inputs.cache-key }}
