@@ -40,7 +40,7 @@ jobs:
       with:
         submodules: true
         ref: ${{ inputs.checkout-ref || github.head_ref }}
-    - uses: actions/setup-dotnet@d4c94342e560b34958eacfc5d055d21461ed1c5d # v5.0.0
+    - uses: actions/setup-dotnet@2016bd2012dba4e32de620c46fe006a3ac9f0602 # v5.0.1
       with:
         dotnet-version: 9
     - uses: actions/cache/restore@0057852bfaa89a56745cba8c7296529d2fc39830 # v4.3.0
@@ -71,7 +71,7 @@ jobs:
       with:
         submodules: true
         ref: ${{ inputs.checkout-ref || github.head_ref }}
-    - uses: actions/setup-dotnet@d4c94342e560b34958eacfc5d055d21461ed1c5d # v5.0.0
+    - uses: actions/setup-dotnet@2016bd2012dba4e32de620c46fe006a3ac9f0602 # v5.0.1
       with:
         dotnet-version: 9
     - uses: actions/cache/restore@0057852bfaa89a56745cba8c7296529d2fc39830 # v4.3.0
@@ -104,7 +104,7 @@ jobs:
       with:
         submodules: true
         ref: ${{ inputs.checkout-ref || github.head_ref }}
-    - uses: actions/setup-dotnet@d4c94342e560b34958eacfc5d055d21461ed1c5d # v5.0.0
+    - uses: actions/setup-dotnet@2016bd2012dba4e32de620c46fe006a3ac9f0602 # v5.0.1
       with:
         dotnet-version: 9
     - run: make format/check
