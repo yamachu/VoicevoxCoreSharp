@@ -57,5 +57,47 @@ namespace VoicevoxCoreSharp.Core
                 }
             }
         }
+
+        /// <returns>
+        /// <see cref="ResultCode.RESULT_OK"/> または <see cref="ResultCode.RESULT_INVALID_AUDIO_QUERY_ERROR"/>
+        /// </returns>
+        public ResultCode ValidateAudioQuery(string audioQueryJson)
+        {
+            unsafe
+            {
+                fixed (byte* ptr = System.Text.Encoding.UTF8.GetBytes(audioQueryJson))
+                {
+                    return CoreUnsafe.voicevox_audio_query_validate(ptr).FromNative();
+                }
+            }
+        }
+
+        /// <returns>
+        /// <see cref="ResultCode.RESULT_OK"/> または <see cref="ResultCode.RESULT_INVALID_ACCENT_PHRASE_ERROR"/>
+        /// </returns>
+        public ResultCode ValidateAccentPhrase(string accentPhraseJson)
+        {
+            unsafe
+            {
+                fixed (byte* ptr = System.Text.Encoding.UTF8.GetBytes(accentPhraseJson))
+                {
+                    return CoreUnsafe.voicevox_accent_phrase_validate(ptr).FromNative();
+                }
+            }
+        }
+
+        /// <returns>
+        /// <see cref="ResultCode.RESULT_OK"/> または <see cref="ResultCode.RESULT_INVALID_MORA_ERROR"/>
+        /// </returns>
+        public ResultCode ValidateMora(string moraJson)
+        {
+            unsafe
+            {
+                fixed (byte* ptr = System.Text.Encoding.UTF8.GetBytes(moraJson))
+                {
+                    return CoreUnsafe.voicevox_mora_validate(ptr).FromNative();
+                }
+            }
+        }
     }
 }
