@@ -61,7 +61,7 @@ namespace VoicevoxCoreSharp.Core
         /// <returns>
         /// <see cref="ResultCode.RESULT_OK"/> または <see cref="ResultCode.RESULT_INVALID_AUDIO_QUERY_ERROR"/>
         /// </returns>
-        public ResultCode ValidateAudioQuery(string audioQueryJson)
+        public static ResultCode ValidateAudioQuery(string audioQueryJson)
         {
             unsafe
             {
@@ -75,7 +75,7 @@ namespace VoicevoxCoreSharp.Core
         /// <returns>
         /// <see cref="ResultCode.RESULT_OK"/> または <see cref="ResultCode.RESULT_INVALID_ACCENT_PHRASE_ERROR"/>
         /// </returns>
-        public ResultCode ValidateAccentPhrase(string accentPhraseJson)
+        public static ResultCode ValidateAccentPhrase(string accentPhraseJson)
         {
             unsafe
             {
@@ -89,7 +89,7 @@ namespace VoicevoxCoreSharp.Core
         /// <returns>
         /// <see cref="ResultCode.RESULT_OK"/> または <see cref="ResultCode.RESULT_INVALID_MORA_ERROR"/>
         /// </returns>
-        public ResultCode ValidateMora(string moraJson)
+        public static ResultCode ValidateMora(string moraJson)
         {
             unsafe
             {
