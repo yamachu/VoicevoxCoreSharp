@@ -108,12 +108,17 @@ namespace VoicevoxCoreSharp.Core.Enum
         /// UUIDの変換に失敗した
         /// </summary>
         RESULT_INVALID_UUID_ERROR = 25,
+        /// <summary>
+        /// 無効なMora
+        /// </summary>
+        RESULT_INVALID_MORA_ERROR = 30,
     }
 
     public static class ResultCodeExt
     {
         internal static ResultCode FromNative(this VoicevoxResultCode code)
         {
+#pragma warning disable CS8524
             return code switch
             {
                 VoicevoxResultCode.VOICEVOX_RESULT_OK => ResultCode.RESULT_OK,
@@ -141,12 +146,14 @@ namespace VoicevoxCoreSharp.Core.Enum
                 VoicevoxResultCode.VOICEVOX_RESULT_USE_USER_DICT_ERROR => ResultCode.RESULT_USE_USER_DICT_ERROR,
                 VoicevoxResultCode.VOICEVOX_RESULT_INVALID_USER_DICT_WORD_ERROR => ResultCode.RESULT_INVALID_USER_DICT_WORD_ERROR,
                 VoicevoxResultCode.VOICEVOX_RESULT_INVALID_UUID_ERROR => ResultCode.RESULT_INVALID_UUID_ERROR,
-                _ => throw new ArgumentOutOfRangeException(nameof(code), code, null),
+                VoicevoxResultCode.VOICEVOX_RESULT_INVALID_MORA_ERROR => ResultCode.RESULT_INVALID_MORA_ERROR,
             };
+#pragma warning restore CS8524
         }
 
         internal static VoicevoxResultCode ToNative(this ResultCode code)
         {
+#pragma warning disable CS8524
             return code switch
             {
                 ResultCode.RESULT_OK => VoicevoxResultCode.VOICEVOX_RESULT_OK,
@@ -174,8 +181,9 @@ namespace VoicevoxCoreSharp.Core.Enum
                 ResultCode.RESULT_USE_USER_DICT_ERROR => VoicevoxResultCode.VOICEVOX_RESULT_USE_USER_DICT_ERROR,
                 ResultCode.RESULT_INVALID_USER_DICT_WORD_ERROR => VoicevoxResultCode.VOICEVOX_RESULT_INVALID_USER_DICT_WORD_ERROR,
                 ResultCode.RESULT_INVALID_UUID_ERROR => VoicevoxResultCode.VOICEVOX_RESULT_INVALID_UUID_ERROR,
-                _ => throw new ArgumentOutOfRangeException(nameof(code), code, null),
+                ResultCode.RESULT_INVALID_MORA_ERROR => VoicevoxResultCode.VOICEVOX_RESULT_INVALID_MORA_ERROR,
             };
+#pragma warning restore CS8524
         }
 
         public static unsafe string ToMessage(this ResultCode code)

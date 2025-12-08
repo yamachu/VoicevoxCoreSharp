@@ -26,24 +26,26 @@ namespace VoicevoxCoreSharp.Core.Enum
     {
         public static AccelerationMode FromNative(this VoicevoxAccelerationMode mode)
         {
+#pragma warning disable CS8524
             return mode switch
             {
                 VoicevoxAccelerationMode.VOICEVOX_ACCELERATION_MODE_AUTO => AccelerationMode.AUTO,
                 VoicevoxAccelerationMode.VOICEVOX_ACCELERATION_MODE_CPU => AccelerationMode.CPU,
                 VoicevoxAccelerationMode.VOICEVOX_ACCELERATION_MODE_GPU => AccelerationMode.GPU,
-                _ => throw new ArgumentOutOfRangeException(nameof(mode), mode, null),
             };
+#pragma warning restore CS8524
         }
 
         public static VoicevoxAccelerationMode ToNative(this AccelerationMode mode)
         {
+#pragma warning disable CS8524
             return mode switch
             {
                 AccelerationMode.AUTO => VoicevoxAccelerationMode.VOICEVOX_ACCELERATION_MODE_AUTO,
                 AccelerationMode.CPU => VoicevoxAccelerationMode.VOICEVOX_ACCELERATION_MODE_CPU,
                 AccelerationMode.GPU => VoicevoxAccelerationMode.VOICEVOX_ACCELERATION_MODE_GPU,
-                _ => throw new ArgumentOutOfRangeException(nameof(mode), mode, null),
             };
+#pragma warning restore CS8524
         }
     }
 }
