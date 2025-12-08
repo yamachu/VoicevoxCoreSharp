@@ -7,4 +7,12 @@
 | VoicevoxCoreSharp | voicevox_core |
 |-------------------|---------------|
 | 0.16.0 - 0.16.1   | 0.16.0        |
-| Unreleased        | 0.16.1        |
+| 0.16.0 - 0.16.1   | 0.16.1        |
+| 0.16.0 - 0.16.1   | 0.16.2        |
+| 0.16.2 -          | 0.16.3        |
+
+### 対応したPR
+
+#### 0.16.2
+
+https://github.com/yamachu/VoicevoxCoreSharp/pull/252
