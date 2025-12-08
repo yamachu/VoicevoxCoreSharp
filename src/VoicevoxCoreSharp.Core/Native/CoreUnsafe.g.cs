@@ -230,6 +230,99 @@ namespace VoicevoxCoreSharp.Core.Native
         internal static extern VoicevoxResultCode voicevox_audio_query_create_from_accent_phrases(byte* accent_phrases_json, byte** output_audio_query_json);
 
         /// <summary>
+        ///  JSONを`AudioQuery`型としてバリデートする。
+        ///
+        ///  次のうちどれかを満たすならエラーを返す。
+        ///
+        ///  - [Rust APIの`AudioQuery`型]としてデシリアライズ不可、もしくはJSONとして不正。
+        ///  - `accent_phrases`の要素のうちいずれかが、 ::voicevox_accent_phrase_validate でエラーになる。
+        ///  - `outputSamplingRate`が`24000`の倍数ではない、もしくは`0` (将来的に解消予定。cf. [#762])。
+        ///
+        ///  [Rust APIの`AudioQuery`型]: ../rust_api/voicevox_core/struct.AudioQuery.html
+        ///  [#762]: https://github.com/VOICEVOX/voicevox_core/issues/762
+        ///
+        ///  次の状態に対しては警告のログを出す。将来的にはエラーになる予定。
+        ///
+        ///  - `accent_phrases`の要素のうちいずれかが警告が出る状態。
+        ///  - `speedScale`が負。
+        ///  - `volumeScale`が負。
+        ///  - `prePhonemeLength`が負。
+        ///  - `postPhonemeLength`が負。
+        ///  - `outputSamplingRate`が`24000`以外の値（エラーと同様将来的に解消予定）。
+        ///
+        ///  @param [in] audio_query_json `AudioQuery`型のJSON
+        ///
+        ///  @returns 成功時には ::VOICEVOX_RESULT_OK 、失敗時には ::VOICEVOX_RESULT_INVALID_AUDIO_QUERY_ERROR
+        ///
+        ///  \safety{
+        ///  - `audio_query_json`はヌル終端文字列を指し、かつ&lt;a href="#voicevox-core-safety"&gt;読み込みについて有効&lt;/a&gt;でなければならない。
+        ///  }
+        ///
+        ///  \orig-impl{voicevox_audio_query_validate}
+        /// </summary>
+        [DllImport(__DllName, EntryPoint = "voicevox_audio_query_validate", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        internal static extern VoicevoxResultCode voicevox_audio_query_validate(byte* audio_query_json);
+
+        /// <summary>
+        ///  JSONを`AccentPhrase`型としてバリデートする。
+        ///
+        ///  次のうちどれかを満たすならエラーを返す。
+        ///
+        ///  - [Rust APIの`AccentPhrase`型]としてデシリアライズ不可、もしくはJSONとして不正。
+        ///  - `moras`もしくは`pause_mora`の要素のうちいずれかが、 ::voicevox_mora_validate でエラーになる。
+        ///  - `accent`が`0`。
+        ///
+        ///  [Rust APIの`AccentPhrase`型]: ../rust_api/voicevox_core/struct.AccentPhrase.html
+        ///
+        ///  次の状態に対しては警告のログを出す。将来的にはエラーになる予定。
+        ///
+        ///  - `moras`もしくは`pause_mora`の要素のうちいずれかが、警告が出る状態。
+        ///  - `accent`が`moras`の数を超過している。
+        ///
+        ///  @param [in] accent_phrase_json `AccentPhrase`型のJSON
+        ///
+        ///  @returns 成功時には ::VOICEVOX_RESULT_OK 、失敗時には ::VOICEVOX_RESULT_INVALID_ACCENT_PHRASE_ERROR
+        ///
+        ///  \safety{
+        ///  - `accent_phrase_json`はヌル終端文字列を指し、かつ&lt;a href="#voicevox-core-safety"&gt;読み込みについて有効&lt;/a&gt;でなければならない。
+        ///  }
+        ///
+        ///  \orig-impl{voicevox_accent_phrase_validate}
+        /// </summary>
+        [DllImport(__DllName, EntryPoint = "voicevox_accent_phrase_validate", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        internal static extern VoicevoxResultCode voicevox_accent_phrase_validate(byte* accent_phrase_json);
+
+        /// <summary>
+        ///  JSONを`Mora`型としてバリデートする。
+        ///
+        ///  次のうちどれかを満たすならエラーを返す。
+        ///
+        ///  - [Rust APIの`Mora`型]としてデシリアライズ不可、もしくはJSONとして不正。
+        ///  - `consonant`と`consonant_length`の有無が不一致。
+        ///  - `consonant`が子音以外の音素であるか、もしくは音素として不正。
+        ///  - `vowel`が子音であるか、もしくは音素として不正。
+        ///
+        ///  [Rust APIの`Mora`型]: ../rust_api/voicevox_core/struct.Mora.html
+        ///
+        ///  次の状態に対しては警告のログを出す。将来的にはエラーになる予定。
+        ///
+        ///  - `consonant_length`が負。
+        ///  - `vowel_length`が負。
+        ///
+        ///  @param [in] mora_json `Mora`型のJSON
+        ///
+        ///  @returns 成功時には ::VOICEVOX_RESULT_OK 、失敗時には ::VOICEVOX_RESULT_INVALID_MORA_ERROR
+        ///
+        ///  \safety{
+        ///  - `mora_json`はヌル終端文字列を指し、かつ&lt;a href="#voicevox-core-safety"&gt;読み込みについて有効&lt;/a&gt;でなければならない。
+        ///  }
+        ///
+        ///  \orig-impl{voicevox_mora_validate}
+        /// </summary>
+        [DllImport(__DllName, EntryPoint = "voicevox_mora_validate", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        internal static extern VoicevoxResultCode voicevox_mora_validate(byte* mora_json);
+
+        /// <summary>
         ///  VVMファイルを開く。
         ///
         ///  @param [in] path vvmファイルへのUTF-8のファイルパス
@@ -1061,6 +1154,7 @@ namespace VoicevoxCoreSharp.Core.Native
         VOICEVOX_RESULT_USE_USER_DICT_ERROR = 23,
         VOICEVOX_RESULT_INVALID_USER_DICT_WORD_ERROR = 24,
         VOICEVOX_RESULT_INVALID_UUID_ERROR = 25,
+        VOICEVOX_RESULT_INVALID_MORA_ERROR = 30,
     }
 
     internal enum VoicevoxAccelerationMode : int

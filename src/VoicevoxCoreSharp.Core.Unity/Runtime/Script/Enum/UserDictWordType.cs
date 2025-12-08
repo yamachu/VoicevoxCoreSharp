@@ -34,6 +34,7 @@ namespace VoicevoxCoreSharp.Core.Enum
     {
         public static UserDictWordType FromNative(this VoicevoxUserDictWordType wordType)
         {
+#pragma warning disable CS8524
             return wordType switch
             {
                 VoicevoxUserDictWordType.VOICEVOX_USER_DICT_WORD_TYPE_PROPER_NOUN => UserDictWordType.PROPER_NOUN,
@@ -41,12 +42,13 @@ namespace VoicevoxCoreSharp.Core.Enum
                 VoicevoxUserDictWordType.VOICEVOX_USER_DICT_WORD_TYPE_VERB => UserDictWordType.VERB,
                 VoicevoxUserDictWordType.VOICEVOX_USER_DICT_WORD_TYPE_ADJECTIVE => UserDictWordType.ADJECTIVE,
                 VoicevoxUserDictWordType.VOICEVOX_USER_DICT_WORD_TYPE_SUFFIX => UserDictWordType.SUFFIX,
-                _ => throw new ArgumentOutOfRangeException(nameof(wordType), wordType, null),
             };
+#pragma warning restore CS8524
         }
 
         public static VoicevoxUserDictWordType ToNative(this UserDictWordType wordType)
         {
+#pragma warning disable CS8524
             return wordType switch
             {
                 UserDictWordType.PROPER_NOUN => VoicevoxUserDictWordType.VOICEVOX_USER_DICT_WORD_TYPE_PROPER_NOUN,
@@ -54,8 +56,8 @@ namespace VoicevoxCoreSharp.Core.Enum
                 UserDictWordType.VERB => VoicevoxUserDictWordType.VOICEVOX_USER_DICT_WORD_TYPE_VERB,
                 UserDictWordType.ADJECTIVE => VoicevoxUserDictWordType.VOICEVOX_USER_DICT_WORD_TYPE_ADJECTIVE,
                 UserDictWordType.SUFFIX => VoicevoxUserDictWordType.VOICEVOX_USER_DICT_WORD_TYPE_SUFFIX,
-                _ => throw new ArgumentOutOfRangeException(nameof(wordType), wordType, null),
             };
+#pragma warning restore CS8524
         }
     }
 }
