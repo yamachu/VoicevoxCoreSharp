@@ -38,12 +38,12 @@ jobs:
     steps:
       # is PR
       - if: needs.parse-tag.outputs.tag != null
-        uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
+        uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
         with:
           ref: refs/pull/${{ github.event.issue.number }}/merge
       # is workflow_dispatch
       - if: needs.parse-tag.outputs.release-tag != null
-        uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
+        uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
       - if: ${{ github.event.issue.pull_request != null }}
         run: gh pr comment ${PR_NUMBER} -b "Running ${ACTION_URL}"
         env:
