@@ -43,7 +43,7 @@ jobs:
     - uses: actions/setup-dotnet@2016bd2012dba4e32de620c46fe006a3ac9f0602 # v5.0.1
       with:
         dotnet-version: 9
-    - uses: actions/cache/restore@0057852bfaa89a56745cba8c7296529d2fc39830 # v4.3.0
+    - uses: actions/cache/restore@9255dc7a253b0ccc959486e2bca901246202afeb # v5.0.1
       with:
         path: |
           ./binding/voicevox_core/target/release/libvoicevox_core.so
@@ -74,7 +74,7 @@ jobs:
     - uses: actions/setup-dotnet@2016bd2012dba4e32de620c46fe006a3ac9f0602 # v5.0.1
       with:
         dotnet-version: 9
-    - uses: actions/cache/restore@0057852bfaa89a56745cba8c7296529d2fc39830 # v4.3.0
+    - uses: actions/cache/restore@9255dc7a253b0ccc959486e2bca901246202afeb # v5.0.1
       with:
         path: |
           ./binding/voicevox_core/target/release/libvoicevox_core.so
