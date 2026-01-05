@@ -112,6 +112,10 @@ namespace VoicevoxCoreSharp.Core.Enum
         /// 無効なMora
         /// </summary>
         RESULT_INVALID_MORA_ERROR = 30,
+        /// <summary>
+        /// 楽譜とFrameAudioQueryの組み合わせが不正
+        /// </summary>
+        RESULT_INCOMPATIBLE_QUERIES_ERROR = 35,
     }
 
     public static class ResultCodeExt
@@ -147,6 +151,7 @@ namespace VoicevoxCoreSharp.Core.Enum
                 VoicevoxResultCode.VOICEVOX_RESULT_INVALID_USER_DICT_WORD_ERROR => ResultCode.RESULT_INVALID_USER_DICT_WORD_ERROR,
                 VoicevoxResultCode.VOICEVOX_RESULT_INVALID_UUID_ERROR => ResultCode.RESULT_INVALID_UUID_ERROR,
                 VoicevoxResultCode.VOICEVOX_RESULT_INVALID_MORA_ERROR => ResultCode.RESULT_INVALID_MORA_ERROR,
+                VoicevoxResultCode.VOICEVOX_RESULT_INCOMPATIBLE_QUERIES_ERROR => ResultCode.RESULT_INCOMPATIBLE_QUERIES_ERROR,
             };
 #pragma warning restore CS8524
         }
@@ -182,6 +187,7 @@ namespace VoicevoxCoreSharp.Core.Enum
                 ResultCode.RESULT_INVALID_USER_DICT_WORD_ERROR => VoicevoxResultCode.VOICEVOX_RESULT_INVALID_USER_DICT_WORD_ERROR,
                 ResultCode.RESULT_INVALID_UUID_ERROR => VoicevoxResultCode.VOICEVOX_RESULT_INVALID_UUID_ERROR,
                 ResultCode.RESULT_INVALID_MORA_ERROR => VoicevoxResultCode.VOICEVOX_RESULT_INVALID_MORA_ERROR,
+                ResultCode.RESULT_INCOMPATIBLE_QUERIES_ERROR => VoicevoxResultCode.VOICEVOX_RESULT_INCOMPATIBLE_QUERIES_ERROR,
             };
 #pragma warning restore CS8524
         }
