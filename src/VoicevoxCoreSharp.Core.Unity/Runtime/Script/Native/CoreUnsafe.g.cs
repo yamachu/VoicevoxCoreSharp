@@ -230,9 +230,9 @@ namespace VoicevoxCoreSharp.Core.Native
         internal static extern VoicevoxResultCode voicevox_audio_query_create_from_accent_phrases(byte* accent_phrases_json, byte** output_audio_query_json);
 
         /// <summary>
-        ///  JSONを`AudioQuery`型としてバリデートする。
+        ///  与えられたJSONが`AudioQuery`型として不正であるときエラーを返す。
         ///
-        ///  次のうちどれかを満たすならエラーを返す。
+        ///  不正であるとは、以下のいずれかの条件を満たすことである。
         ///
         ///  - [Rust APIの`AudioQuery`型]としてデシリアライズ不可、もしくはJSONとして不正。
         ///  - `accent_phrases`の要素のうちいずれかが、 ::voicevox_accent_phrase_validate でエラーになる。
@@ -264,9 +264,9 @@ namespace VoicevoxCoreSharp.Core.Native
         internal static extern VoicevoxResultCode voicevox_audio_query_validate(byte* audio_query_json);
 
         /// <summary>
-        ///  JSONを`AccentPhrase`型としてバリデートする。
+        ///  与えられたJSONが`AccentPhrase`型として不正であるときエラーを返す。
         ///
-        ///  次のうちどれかを満たすならエラーを返す。
+        ///  不正であるとは、以下のいずれかの条件を満たすことである。
         ///
         ///  - [Rust APIの`AccentPhrase`型]としてデシリアライズ不可、もしくはJSONとして不正。
         ///  - `moras`もしくは`pause_mora`の要素のうちいずれかが、 ::voicevox_mora_validate でエラーになる。
@@ -293,9 +293,9 @@ namespace VoicevoxCoreSharp.Core.Native
         internal static extern VoicevoxResultCode voicevox_accent_phrase_validate(byte* accent_phrase_json);
 
         /// <summary>
-        ///  JSONを`Mora`型としてバリデートする。
+        ///  与えられたJSONが`Mora`型として不正であるときエラーを返す。
         ///
-        ///  次のうちどれかを満たすならエラーを返す。
+        ///  不正であるとは、以下のいずれかの条件を満たすことである。
         ///
         ///  - [Rust APIの`Mora`型]としてデシリアライズ不可、もしくはJSONとして不正。
         ///  - `consonant`と`consonant_length`の有無が不一致。
@@ -1155,6 +1155,7 @@ namespace VoicevoxCoreSharp.Core.Native
         VOICEVOX_RESULT_INVALID_USER_DICT_WORD_ERROR = 24,
         VOICEVOX_RESULT_INVALID_UUID_ERROR = 25,
         VOICEVOX_RESULT_INVALID_MORA_ERROR = 30,
+        VOICEVOX_RESULT_INCOMPATIBLE_QUERIES_ERROR = 35,
     }
 
     internal enum VoicevoxAccelerationMode : int
