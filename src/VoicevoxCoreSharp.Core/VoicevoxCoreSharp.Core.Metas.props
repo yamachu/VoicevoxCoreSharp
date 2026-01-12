@@ -1,6 +1,6 @@
 <Project>
     <PropertyGroup>
         <VoicevoxOnnxRuntimeVersion>1.17.3</VoicevoxOnnxRuntimeVersion>
-        <VoicevoxCoreCommitHash>60b423c70330d7f6d620241fe714b288d4b4f80d</VoicevoxCoreCommitHash>
+        <VoicevoxCoreCommitHash>68faa56ab5e29a6374e0e22f11d26bcc14f86947</VoicevoxCoreCommitHash>
     </PropertyGroup>
 </Project>
