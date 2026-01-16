@@ -29,3 +29,10 @@ updates:
       dev-dependencies:
         patterns:
           - "*"
+          
+  - package-ecosystem: "gitsubmodule"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    labels:
+      - "submodule-update"
