@@ -323,6 +323,124 @@ namespace VoicevoxCoreSharp.Core.Native
         internal static extern VoicevoxResultCode voicevox_mora_validate(byte* mora_json);
 
         /// <summary>
+        ///  与えられたJSONが`Score`型として不正であるときエラーを返す。
+        ///
+        ///  不正であるとは、以下のいずれかの条件を満たすことである。
+        ///
+        ///  - [Rust APIの`Score`型]としてデシリアライズ不可、もしくはJSONとして不正。
+        ///  - `notes`の要素のうちいずれかが、 ::voicevox_note_validate でエラーになる。
+        ///  - `notes`が空であるか、もしくは先頭が音符。
+        ///
+        ///  [Rust APIの`Score`型]: ../rust_api/voicevox_core/struct.Score.html
+        ///
+        ///  @param [in] score_json `Score`型のJSON
+        ///
+        ///  @returns 成功時には ::VOICEVOX_RESULT_OK 、失敗時には ::VOICEVOX_RESULT_INVALID_SCORE_ERROR
+        ///
+        ///  \safety{
+        ///  - `score_json`はヌル終端文字列を指し、かつ&lt;a href="#voicevox-core-safety"&gt;読み込みについて有効&lt;/a&gt;でなければならない。
+        ///  }
+        ///
+        ///  \orig-impl{voicevox_score_validate}
+        /// </summary>
+        [DllImport(__DllName, EntryPoint = "voicevox_score_validate", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        internal static extern VoicevoxResultCode voicevox_score_validate(byte* score_json);
+
+        /// <summary>
+        ///  与えられたJSONが`Note`型として不正であるときエラーを返す。
+        ///
+        ///  不正であるとは、以下のいずれかの条件を満たすことである。
+        ///
+        ///  - [Rust APIの`Note`型]としてデシリアライズ不可、もしくはJSONとして不正。
+        ///  - `key`が`null`かつ`lyric`が`""`以外。
+        ///  - `key`が非`null`かつ`lyric`が`""`。
+        ///
+        ///  [Rust APIの`Note`型]: ../rust_api/voicevox_core/struct.Note.html
+        ///
+        ///  @param [in] note_json `Note`型のJSON
+        ///
+        ///  @returns 成功時には ::VOICEVOX_RESULT_OK 、失敗時には ::VOICEVOX_RESULT_INVALID_NOTE_ERROR
+        ///
+        ///  \safety{
+        ///  - `note_json`はヌル終端文字列を指し、かつ&lt;a href="#voicevox-core-safety"&gt;読み込みについて有効&lt;/a&gt;でなければならない。
+        ///  }
+        ///
+        ///  \orig-impl{voicevox_note_validate}
+        /// </summary>
+        [DllImport(__DllName, EntryPoint = "voicevox_note_validate", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        internal static extern VoicevoxResultCode voicevox_note_validate(byte* note_json);
+
+        /// <summary>
+        ///  与えられたJSONが`FrameAudioQuery`型として不正であるときエラーを返す。
+        ///
+        ///  不正であるとは、以下の条件を満たすことである。
+        ///
+        ///  - [Rust APIの`FrameAudioQuery`型]としてデシリアライズ不可、もしくはJSONとして不正。
+        ///
+        ///  [Rust APIの`FrameAudioQuery`型]: ../rust_api/voicevox_core/struct.FrameAudioQuery.html
+        ///
+        ///  次の状態に対しては警告のログを出す。将来的にはエラーになる予定。
+        ///
+        ///  - `outputSamplingRate`が`24000`以外の値（将来的に解消予定）。
+        ///
+        ///  @param [in] frame_audio_query_json `FrameAudioQuery`型のJSON
+        ///
+        ///  @returns 成功時には ::VOICEVOX_RESULT_OK 、失敗時には ::VOICEVOX_RESULT_INVALID_FRAME_AUDIO_QUERY_ERROR
+        ///
+        ///  \safety{
+        ///  - `frame_audio_query_json`はヌル終端文字列を指し、かつ&lt;a href="#voicevox-core-safety"&gt;読み込みについて有効&lt;/a&gt;でなければならない。
+        ///  }
+        ///
+        ///  \orig-impl{voicevox_frame_audio_query_validate}
+        /// </summary>
+        [DllImport(__DllName, EntryPoint = "voicevox_frame_audio_query_validate", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        internal static extern VoicevoxResultCode voicevox_frame_audio_query_validate(byte* frame_audio_query_json);
+
+        /// <summary>
+        ///  与えられたJSONが`FramePhoneme`型として不正であるときエラーを返す。
+        ///
+        ///  不正であるとは、以下の条件を満たすことである。
+        ///
+        ///  - [Rust APIの`FramePhoneme`型]としてデシリアライズ不可、もしくはJSONとして不正。
+        ///
+        ///  [Rust APIの`FramePhoneme`型]: ../rust_api/voicevox_core/struct.FramePhoneme.html
+        ///
+        ///  @param [in] frame_phoneme_json `FramePhoneme`型のJSON
+        ///
+        ///  @returns 成功時には ::VOICEVOX_RESULT_OK 、失敗時には ::VOICEVOX_RESULT_INVALID_FRAME_PHONEME_ERROR
+        ///
+        ///  \safety{
+        ///  - `frame_phoneme_json`はヌル終端文字列を指し、かつ&lt;a href="#voicevox-core-safety"&gt;読み込みについて有効&lt;/a&gt;でなければならない。
+        ///  }
+        ///
+        ///  \no-orig-impl{voicevox_frame_phoneme_validate}
+        /// </summary>
+        [DllImport(__DllName, EntryPoint = "voicevox_frame_phoneme_validate", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        internal static extern VoicevoxResultCode voicevox_frame_phoneme_validate(byte* frame_phoneme_json);
+
+        /// <summary>
+        ///  与えられた楽譜と歌唱合成用のクエリの組み合わせが、基本周波数と音量の生成に利用できるかどうかを確認する。
+        ///
+        ///  次のうちどれかを満たすならエラーを返す。
+        ///
+        ///  - `score_json`が ::voicevox_score_validate でエラーになる。
+        ///  - `frame_audio_query_json`が ::voicevox_frame_audio_query_validate でエラーになる。
+        ///  - `notes`が表す音素ID列と、`phonemes`が表す音素ID列が等しくない。ただし異なる音素の表現が同一のIDを表すことがある。
+        ///
+        ///  @param [in] score_json `Score`型のJSON
+        ///  @param [in] frame_audio_query_json `FrameAudioQuery`型のJSON
+        ///
+        ///  @returns 成功時には ::VOICEVOX_RESULT_OK 、失敗時には ::VOICEVOX_RESULT_INVALID_SCORE_ERROR, ::VOICEVOX_RESULT_INVALID_FRAME_AUDIO_QUERY_ERROR, ::VOICEVOX_RESULT_INCOMPATIBLE_QUERIES_ERROR
+        ///
+        ///  \safety{
+        ///  - `score_json`と`frame_audio_query_json`はヌル終端文字列を指し、かつ&lt;a href="#voicevox-core-safety"&gt;読み込みについて有効&lt;/a&gt;でなければならない。
+        ///  }
+        ///  \orig-impl{voicevox_ensure_compatible}
+        /// </summary>
+        [DllImport(__DllName, EntryPoint = "voicevox_ensure_compatible", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        internal static extern VoicevoxResultCode voicevox_ensure_compatible(byte* score_json, byte* frame_audio_query_json);
+
+        /// <summary>
         ///  VVMファイルを開く。
         ///
         ///  @param [in] path vvmファイルへのUTF-8のファイルパス
@@ -838,6 +956,156 @@ namespace VoicevoxCoreSharp.Core.Native
         internal static extern VoicevoxResultCode voicevox_synthesizer_tts(VoicevoxSynthesizer* synthesizer, byte* text, uint style_id, VoicevoxTtsOptions options, nuint* output_wav_length, byte** output_wav);
 
         /// <summary>
+        ///  楽譜から歌唱音声合成用のクエリを作成する。
+        ///
+        ///  詳細はユーザーガイド[歌唱音声合成]を参照。
+        ///
+        ///  [歌唱音声合成]: https://github.com/VOICEVOX/voicevox_core/blob/main/docs/guide/user/song.md
+        ///
+        ///  生成したJSONを解放するには ::voicevox_json_free を使う。
+        ///
+        ///  @param [in] synthesizer 音声シンセサイザ
+        ///  @param [in] score_json [`Score`型]を表すJSON
+        ///  @param [in] style_id スタイルID
+        ///  @param [out] output_frame_audio_query_json 生成先
+        ///
+        ///  [`Score`型]: ../rust_api/voicevox_core/struct.Score.html
+        ///
+        ///  @returns 結果コード
+        ///
+        ///  \example{
+        ///  ```c
+        ///  const char *kScore =
+        ///      "{"
+        ///      "  \"notes\": [ "
+        ///      "    { \"key\": null, \"frame_length\": 15, \"lyric\": \"\" },"
+        ///      "    { \"key\": 60, \"frame_length\": 45, \"lyric\": \"ド\" },"
+        ///      "    { \"key\": 62, \"frame_length\": 45, \"lyric\": \"レ\" },"
+        ///      "    { \"key\": 64, \"frame_length\": 45, \"lyric\": \"ミ\" },"
+        ///      "    { \"key\": null, \"frame_length\": 15, \"lyric\": \"\" }"
+        ///      "  ]"
+        ///      "}";
+        ///  const VoicevoxStyleId kSingingTeacher = 6000;
+        ///
+        ///  char *frame_audio_query;
+        ///  const VoicevoxResultCode result =
+        ///      voicevox_synthesizer_create_sing_frame_audio_query(
+        ///          synthesizer, kScore, kSingingTeacher, &amp;frame_audio_query);
+        ///  ```
+        ///  }
+        ///
+        ///  \safety{
+        ///  - `score_json`はヌル終端文字列を指し、かつ&lt;a href="#voicevox-core-safety"&gt;読み込みについて有効&lt;/a&gt;でなければならない。
+        ///  - `output_frame_audio_query_json`は&lt;a href="#voicevox-core-safety"&gt;書き込みについて有効&lt;/a&gt;でなければならない。
+        ///  }
+        ///
+        ///  \orig-impl{voicevox_synthesizer_create_sing_frame_audio_query}
+        /// </summary>
+        [DllImport(__DllName, EntryPoint = "voicevox_synthesizer_create_sing_frame_audio_query", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        internal static extern VoicevoxResultCode voicevox_synthesizer_create_sing_frame_audio_query(VoicevoxSynthesizer* synthesizer, byte* score_json, uint style_id, byte** output_frame_audio_query_json);
+
+        /// <summary>
+        ///  楽譜と歌唱音声合成用のクエリから、フレームごとの基本周波数を生成する。
+        ///
+        ///  詳細はユーザーガイド[歌唱音声合成]を参照。
+        ///
+        ///  [歌唱音声合成]: https://github.com/VOICEVOX/voicevox_core/blob/main/docs/guide/user/song.md
+        ///
+        ///  生成したJSONを解放するには ::voicevox_json_free を使う。
+        ///
+        ///  @param [in] synthesizer 音声シンセサイザ
+        ///  @param [in] score_json [`Score`型]を表すJSON
+        ///  @param [in] frame_audio_query_json [`FrameAudioQuery`型]を表すJSON
+        ///  @param [in] style_id スタイルID
+        ///  @param [out] output_f0_json 生成先
+        ///
+        ///  [`Score`型]: ../rust_api/voicevox_core/struct.Score.html
+        ///  [`FrameAudioQuery`型]: ../rust_api/voicevox_core/struct.FrameAudioQuery.html
+        ///
+        ///  @returns 結果コード
+        ///
+        ///  \safety{
+        ///  - `score_json`と`frame_audio_query_json`はヌル終端文字列を指し、かつ&lt;a href="#voicevox-core-safety"&gt;読み込みについて有効&lt;/a&gt;でなければならない。
+        ///  - `output_f0_json`は&lt;a href="#voicevox-core-safety"&gt;書き込みについて有効&lt;/a&gt;でなければならない。
+        ///  }
+        ///
+        ///  \orig-impl{voicevox_synthesizer_create_sing_frame_f0}
+        /// </summary>
+        [DllImport(__DllName, EntryPoint = "voicevox_synthesizer_create_sing_frame_f0", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        internal static extern VoicevoxResultCode voicevox_synthesizer_create_sing_frame_f0(VoicevoxSynthesizer* synthesizer, byte* score_json, byte* frame_audio_query_json, uint style_id, byte** output_f0_json);
+
+        /// <summary>
+        ///  楽譜と歌唱音声合成用のクエリから、フレームごとの音量を生成する。
+        ///
+        ///  詳細はユーザーガイド[歌唱音声合成]を参照。
+        ///
+        ///  [歌唱音声合成]: https://github.com/VOICEVOX/voicevox_core/blob/main/docs/guide/user/song.md
+        ///
+        ///  生成したJSONを解放するには ::voicevox_json_free を使う。
+        ///
+        ///  @param [in] synthesizer 音声シンセサイザ
+        ///  @param [in] score_json [`Score`型]を表すJSON
+        ///  @param [in] frame_audio_query_json [`FrameAudioQuery`型]を表すJSON
+        ///  @param [in] style_id スタイルID
+        ///  @param [out] output_volume_json 生成先
+        ///
+        ///  [`Score`型]: ../rust_api/voicevox_core/struct.Score.html
+        ///  [`FrameAudioQuery`型]: ../rust_api/voicevox_core/struct.FrameAudioQuery.html
+        ///
+        ///  @returns 結果コード
+        ///
+        ///  \safety{
+        ///  - `score_json`と`frame_audio_query_json`はヌル終端文字列を指し、かつ&lt;a href="#voicevox-core-safety"&gt;読み込みについて有効&lt;/a&gt;でなければならない。
+        ///  - `output_volume_json`は&lt;a href="#voicevox-core-safety"&gt;書き込みについて有効&lt;/a&gt;でなければならない。
+        ///  }
+        ///
+        ///  \orig-impl{voicevox_synthesizer_create_sing_frame_volume}
+        /// </summary>
+        [DllImport(__DllName, EntryPoint = "voicevox_synthesizer_create_sing_frame_volume", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        internal static extern VoicevoxResultCode voicevox_synthesizer_create_sing_frame_volume(VoicevoxSynthesizer* synthesizer, byte* score_json, byte* frame_audio_query_json, uint style_id, byte** output_volume_json);
+
+        /// <summary>
+        ///  歌唱音声合成を行う。
+        ///
+        ///  詳細はユーザーガイド[歌唱音声合成]を参照。
+        ///
+        ///  [歌唱音声合成]: https://github.com/VOICEVOX/voicevox_core/blob/main/docs/guide/user/song.md
+        ///
+        ///  生成したWAVデータを解放するには ::voicevox_wav_free を使う。
+        ///
+        ///  @param [in] synthesizer 音声シンセサイザ
+        ///  @param [in] frame_audio_query_json [`FrameAudioQuery`型]を表すJSON
+        ///  @param [in] style_id スタイルID
+        ///  @param [out] output_wav_length 出力のバイト長
+        ///  @param [out] output_wav 出力先
+        ///
+        ///  [`FrameAudioQuery`型]: ../rust_api/voicevox_core/struct.FrameAudioQuery.html
+        ///
+        ///  @returns 結果コード
+        ///
+        ///  \example{
+        ///  ```c
+        ///  const VoicevoxStyleId kSinger = 3000;
+        ///
+        ///  uint8_t *wav;
+        ///  size_t wav_length;
+        ///  const VoicevoxResultCode result = voicevox_synthesizer_frame_synthesis(
+        ///      synthesizer, frame_audio_query, kSinger, &amp;wav_length, &amp;wav);
+        ///  ```
+        ///  }
+        ///
+        ///  \safety{
+        ///  - `frame_audio_query_json`はヌル終端文字列を指し、かつ&lt;a href="#voicevox-core-safety"&gt;読み込みについて有効&lt;/a&gt;でなければならない。
+        ///  - `output_wav_length`は&lt;a href="#voicevox-core-safety"&gt;書き込みについて有効&lt;/a&gt;でなければならない。
+        ///  - `output_wav`は&lt;a href="#voicevox-core-safety"&gt;書き込みについて有効&lt;/a&gt;でなければならない。
+        ///  }
+        ///
+        ///  \orig-impl{voicevox_synthesizer_frame_synthesis}
+        /// </summary>
+        [DllImport(__DllName, EntryPoint = "voicevox_synthesizer_frame_synthesis", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        internal static extern VoicevoxResultCode voicevox_synthesizer_frame_synthesis(VoicevoxSynthesizer* synthesizer, byte* frame_audio_query_json, uint style_id, nuint* output_wav_length, byte** output_wav);
+
+        /// <summary>
         ///  JSON文字列を解放する。
         ///
         ///  @param [in] json 解放するJSON文字列。nullable
@@ -850,10 +1118,15 @@ namespace VoicevoxCoreSharp.Core.Native
         ///      - ::voicevox_open_jtalk_rc_analyze
         ///      - ::voicevox_synthesizer_create_metas_json
         ///      - ::voicevox_synthesizer_create_audio_query
+        ///      - ::voicevox_synthesizer_create_audio_query_from_kana
         ///      - ::voicevox_synthesizer_create_accent_phrases
+        ///      - ::voicevox_synthesizer_create_accent_phrases_from_kana
         ///      - ::voicevox_synthesizer_replace_mora_data
         ///      - ::voicevox_synthesizer_replace_phoneme_length
         ///      - ::voicevox_synthesizer_replace_mora_pitch
+        ///      - ::voicevox_synthesizer_create_sing_frame_audio_query
+        ///      - ::voicevox_synthesizer_create_sing_frame_f0
+        ///      - ::voicevox_synthesizer_create_sing_frame_volume
         ///      - ::voicevox_user_dict_to_json
         ///  - 文字列の長さは生成時より変更されていてはならない。
         ///  - `json`がヌルポインタでないならば、&lt;a href="#voicevox-core-safety"&gt;読み込みと書き込みについて有効&lt;/a&gt;でなければならない。
@@ -874,6 +1147,8 @@ namespace VoicevoxCoreSharp.Core.Native
         ///  - `wav`がヌルポインタでないならば、以下のAPIで得られたポインタでなくてはいけない。
         ///      - ::voicevox_synthesizer_synthesis
         ///      - ::voicevox_synthesizer_tts
+        ///      - ::voicevox_synthesizer_tts_from_kana
+        ///      - ::voicevox_synthesizer_frame_synthesis
         ///  - `wav`がヌルポインタでないならば、&lt;a href="#voicevox-core-safety"&gt;読み込みと書き込みについて有効&lt;/a&gt;でなければならない。
         ///  - `wav`がヌルポインタでないならば、以後&lt;b&gt;ダングリングポインタ&lt;/b&gt;(_dangling pointer_)として扱われなくてはならない。
         ///  }
@@ -1155,6 +1430,10 @@ namespace VoicevoxCoreSharp.Core.Native
         VOICEVOX_RESULT_INVALID_USER_DICT_WORD_ERROR = 24,
         VOICEVOX_RESULT_INVALID_UUID_ERROR = 25,
         VOICEVOX_RESULT_INVALID_MORA_ERROR = 30,
+        VOICEVOX_RESULT_INVALID_SCORE_ERROR = 31,
+        VOICEVOX_RESULT_INVALID_NOTE_ERROR = 32,
+        VOICEVOX_RESULT_INVALID_FRAME_AUDIO_QUERY_ERROR = 33,
+        VOICEVOX_RESULT_INVALID_FRAME_PHONEME_ERROR = 34,
         VOICEVOX_RESULT_INCOMPATIBLE_QUERIES_ERROR = 35,
     }
 
