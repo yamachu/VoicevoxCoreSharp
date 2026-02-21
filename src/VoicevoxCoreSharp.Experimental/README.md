@@ -27,9 +27,14 @@ API は予告なく変更される場合があります。
 - Synthesizer.ReplaceMoraPitchAsync
 - Synthesizer.TtsFromKanaAsync
 - Synthesizer.TtsAsync
+- Synthesizer.CreateSingFrameAudioQueryAsync
+- Synthesizer.CreateSingFrameF0Async
+- Synthesizer.CreateSingFrameVolumeAsync
+- Synthesizer.FrameSynthesisAsync
 - UserDict.SaveAsync
 - UserDict.LoadAsync
-- VoiceModelFileExtensions.NewAsync (今後のアップデートで VoiceModelFileExtensions.OpenAsync に変更予定)
+- ~~VoiceModelFileExtensions.NewAsync~~
+- VoiceModelFileExtensions.OpenAsync
 
 ## Usage
 
