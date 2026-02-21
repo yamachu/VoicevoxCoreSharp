@@ -4,5 +4,5 @@
   "version": "0.16.3",
   "displayName": "VoicevoxCoreSharp.Core.Unity",
   "description": "VoicevoxCoreSharp.Core for Unity",
-  "unity": "2021.3"
+  "unity": "2022.3"
 }
