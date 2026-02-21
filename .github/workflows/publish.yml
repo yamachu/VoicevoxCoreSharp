@@ -1,0 +1,44 @@
+name: Release packages
+on:
+  push:
+    tags:
+      - "[0-9]+.[0-9]+.[0-9]+"
+
+permissions:
+  contents: write
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+      - name: Validate release version
+        id: validate
+        run: |
+          VERSION="${{ github.ref_name }}"
+          < ./src/VoicevoxCoreSharp.Core.Unity/package.json | jq -e ".version == \"$VERSION\""
+      - name: Delete tag on validation failure
+        if: failure()
+        run: |
+          VERSION="${{ github.ref_name }}"
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git push --delete origin "$VERSION"
+          echo "❌ バージョン検証に失敗したため、タグ $VERSION を削除しました"
+
+  publish:
+    needs: validate
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+      - uses: actions/setup-dotnet@baa11fbfe1d6520db94683bd5c7a3818018e4309 # v5.1.0
+        with:
+          dotnet-version: 10
+      - run: mkdir -p ./artifacts
+      - run: |
+          dotnet pack src/VoicevoxCoreSharp.Core/VoicevoxCoreSharp.Core.csproj -p:PackageVersion=${{ github.ref_name }} -c Release -o ./artifacts
+          # TODO: src/VoicevoxCoreSharp.Experimental/VoicevoxCoreSharp.Experimental.csproj の扱いを考える
+      - run: dotnet nuget push ./artifacts/*.nupkg --source https://api.nuget.org/v3/index.json --api-key ${{ secrets.NUGET_KEY }} --skip-duplicate
+      - run: gh release create ${{github.ref_name}} --generate-notes ./artifacts/*.nupkg
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
