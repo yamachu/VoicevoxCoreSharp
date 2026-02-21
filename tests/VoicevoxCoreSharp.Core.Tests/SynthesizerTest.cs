@@ -53,5 +53,47 @@ namespace VoicevoxCoreSharp.Core.Tests
             synthesizer.UnloadVoiceModel(voiceModel.Id);
             Assert.False(synthesizer.IsLoadedVoiceModel(voiceModel.Id));
         }
+
+        [Fact]
+        public void SingSynthesis()
+        {
+            OpenJtalk.New(Consts.OpenJTalkDictDir, out var openJtalk);
+            var initializeOptions = InitializeOptions.Default();
+            var onnxruntimeOptions = new LoadOnnxruntimeOptions(Path.Join(AppContext.BaseDirectory, Helper.GetOnnxruntimeAssemblyName()));
+            Onnxruntime.LoadOnce(onnxruntimeOptions, out var onnxruntime);
+            Synthesizer.New(onnxruntime, openJtalk, initializeOptions, out var synthesizer);
+            VoiceModelFile.Open(Consts.SampleVoiceModel, out var voiceModel);
+            synthesizer.LoadVoiceModel(voiceModel);
+
+            var score = """
+            {
+                "tempo": 120,
+                "notes": [
+                    { "key": null, "frame_length": 15, "lyric": "" },
+                    { "key": 60, "frame_length": 45, "lyric": "ド" },
+                    { "key": 62, "frame_length": 45, "lyric": "レ" },
+                    { "key": 64, "frame_length": 45, "lyric": "ミ" },
+                    { "key": null, "frame_length": 15, "lyric": "" }
+                ]
+            }
+            """.Trim();
+
+            var createSingFrameAudioResult = synthesizer.CreateSingFrameAudioQuery(score, 6000 /* singing_teacher */, out var frameAudioQueryJson);
+            Assert.Equal(ResultCode.RESULT_OK, createSingFrameAudioResult);
+            Assert.NotEmpty(frameAudioQueryJson);
+
+            var createSingFrameF0 = synthesizer.CreateSingFrameF0(score, frameAudioQueryJson, 6000 /* singing_teacher */, out var frameF0Json);
+            Assert.Equal(ResultCode.RESULT_OK, createSingFrameF0);
+            Assert.NotEmpty(frameF0Json);
+
+            var createSingFrameVolumeResult = synthesizer.CreateSingFrameVolume(score, frameAudioQueryJson, 6000 /* singing_teacher */, out var frameVolumeJson);
+            Assert.Equal(ResultCode.RESULT_OK, createSingFrameVolumeResult);
+            Assert.NotEmpty(frameVolumeJson);
+
+            var frameSynthesisResult = synthesizer.FrameSynthesis(score, frameAudioQueryJson, 3000 /* frame_decode */, out var outputWavLength, out var outputWav);
+            Assert.Equal(ResultCode.RESULT_OK, frameSynthesisResult);
+            Assert.True(outputWavLength > 0);
+            Assert.NotNull(outputWav);
+        }
     }
 }
