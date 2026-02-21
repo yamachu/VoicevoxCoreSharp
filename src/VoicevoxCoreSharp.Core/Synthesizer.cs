@@ -360,34 +360,139 @@ namespace VoicevoxCoreSharp.Core
             unsafe
             {
                 fixed (byte* ptr = System.Text.Encoding.UTF8.GetBytes(kana))
+                fixed (nuint* ptr2 = &outputWavLength)
                 {
-                    fixed (nuint* ptr2 = &outputWavLength)
+                    var nativeOptions = options.ToNative();
+                    byte* resultWavPtr;
+
+                    var result = CoreUnsafe.voicevox_synthesizer_tts_from_kana((VoicevoxSynthesizer*)Handle, ptr, styleId, nativeOptions, ptr2, &resultWavPtr);
+                    if (result == VoicevoxResultCode.VOICEVOX_RESULT_OK)
                     {
-                        var nativeOptions = options.ToNative();
-                        byte* resultWavPtr;
-
-                        var result = CoreUnsafe.voicevox_synthesizer_tts_from_kana((VoicevoxSynthesizer*)Handle, ptr, styleId, nativeOptions, ptr2, &resultWavPtr);
-                        if (result == VoicevoxResultCode.VOICEVOX_RESULT_OK)
+                        var i = 0;
+                        var outputWavLengthInt = (int)outputWavLength;
+                        var outputWavTmp = new byte[outputWavLength];
+                        while (i < outputWavLengthInt)
                         {
-                            var i = 0;
-                            var outputWavLengthInt = (int)outputWavLength;
-                            var outputWavTmp = new byte[outputWavLength];
-                            while (i < outputWavLengthInt)
-                            {
-                                outputWavTmp[i] = resultWavPtr[i];
-                                i++;
-                            }
-                            outputWav = outputWavTmp;
-                            CoreUnsafe.voicevox_wav_free(resultWavPtr);
+                            outputWavTmp[i] = resultWavPtr[i];
+                            i++;
                         }
-                        else
-                        {
-                            outputWav = null;
-                        }
-
-                        return result.FromNative();
+                        outputWav = outputWavTmp;
+                        CoreUnsafe.voicevox_wav_free(resultWavPtr);
+                    }
+                    else
+                    {
+                        outputWav = null;
                     }
 
+                    return result.FromNative();
+                }
+            }
+        }
+
+        public ResultCode CreateSingFrameAudioQuery(string scoreJson, uint styleId, out string? frameAudioQueryJson)
+        {
+            unsafe
+            {
+                fixed (byte* ptr = System.Text.Encoding.UTF8.GetBytes(scoreJson))
+                {
+                    byte* resultJsonPtr;
+
+                    var result = CoreUnsafe.voicevox_synthesizer_create_sing_frame_audio_query((VoicevoxSynthesizer*)Handle, ptr, styleId, &resultJsonPtr).FromNative();
+                    if (result == ResultCode.RESULT_OK)
+                    {
+                        frameAudioQueryJson = StringConvertCompat.ToUTF8String(resultJsonPtr);
+                        CoreUnsafe.voicevox_json_free(resultJsonPtr);
+                    }
+                    else
+                    {
+                        frameAudioQueryJson = null;
+                    }
+
+                    return result;
+                }
+            }
+        }
+
+        public ResultCode CreateSingFrameF0(string scoreJson, string frameAudioQueryJson, uint styleId, out string? f0Json)
+        {
+            unsafe
+            {
+                fixed (byte* scoreJsonPtr = System.Text.Encoding.UTF8.GetBytes(scoreJson))
+                fixed (byte* frameAudioQueryJsonPtr = System.Text.Encoding.UTF8.GetBytes(frameAudioQueryJson))
+                {
+                    byte* resultJsonPtr;
+
+                    var result = CoreUnsafe.voicevox_synthesizer_create_sing_frame_f0((VoicevoxSynthesizer*)Handle, scoreJsonPtr, frameAudioQueryJsonPtr, styleId, &resultJsonPtr).FromNative();
+                    if (result == ResultCode.RESULT_OK)
+                    {
+                        f0Json = StringConvertCompat.ToUTF8String(resultJsonPtr);
+                        CoreUnsafe.voicevox_json_free(resultJsonPtr);
+                    }
+                    else
+                    {
+                        f0Json = null;
+                    }
+
+                    return result;
+                }
+            }
+        }
+
+        public ResultCode CreateSingFrameVolume(string scoreJson, string frameAudioQueryJson, uint styleId, out string? volumeJson)
+        {
+            unsafe
+            {
+                fixed (byte* scoreJsonPtr = System.Text.Encoding.UTF8.GetBytes(scoreJson))
+                fixed (byte* frameAudioQueryJsonPtr = System.Text.Encoding.UTF8.GetBytes(frameAudioQueryJson))
+                {
+                    byte* resultJsonPtr;
+
+                    var result = CoreUnsafe.voicevox_synthesizer_create_sing_frame_volume((VoicevoxSynthesizer*)Handle, scoreJsonPtr, frameAudioQueryJsonPtr, styleId, &resultJsonPtr).FromNative();
+                    if (result == ResultCode.RESULT_OK)
+                    {
+                        volumeJson = StringConvertCompat.ToUTF8String(resultJsonPtr);
+                        CoreUnsafe.voicevox_json_free(resultJsonPtr);
+                    }
+                    else
+                    {
+                        volumeJson = null;
+                    }
+
+                    return result;
+                }
+            }
+        }
+
+        public ResultCode FrameSynthesis(string scoreJson, string frameAudioQueryJson, uint styleId, out nuint outputWavLength, out byte[]? outputWav)
+        {
+            unsafe
+            {
+                fixed (byte* scoreJsonPtr = System.Text.Encoding.UTF8.GetBytes(scoreJson))
+                fixed (byte* frameAudioQueryJsonPtr = System.Text.Encoding.UTF8.GetBytes(frameAudioQueryJson))
+                fixed (nuint* ptr2 = &outputWavLength)
+                {
+                    byte* resultWavPtr;
+
+                    var result = CoreUnsafe.voicevox_synthesizer_frame_synthesis((VoicevoxSynthesizer*)Handle, frameAudioQueryJsonPtr, styleId, ptr2, &resultWavPtr);
+                    if (result == VoicevoxResultCode.VOICEVOX_RESULT_OK)
+                    {
+                        var i = 0;
+                        var outputWavLengthInt = (int)outputWavLength;
+                        var outputWavTmp = new byte[outputWavLengthInt];
+                        while (i < outputWavLengthInt)
+                        {
+                            outputWavTmp[i] = resultWavPtr[i];
+                            i++;
+                        }
+                        outputWav = outputWavTmp;
+                        CoreUnsafe.voicevox_wav_free(resultWavPtr);
+                    }
+                    else
+                    {
+                        outputWav = null;
+                    }
+
+                    return result.FromNative();
                 }
             }
         }
