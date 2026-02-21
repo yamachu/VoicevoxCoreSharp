@@ -41,5 +41,16 @@ namespace VoicevoxCoreSharp.Experimental
         [NonBlocking]
         public static partial Task<(nuint outputWavLength, byte[] outputWav)> TtsAsync(this Synthesizer synthesizer, string text, uint styleId, TtsOptions options);
 
+        [NonBlocking]
+        public static partial Task<string> CreateSingFrameAudioQueryAsync(this Synthesizer synthesizer, string scoreJson, uint styleId);
+
+        [NonBlocking]
+        public static partial Task<string> CreateSingFrameF0Async(this Synthesizer synthesizer, string scoreJson, string frameAudioQueryJson, uint styleId);
+
+        [NonBlocking]
+        public static partial Task<string> CreateSingFrameVolumeAsync(this Synthesizer synthesizer, string scoreJson, string frameAudioQueryJson, uint styleId);
+
+        [NonBlocking]
+        public static partial Task<(nuint outputWavLength, byte[] outputWav)> FrameSynthesisAsync(this Synthesizer synthesizer, string frameAudioQueryJson, uint styleId);
     }
 }

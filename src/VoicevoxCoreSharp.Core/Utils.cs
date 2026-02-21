@@ -99,5 +99,76 @@ namespace VoicevoxCoreSharp.Core
                 }
             }
         }
+
+        /// <returns>
+        /// <see cref="ResultCode.RESULT_OK"/> または <see cref="ResultCode.RESULT_INVALID_SCORE_ERROR"/>
+        /// </returns>
+        public static ResultCode ValidateScore(string scoreJson)
+        {
+            unsafe
+            {
+                fixed (byte* ptr = System.Text.Encoding.UTF8.GetBytes(scoreJson))
+                {
+                    return CoreUnsafe.voicevox_score_validate(ptr).FromNative();
+                }
+            }
+        }
+
+        /// <returns>
+        /// <see cref="ResultCode.RESULT_OK"/> または <see cref="ResultCode.RESULT_INVALID_NOTE_ERROR"/>
+        /// </returns>
+        public static ResultCode ValidateNote(string noteJson)
+        {
+            unsafe
+            {
+                fixed (byte* ptr = System.Text.Encoding.UTF8.GetBytes(noteJson))
+                {
+                    return CoreUnsafe.voicevox_note_validate(ptr).FromNative();
+                }
+            }
+        }
+
+        /// <returns>
+        /// <see cref="ResultCode.RESULT_OK"/> または <see cref="ResultCode.RESULT_INVALID_FRAME_AUDIO_QUERY_ERROR"/>
+        /// </returns>
+        public static ResultCode ValidateFrameAudioQuery(string frameAudioQueryJson)
+        {
+            unsafe
+            {
+                fixed (byte* ptr = System.Text.Encoding.UTF8.GetBytes(frameAudioQueryJson))
+                {
+                    return CoreUnsafe.voicevox_frame_audio_query_validate(ptr).FromNative();
+                }
+            }
+        }
+
+        /// <returns>
+        /// <see cref="ResultCode.RESULT_OK"/> または <see cref="ResultCode.RESULT_INVALID_FRAME_PHONEME_ERROR"/>
+        /// </returns>
+        public static ResultCode ValidateFramePhoneme(string framePhonemeJson)
+        {
+            unsafe
+            {
+                fixed (byte* ptr = System.Text.Encoding.UTF8.GetBytes(framePhonemeJson))
+                {
+                    return CoreUnsafe.voicevox_frame_phoneme_validate(ptr).FromNative();
+                }
+            }
+        }
+
+        /// <returns>
+        /// <see cref="ResultCode.RESULT_OK"/> または <see cref="ResultCode.RESULT_INVALID_SCORE_ERROR"/>, <see cref="ResultCode.RESULT_INVALID_FRAME_AUDIO_QUERY_ERROR"/>, <see cref="ResultCode.RESULT_INCOMPATIBLE_QUERIES_ERROR"/>
+        /// </returns>
+        public static ResultCode EnsureCompatible(string scoreJson, string frameAudioQueryJson)
+        {
+            unsafe
+            {
+                fixed (byte* scorePtr = System.Text.Encoding.UTF8.GetBytes(scoreJson))
+                fixed (byte* frameAudioQueryPtr = System.Text.Encoding.UTF8.GetBytes(frameAudioQueryJson))
+                {
+                    return CoreUnsafe.voicevox_ensure_compatible(scorePtr, frameAudioQueryPtr).FromNative();
+                }
+            }
+        }
     }
 }

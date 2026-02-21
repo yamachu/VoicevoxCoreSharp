@@ -113,6 +113,22 @@ namespace VoicevoxCoreSharp.Core.Enum
         /// </summary>
         RESULT_INVALID_MORA_ERROR = 30,
         /// <summary>
+        /// 無効な楽譜
+        /// </summary>
+        RESULT_INVALID_SCORE_ERROR = 31,
+        /// <summary>
+        /// 無効なノート
+        /// </summary>
+        RESULT_INVALID_NOTE_ERROR = 32,
+        /// <summary>
+        /// 無効なFrameAudioQuery
+        /// </summary>
+        RESULT_INVALID_FRAME_AUDIO_QUERY_ERROR = 33,
+        /// <summary>
+        /// 無効なFramePhoneme
+        /// </summary>
+        RESULT_INVALID_FRAME_PHONEME_ERROR = 34,
+        /// <summary>
         /// 楽譜とFrameAudioQueryの組み合わせが不正
         /// </summary>
         RESULT_INCOMPATIBLE_QUERIES_ERROR = 35,
@@ -151,6 +167,10 @@ namespace VoicevoxCoreSharp.Core.Enum
                 VoicevoxResultCode.VOICEVOX_RESULT_INVALID_USER_DICT_WORD_ERROR => ResultCode.RESULT_INVALID_USER_DICT_WORD_ERROR,
                 VoicevoxResultCode.VOICEVOX_RESULT_INVALID_UUID_ERROR => ResultCode.RESULT_INVALID_UUID_ERROR,
                 VoicevoxResultCode.VOICEVOX_RESULT_INVALID_MORA_ERROR => ResultCode.RESULT_INVALID_MORA_ERROR,
+                VoicevoxResultCode.VOICEVOX_RESULT_INVALID_SCORE_ERROR => ResultCode.RESULT_INVALID_SCORE_ERROR,
+                VoicevoxResultCode.VOICEVOX_RESULT_INVALID_NOTE_ERROR => ResultCode.RESULT_INVALID_NOTE_ERROR,
+                VoicevoxResultCode.VOICEVOX_RESULT_INVALID_FRAME_AUDIO_QUERY_ERROR => ResultCode.RESULT_INVALID_FRAME_AUDIO_QUERY_ERROR,
+                VoicevoxResultCode.VOICEVOX_RESULT_INVALID_FRAME_PHONEME_ERROR => ResultCode.RESULT_INVALID_FRAME_PHONEME_ERROR,
                 VoicevoxResultCode.VOICEVOX_RESULT_INCOMPATIBLE_QUERIES_ERROR => ResultCode.RESULT_INCOMPATIBLE_QUERIES_ERROR,
             };
 #pragma warning restore CS8524
@@ -187,6 +207,10 @@ namespace VoicevoxCoreSharp.Core.Enum
                 ResultCode.RESULT_INVALID_USER_DICT_WORD_ERROR => VoicevoxResultCode.VOICEVOX_RESULT_INVALID_USER_DICT_WORD_ERROR,
                 ResultCode.RESULT_INVALID_UUID_ERROR => VoicevoxResultCode.VOICEVOX_RESULT_INVALID_UUID_ERROR,
                 ResultCode.RESULT_INVALID_MORA_ERROR => VoicevoxResultCode.VOICEVOX_RESULT_INVALID_MORA_ERROR,
+                ResultCode.RESULT_INVALID_SCORE_ERROR => VoicevoxResultCode.VOICEVOX_RESULT_INVALID_SCORE_ERROR,
+                ResultCode.RESULT_INVALID_NOTE_ERROR => VoicevoxResultCode.VOICEVOX_RESULT_INVALID_NOTE_ERROR,
+                ResultCode.RESULT_INVALID_FRAME_AUDIO_QUERY_ERROR => VoicevoxResultCode.VOICEVOX_RESULT_INVALID_FRAME_AUDIO_QUERY_ERROR,
+                ResultCode.RESULT_INVALID_FRAME_PHONEME_ERROR => VoicevoxResultCode.VOICEVOX_RESULT_INVALID_FRAME_PHONEME_ERROR,
                 ResultCode.RESULT_INCOMPATIBLE_QUERIES_ERROR => VoicevoxResultCode.VOICEVOX_RESULT_INCOMPATIBLE_QUERIES_ERROR,
             };
 #pragma warning restore CS8524
