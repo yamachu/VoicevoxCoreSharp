@@ -463,11 +463,10 @@ namespace VoicevoxCoreSharp.Core
             }
         }
 
-        public ResultCode FrameSynthesis(string scoreJson, string frameAudioQueryJson, uint styleId, out nuint outputWavLength, out byte[]? outputWav)
+        public ResultCode FrameSynthesis(string frameAudioQueryJson, uint styleId, out nuint outputWavLength, out byte[]? outputWav)
         {
             unsafe
             {
-                fixed (byte* scoreJsonPtr = System.Text.Encoding.UTF8.GetBytes(scoreJson))
                 fixed (byte* frameAudioQueryJsonPtr = System.Text.Encoding.UTF8.GetBytes(frameAudioQueryJson))
                 fixed (nuint* ptr2 = &outputWavLength)
                 {

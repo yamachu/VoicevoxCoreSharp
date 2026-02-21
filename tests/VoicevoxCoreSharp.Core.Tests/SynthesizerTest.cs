@@ -90,7 +90,7 @@ namespace VoicevoxCoreSharp.Core.Tests
             Assert.Equal(ResultCode.RESULT_OK, createSingFrameVolumeResult);
             Assert.NotEmpty(frameVolumeJson);
 
-            var frameSynthesisResult = synthesizer.FrameSynthesis(score, frameAudioQueryJson, 3000 /* frame_decode */, out var outputWavLength, out var outputWav);
+            var frameSynthesisResult = synthesizer.FrameSynthesis(frameAudioQueryJson, 3000 /* frame_decode */, out var outputWavLength, out var outputWav);
             Assert.Equal(ResultCode.RESULT_OK, frameSynthesisResult);
             Assert.True(outputWavLength > 0);
             Assert.NotNull(outputWav);
