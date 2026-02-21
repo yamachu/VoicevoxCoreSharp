@@ -52,7 +52,7 @@ $ dotnet add package VoicevoxCoreSharp.MAUI
 
 - .NET Standard 2.0
 - C# 9.0
-  - Unity 2021.3 (LTS) を最低限サポートするため
+  - Unity 2022.3 (LTS) を最低限サポートするため
 
 ## Notice
 
