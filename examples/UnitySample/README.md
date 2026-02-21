@@ -10,7 +10,7 @@ voicevox_core を Unity アプリケーションから実行するサンプル�
 
 ## Requirements
 
-Unity 2021.3.x 以降が必要です。
+Unity 2022.3.x 以降が必要です。
 
 voicevox_core のバージョンなどについては [examples/cli/README.md](../../cli/README.md) などを参照してください。
 
