@@ -16,7 +16,7 @@ jobs:
         id: validate
         run: |
           VERSION="${{ github.ref_name }}"
-          < ./src/VoicevoxCoreSharp.Core.Unity/package.json | jq -e ".version == \"$VERSION\""
+          jq -e ".version == \"$VERSION\"" ./src/VoicevoxCoreSharp.Core.Unity/package.json
       - name: Delete tag on validation failure
         if: failure()
         run: |
