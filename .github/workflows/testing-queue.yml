@@ -57,7 +57,7 @@ jobs:
           pr-number: ${{ github.event.inputs.issue_number }}
           merge-method: 'squash'
       - run:
-          git push origin --delete $CI_BRANCH
+          git push origin --delete "${CI_BRANCH}"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           CI_BRANCH: ${{ github.event.inputs.tmp-ci-branch }}
