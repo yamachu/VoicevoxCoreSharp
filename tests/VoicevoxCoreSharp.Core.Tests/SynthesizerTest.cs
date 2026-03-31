@@ -49,6 +49,7 @@ namespace VoicevoxCoreSharp.Core.Tests
             VoiceModelFile.Open(Consts.SampleVoiceModel, out var voiceModel);
             synthesizer.LoadVoiceModel(voiceModel);
 
+            // The IsLoadedVoiceModel and UnloadVoiceModel methods should work with the VoiceModelId type
             Assert.True(synthesizer.IsLoadedVoiceModel(voiceModel.Id));
             synthesizer.UnloadVoiceModel(voiceModel.Id);
             Assert.False(synthesizer.IsLoadedVoiceModel(voiceModel.Id));
