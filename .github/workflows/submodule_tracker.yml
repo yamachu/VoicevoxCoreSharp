@@ -35,7 +35,7 @@ jobs:
             echo submodule_has_update="true" >> $GITHUB_OUTPUT;
           fi
       - if: ${{ steps.submodule-diff.outputs.submodule_has_update == 'true'}}
-        uses: actions-rust-lang/setup-rust-toolchain@2b1f5e9b395427c92ee4e3331786ca3c37afe2d7 # v1.16.0
+        uses: actions-rust-lang/setup-rust-toolchain@46268bd060767258de96ed93c1251119784f2ab6 # v1.16.1
       - if: ${{ steps.submodule-diff.outputs.submodule_has_update == 'true'}}
         working-directory: ./binding
         run: make generate
