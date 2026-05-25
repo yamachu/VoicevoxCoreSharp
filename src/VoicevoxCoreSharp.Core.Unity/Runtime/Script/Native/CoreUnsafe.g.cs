@@ -536,17 +536,27 @@ namespace VoicevoxCoreSharp.Core.Native
         internal static extern void voicevox_synthesizer_delete(VoicevoxSynthesizer* synthesizer);
 
         /// <summary>
+        ///  デフォルトの `voicevox_synthesizer_load_voice_model` のオプションを生成する
+        ///  @return デフォルト値が設定された `voicevox_synthesizer_load_voice_model` のオプション
+        ///
+        ///  \no-orig-impl{voicevox_make_default_load_voice_model_options}
+        /// </summary>
+        [DllImport(__DllName, EntryPoint = "voicevox_make_default_load_voice_model_options", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        internal static extern VoicevoxLoadVoiceModelOptions voicevox_make_default_load_voice_model_options();
+
+        /// <summary>
         ///  音声モデルを読み込む。
         ///
         ///  @param [in] synthesizer 音声シンセサイザ
         ///  @param [in] model 音声モデル
+        ///  @param [in] options オプション
         ///
         ///  @returns 結果コード
         ///
         ///  \orig-impl{voicevox_synthesizer_load_voice_model}
         /// </summary>
         [DllImport(__DllName, EntryPoint = "voicevox_synthesizer_load_voice_model", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        internal static extern VoicevoxResultCode voicevox_synthesizer_load_voice_model(VoicevoxSynthesizer* synthesizer, VoicevoxVoiceModelFile* model);
+        internal static extern VoicevoxResultCode voicevox_synthesizer_load_voice_model(VoicevoxSynthesizer* synthesizer, VoicevoxVoiceModelFile* model, VoicevoxLoadVoiceModelOptions options);
 
         /// <summary>
         ///  音声モデルの読み込みを解除する。
@@ -1375,6 +1385,12 @@ namespace VoicevoxCoreSharp.Core.Native
     }
 
     [StructLayout(LayoutKind.Sequential)]
+    internal unsafe partial struct VoicevoxLoadVoiceModelOptions
+    {
+        public VoicevoxOnExistingVoiceModelId on_existing;
+    }
+
+    [StructLayout(LayoutKind.Sequential)]
     internal unsafe partial struct VoicevoxSynthesisOptions
     {
         [MarshalAs(UnmanagedType.U1)] public bool enable_interrogative_upspeak;
@@ -1435,6 +1451,13 @@ namespace VoicevoxCoreSharp.Core.Native
         VOICEVOX_RESULT_INVALID_FRAME_AUDIO_QUERY_ERROR = 33,
         VOICEVOX_RESULT_INVALID_FRAME_PHONEME_ERROR = 34,
         VOICEVOX_RESULT_INCOMPATIBLE_QUERIES_ERROR = 35,
+    }
+
+    internal enum VoicevoxOnExistingVoiceModelId : int
+    {
+        VOICEVOX_ON_EXISTING_VOICE_MODEL_ID_ERROR = 0,
+        VOICEVOX_ON_EXISTING_VOICE_MODEL_ID_RELOAD = 1,
+        VOICEVOX_ON_EXISTING_VOICE_MODEL_ID_SKIP = 2,
     }
 
     internal enum VoicevoxAccelerationMode : int
