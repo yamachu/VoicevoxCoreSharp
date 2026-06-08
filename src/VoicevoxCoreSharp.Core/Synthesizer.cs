@@ -60,11 +60,12 @@ namespace VoicevoxCoreSharp.Core
             }
         }
 
-        public ResultCode LoadVoiceModel(VoiceModelFile voiceModel)
+        public ResultCode LoadVoiceModel(VoiceModelFile voiceModel, LoadVoiceModelOptions options)
         {
             unsafe
             {
-                return CoreUnsafe.voicevox_synthesizer_load_voice_model((VoicevoxSynthesizer*)Handle, (VoicevoxVoiceModelFile*)voiceModel.Handle).FromNative();
+                var loadVoiceModelOptions = options.ToNative();
+                return CoreUnsafe.voicevox_synthesizer_load_voice_model((VoicevoxSynthesizer*)Handle, (VoicevoxVoiceModelFile*)voiceModel.Handle, loadVoiceModelOptions).FromNative();
             }
         }
 
