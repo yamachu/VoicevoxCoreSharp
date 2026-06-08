@@ -21,7 +21,7 @@ namespace VoicevoxCoreSharp.Core.Tests
             var synthesizerResult = Synthesizer.New(onnruntime, openJtalk, initializeOptions, out var synthesizer);
 
             VoiceModelFile.Open(Consts.SampleVoiceModel, out var voiceModel);
-            var loadResult = synthesizer.LoadVoiceModel(voiceModel);
+            var loadResult = synthesizer.LoadVoiceModel(voiceModel, LoadVoiceModelOptions.Default());
 
             Assert.Equal(ResultCode.RESULT_OK, synthesizerResult);
             Assert.Equal(ResultCode.RESULT_OK, loadResult);
@@ -47,7 +47,7 @@ namespace VoicevoxCoreSharp.Core.Tests
             Synthesizer.New(onnruntime, openJtalk, initializeOptions, out var synthesizer);
 
             VoiceModelFile.Open(Consts.SampleVoiceModel, out var voiceModel);
-            synthesizer.LoadVoiceModel(voiceModel);
+            synthesizer.LoadVoiceModel(voiceModel, LoadVoiceModelOptions.Default());
 
             Assert.True(synthesizer.IsLoadedVoiceModel(voiceModel.Id));
             synthesizer.UnloadVoiceModel(voiceModel.Id);
@@ -63,7 +63,7 @@ namespace VoicevoxCoreSharp.Core.Tests
             Onnxruntime.LoadOnce(onnxruntimeOptions, out var onnxruntime);
             Synthesizer.New(onnxruntime, openJtalk, initializeOptions, out var synthesizer);
             VoiceModelFile.Open(Consts.SampleVoiceModel, out var voiceModel);
-            synthesizer.LoadVoiceModel(voiceModel);
+            synthesizer.LoadVoiceModel(voiceModel, LoadVoiceModelOptions.Default());
 
             var score = """
             {

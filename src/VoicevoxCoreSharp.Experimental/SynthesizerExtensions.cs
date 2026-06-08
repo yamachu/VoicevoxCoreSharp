@@ -9,7 +9,7 @@ namespace VoicevoxCoreSharp.Experimental
     public static partial class SynthesizerExtensions
     {
         [NonBlocking]
-        public static partial Task LoadVoiceModelAsync(this Synthesizer synthesizer, VoiceModelFile voiceModel);
+        public static partial Task LoadVoiceModelAsync(this Synthesizer synthesizer, VoiceModelFile voiceModel, LoadVoiceModelOptions options);
 
         [NonBlocking]
         public static partial Task<(nuint outputWavLength, byte[] outputWav)> SynthesisAsync(this Synthesizer synthesizer, string audioQueryJson, uint styleId, SynthesisOptions options);

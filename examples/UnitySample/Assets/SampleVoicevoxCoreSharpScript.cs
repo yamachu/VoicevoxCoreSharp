@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
@@ -50,7 +50,7 @@ public class SampleVoicevoxCoreSharpScript : MonoBehaviour
             return;
         }
 
-        result = synthesizer.LoadVoiceModel(voiceModel);
+        result = synthesizer.LoadVoiceModel(voiceModel, LoadVoiceModelOptions.Default());
         if (result != ResultCode.RESULT_OK)
         {
             Debug.LogError(result.ToMessage());
