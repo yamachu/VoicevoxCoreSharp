@@ -23,7 +23,7 @@ runs:
     - if: ${{ steps.restore-dev-library.outputs.cache-hit != 'true' }}
       shell: bash
       working-directory: ./binding
-      run: make build/dev-library
+      run: VVCORE_BUILD_DOWNLOAD_AND_COPY_ORT=1 make build/dev-library
     - if: ${{ steps.restore-dev-library.outputs.cache-hit != 'true' }}
       shell: bash
       working-directory: ./binding/voicevox_core/target/release
