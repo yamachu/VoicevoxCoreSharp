@@ -73,16 +73,16 @@
 	</ItemGroup>
 
   <ItemGroup Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'maccatalyst'">
-    <None Include="voicevox_core\c_api\lib\libvoicevox_core.dylib" Link="libvoicevox_core.dylib" Visible="false" CopyToOutputDirectory="PreserveNewest" PublishFolderType="Assembly" />
-    <None Include="voicevox_core\onnxruntime\lib\libvoicevox_onnxruntime.$(VoicevoxOnnxRuntimeVersion).dylib" Link="libvoicevox_onnxruntime.$(VoicevoxOnnxRuntimeVersion).dylib" Visible="false" CopyToOutputDirectory="PreserveNewest" PublishFolderType="Assembly" />
+    <None Include="voicevox_core\c_api\lib\libvoicevox_core.dylib" Link="libvoicevox_core.dylib" Visible="false" CopyToOutputDirectory="PreserveNewest" PublishFolderType="Assembly" Condition="Exists('voicevox_core\c_api\lib\libvoicevox_core.dylib')" />
+    <None Include="voicevox_core\onnxruntime\lib\libvoicevox_onnxruntime.$(VoicevoxOnnxRuntimeVersion).dylib" Link="libvoicevox_onnxruntime.$(VoicevoxOnnxRuntimeVersion).dylib" Visible="false" CopyToOutputDirectory="PreserveNewest" PublishFolderType="Assembly" Condition="Exists('voicevox_core\onnxruntime\lib\libvoicevox_onnxruntime.$(VoicevoxOnnxRuntimeVersion).dylib')" />
   </ItemGroup>
 
   <ItemGroup Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios'">
     <!-- NOTE: downloaderが未対応なため、voicevox_core/ios というディレクトリを生やして、そこに格納している -->
-    <NativeReference Include="voicevox_core/ios/voicevox_onnxruntime.xcframework">
+    <NativeReference Include="voicevox_core/ios/voicevox_onnxruntime.xcframework" Condition="Exists('voicevox_core/ios/voicevox_onnxruntime.xcframework')">
       <Kind>Framework</Kind>
     </NativeReference>
-    <NativeReference Include="voicevox_core/ios/voicevox_core.xcframework">
+    <NativeReference Include="voicevox_core/ios/voicevox_core.xcframework" Condition="Exists('voicevox_core/ios/voicevox_core.xcframework')">
       <Kind>Framework</Kind>
     </NativeReference>
   </ItemGroup>
@@ -90,16 +90,16 @@
   <ItemGroup Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">
     <!-- NOTE: downloaderが未対応なため、voicevox_core/android というディレクトリを生やして、そこに格納している -->
     <!-- https://developer.android.com/ndk/guides/abis?hl=ja -->
-    <AndroidNativeLibrary Include="voicevox_core/android/voicevox_onnxruntime-android-arm64-1.17.3/lib/libvoicevox_onnxruntime.so">
+    <AndroidNativeLibrary Include="voicevox_core/android/voicevox_onnxruntime-android-arm64-1.17.3/lib/libvoicevox_onnxruntime.so" Condition="Exists('voicevox_core/android/voicevox_onnxruntime-android-arm64-1.17.3/lib/libvoicevox_onnxruntime.so')">
       <Abi>arm64-v8a</Abi>
     </AndroidNativeLibrary>
-    <AndroidNativeLibrary Include="voicevox_core/android/voicevox_onnxruntime-android-x64-1.17.3/lib/libvoicevox_onnxruntime.so">
+    <AndroidNativeLibrary Include="voicevox_core/android/voicevox_onnxruntime-android-x64-1.17.3/lib/libvoicevox_onnxruntime.so" Condition="Exists('voicevox_core/android/voicevox_onnxruntime-android-x64-1.17.3/lib/libvoicevox_onnxruntime.so')">
       <Abi>x86_64</Abi>
     </AndroidNativeLibrary>
-        <AndroidNativeLibrary Include="voicevox_core/android/voicevox_core-android-arm64-0.16.0/lib/libvoicevox_core.so">
+    <AndroidNativeLibrary Include="voicevox_core/android/voicevox_core-android-arm64-0.16.0/lib/libvoicevox_core.so" Condition="Exists('voicevox_core/android/voicevox_core-android-arm64-0.16.0/lib/libvoicevox_core.so')">
       <Abi>arm64-v8a</Abi>
     </AndroidNativeLibrary>
-    <AndroidNativeLibrary Include="voicevox_core/android/voicevox_core-android-x86_64-0.16.0/lib/libvoicevox_core.so">
+    <AndroidNativeLibrary Include="voicevox_core/android/voicevox_core-android-x86_64-0.16.0/lib/libvoicevox_core.so" Condition="Exists('voicevox_core/android/voicevox_core-android-x86_64-0.16.0/lib/libvoicevox_core.so')">
       <Abi>x86_64</Abi>
     </AndroidNativeLibrary>
     <AndroidNativeLibrary Include="$(ANDROID_NDK_SYSROOT)/sysroot/usr/lib/aarch64-linux-android/libc++_shared.so">
