@@ -94,7 +94,10 @@ jobs:
         cp open_jtalk_dic_utf_8-1.11.tar.gz ./examples/cli/voicevox_core
         mkdir -p ./examples/cli/voicevox_core/dict
         tar zxf ./examples/cli/voicevox_core/open_jtalk_dic_utf_8-1.11.tar.gz -C ./examples/cli/voicevox_core/dict/
-    - run: cp -r binding/voicevox_core/model ./examples/cli/voicevox_core
+    - run: |
+        cp -r binding/voicevox_core/model ./examples/cli/voicevox_core
+        mv ./examples/cli/voicevox_core/model/sample.vvm ./examples/cli/voicevox_core/model/sample
+        cd ./examples/cli/voicevox_core/model/sample; zip -r ../sample.vvm .; cd -
     - name: Run CLI example and verify generated wav
       run: |
         cd examples/cli
