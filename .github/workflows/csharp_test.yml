@@ -101,9 +101,7 @@ jobs:
     - name: Run CLI example and verify generated wav
       run: |
         cd examples/cli
-        find .
         dotnet build --property:UseNugetOnnxRuntime=false
-        find bin/
         LD_LIBRARY_PATH="$PWD/bin/Debug/net8.0:${LD_LIBRARY_PATH:-}" dotnet run --property:UseNugetOnnxRuntime=false -- --resource=$PWD/voicevox_core こんにちは
         test -s audio.wav
         file --brief audio.wav | grep -q "WAVE audio"
