@@ -99,6 +99,8 @@ jobs:
       run: |
         cd examples/cli
         find .
+        dotnet build --property:UseNugetOnnxRuntime=false
+        find bin/
         dotnet run --property:UseNugetOnnxRuntime=false -- --resource=$PWD/voicevox_core こんにちは
         test -s audio.wav
         file --brief audio.wav | grep -q "WAVE audio"
