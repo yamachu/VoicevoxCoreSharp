@@ -85,7 +85,7 @@ jobs:
         mkdir -p ./examples/cli/voicevox_core/c_api/lib
         mkdir -p ./examples/cli/voicevox_core/onnxruntime/lib
         cp ./binding/voicevox_core/target/release/libvoicevox_core.so ./examples/cli/voicevox_core/c_api/lib/libvoicevox_core.so
-        cp ./binding/voicevox_core/target/release/libonnxruntime.so ./examples/cli/voicevox_core/onnxruntime/lib/libonnxruntime.so
+        cp ./binding/voicevox_core/target/release/libonnxruntime.so ./examples/cli/voicevox_core/onnxruntime/lib/libonnxruntime.so.1.17.3
     - uses: ./.github/composite/download-openjtalk-dict
       with:
         cache-path: open_jtalk_dic_utf_8-1.11.tar.gz
@@ -99,7 +99,7 @@ jobs:
       run: |
         cd examples/cli
         find .
-        dotnet run --property:UseNugetOnnxRuntime=true -- --resource=$PWD/voicevox_core こんにちは
+        dotnet run --property:UseNugetOnnxRuntime=false -- --resource=$PWD/voicevox_core こんにちは
         test -s audio.wav
         file --brief audio.wav | grep -q "WAVE audio"
 
