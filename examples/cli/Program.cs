@@ -10,7 +10,7 @@ const uint StyleId = 0;
 
 static int RunTts(string text, string? resourcePath = "voicevox_core")
 {
-    var openJTalkDictPath = $"{resourcePath}/open_jtalk_dic_utf_8-1.11";
+    var openJTalkDictPath = $"{resourcePath}/dict/open_jtalk_dic_utf_8-1.11";
 
     Console.WriteLine("coreの初期化中");
 

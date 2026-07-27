@@ -83,18 +83,28 @@ jobs:
     - run: mkdir -p ./examples/cli/voicevox_core
     - run: |
         mkdir -p ./examples/cli/voicevox_core/c_api/lib
+        mkdir -p ./examples/cli/voicevox_core/onnxruntime/lib
         cp ./binding/voicevox_core/target/release/libvoicevox_core.so ./examples/cli/voicevox_core/c_api/lib/libvoicevox_core.so
-        cp ./binding/voicevox_core/target/release/libonnxruntime.so ./examples/cli/voicevox_core/libonnxruntime.so
+        cp ./binding/voicevox_core/target/release/libonnxruntime.so ./examples/cli/voicevox_core/onnxruntime/lib/libonnxruntime.so.1.17.3
     - uses: ./.github/composite/download-openjtalk-dict
       with:
         cache-path: open_jtalk_dic_utf_8-1.11.tar.gz
         cache-key: open_jtalk_dic_utf_8-1.11
     - run: |
         cp open_jtalk_dic_utf_8-1.11.tar.gz ./examples/cli/voicevox_core
-        tar zxf ./examples/cli/voicevox_core/open_jtalk_dic_utf_8-1.11.tar.gz -C ./examples/cli/voicevox_core/
-    - run: cp -r binding/voicevox_core/model ./examples/cli/voicevox_core
-    - run: cd examples/cli; dotnet run --property:UseNugetOnnxRuntime=true -- こんにちは
-    - run: file examples/cli/audio.wav
+        mkdir -p ./examples/cli/voicevox_core/dict
+        tar zxf ./examples/cli/voicevox_core/open_jtalk_dic_utf_8-1.11.tar.gz -C ./examples/cli/voicevox_core/dict/
+    - run: |
+        cp -r binding/voicevox_core/model ./examples/cli/voicevox_core
+        mv ./examples/cli/voicevox_core/model/sample.vvm ./examples/cli/voicevox_core/model/sample
+        cd ./examples/cli/voicevox_core/model/sample; zip -r ../sample.vvm .; cd -
+    - name: Run CLI example and verify generated wav
+      run: |
+        cd examples/cli
+        dotnet build --property:UseNugetOnnxRuntime=false
+        LD_LIBRARY_PATH="$PWD/bin/Debug/net8.0:${LD_LIBRARY_PATH:-}" dotnet run --property:UseNugetOnnxRuntime=false -- --resource=$PWD/voicevox_core こんにちは
+        test -s audio.wav
+        file --brief audio.wav | grep -q "WAVE audio"
 
   format-check:
     runs-on: ubuntu-latest
