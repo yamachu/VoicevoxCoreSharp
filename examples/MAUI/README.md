@@ -1,6 +1,6 @@
 # MAUI Sample
 
-voicevox_core 0.16.0 を使用した MAUI サンプルです。
+voicevox_core 0.17.0 を使用した MAUI サンプルです。
 
 ## Usage
 
@@ -20,14 +20,14 @@ $ download-osx-arm64 --only models dict -o ./examples/MAUI/voicevox_core
 #### macOS
 
 ```sh
-$ download-osx-arm64 --c-api-version 0.16.0 --onnxruntime-version voicevox_onnxruntime-1.23.2 -o ./examples/MAUI/voicevox_core
+$ download-osx-arm64 --c-api-version 0.17.0 --onnxruntime-version voicevox_onnxruntime-1.23.2 -o ./examples/MAUI/voicevox_core
 ```
 
 #### Android / iOS
 
 Download `voicevox_core` and `onnxruntime` from the following URL.
 
-- https://github.com/VOICEVOX/voicevox_core/releases/tag/0.16.0
+- https://github.com/VOICEVOX/voicevox_core/releases/tag/0.17.0
 - https://github.com/VOICEVOX/onnxruntime-builder/releases/tag/voicevox_onnxruntime-1.23.2
 
 and extract them to `./examples/MAUI/voicevox_core`.
