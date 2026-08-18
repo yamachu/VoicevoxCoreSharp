@@ -12,7 +12,7 @@ https://github.com/VOICEVOX/voicevox_core/tree/main/example/cpp/unix を参考�
 
 ```sh
 # macOS Arm64の場合
-$ ./download-osx-arm64 --c-api-version 0.16.0 --onnxruntime-version voicevox_onnxruntime-1.17.3 -o voicevox_core
+$ ./download-osx-arm64 --c-api-version 0.16.0 --onnxruntime-version voicevox_onnxruntime-1.23.2 -o voicevox_core
 ```
 
 このリポジトリは voicevox_core の main ブランチに追従しているため、examples/cli のコードが動作しない場合もあります。
