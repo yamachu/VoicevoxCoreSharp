@@ -38,7 +38,7 @@ namespace VoicevoxCoreSharp.Core.Struct
         /// <summary>
         /// 優先度
         /// </summary>
-        public uint Priority { get; set; }
+        public byte Priority { get; set; }
 
         public static UserDictWord Create(string surface, string pronunciation, nuint accentType)
         {

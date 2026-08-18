@@ -22,30 +22,50 @@ namespace VoicevoxCoreSharp.Core.Native
 
 
         /// <summary>
-        ///  ONNX Runtimeの動的ライブラリの、バージョン付きのファイル名。
+        ///  必要なONNX Runtime 1.xの最小マイナーバージョンを取得する。
         ///
-        ///  WindowsとAndroidでは ::voicevox_get_onnxruntime_lib_unversioned_filename と同じ。
+        ///  @return 必要な最小マイナーバージョン
         ///
-        ///  \availability{
-        ///    [リリース](https://github.com/voicevox/voicevox_core/releases)されているライブラリではiOSを除くプラットフォームで利用可能。詳細は&lt;a href="#voicevox-core-availability"&gt;ファイルレベルの"Availability"の節&lt;/a&gt;を参照。
-        ///  }
-        ///
-        ///  \orig-impl{voicevox_get_onnxruntime_lib_versioned_filename}
+        ///  \orig-impl{voicevox_get_onnxruntime_lib_min_required_minor_version}
         /// </summary>
-        [DllImport(__DllName, EntryPoint = "voicevox_get_onnxruntime_lib_versioned_filename", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        internal static extern byte* voicevox_get_onnxruntime_lib_versioned_filename();
+        [DllImport(__DllName, EntryPoint = "voicevox_get_onnxruntime_lib_min_required_minor_version", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        internal static extern uint voicevox_get_onnxruntime_lib_min_required_minor_version();
 
         /// <summary>
-        ///  ONNX Runtimeの動的ライブラリの、バージョン無しのファイル名。
+        ///  サポートされるONNX Runtime 1.xの最大マイナーバージョンを取得する。
+        ///
+        ///  @return サポートされる最大マイナーバージョン
+        ///
+        ///  \orig-impl{voicevox_get_onnxruntime_lib_max_supported_minor_version}
+        /// </summary>
+        [DllImport(__DllName, EntryPoint = "voicevox_get_onnxruntime_lib_max_supported_minor_version", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        internal static extern uint voicevox_get_onnxruntime_lib_max_supported_minor_version();
+
+        /// <summary>
+        ///  推奨されるONNX Runtimeの動的ライブラリの、バージョン付きのファイル名。
+        ///
+        ///  WindowsとAndroidでは ::voicevox_get_onnxruntime_lib_recommended_unversioned_filename と同じ。
         ///
         ///  \availability{
         ///    [リリース](https://github.com/voicevox/voicevox_core/releases)されているライブラリではiOSを除くプラットフォームで利用可能。詳細は&lt;a href="#voicevox-core-availability"&gt;ファイルレベルの"Availability"の節&lt;/a&gt;を参照。
         ///  }
         ///
-        ///  \orig-impl{voicevox_get_onnxruntime_lib_unversioned_filename}
+        ///  \orig-impl{voicevox_get_onnxruntime_lib_recommended_versioned_filename}
         /// </summary>
-        [DllImport(__DllName, EntryPoint = "voicevox_get_onnxruntime_lib_unversioned_filename", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        internal static extern byte* voicevox_get_onnxruntime_lib_unversioned_filename();
+        [DllImport(__DllName, EntryPoint = "voicevox_get_onnxruntime_lib_recommended_versioned_filename", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        internal static extern byte* voicevox_get_onnxruntime_lib_recommended_versioned_filename();
+
+        /// <summary>
+        ///  推奨されるONNX Runtimeの動的ライブラリの、バージョン無しのファイル名。
+        ///
+        ///  \availability{
+        ///    [リリース](https://github.com/voicevox/voicevox_core/releases)されているライブラリではiOSを除くプラットフォームで利用可能。詳細は&lt;a href="#voicevox-core-availability"&gt;ファイルレベルの"Availability"の節&lt;/a&gt;を参照。
+        ///  }
+        ///
+        ///  \orig-impl{voicevox_get_onnxruntime_lib_recommended_unversioned_filename}
+        /// </summary>
+        [DllImport(__DllName, EntryPoint = "voicevox_get_onnxruntime_lib_recommended_unversioned_filename", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        internal static extern byte* voicevox_get_onnxruntime_lib_recommended_unversioned_filename();
 
         /// <summary>
         ///  デフォルトの ::voicevox_onnxruntime_load_once のオプションを生成する。
@@ -76,6 +96,8 @@ namespace VoicevoxCoreSharp.Core.Native
         /// <summary>
         ///  ONNX Runtimeをロードして初期化する。
         ///
+        ///  対象のONNX Runtimeのマイナーバージョンは ::voicevox_get_onnxruntime_lib_min_required_minor_version 以上でなければならない。 ::voicevox_get_onnxruntime_lib_max_supported_minor_version よりも大きい場合は警告を出す。
+        ///
         ///  一度成功したら、以後は引数を無視して同じ参照を返す。
         ///
         ///  @param [in] options オプション
@@ -99,6 +121,8 @@ namespace VoicevoxCoreSharp.Core.Native
 
         /// <summary>
         ///  ONNX Runtimeを初期化する。
+        ///
+        ///  リンクされているONNX Runtimeのマイナーバージョンが ::voicevox_get_onnxruntime_lib_min_required_minor_version よりも小さい場合失敗する。 ::voicevox_get_onnxruntime_lib_max_supported_minor_version よりも大きい場合は警告を出す。
         ///
         ///  一度成功したら以後は同じ参照を返す。
         ///
@@ -236,19 +260,13 @@ namespace VoicevoxCoreSharp.Core.Native
         ///
         ///  - [Rust APIの`AudioQuery`型]としてデシリアライズ不可、もしくはJSONとして不正。
         ///  - `accent_phrases`の要素のうちいずれかが、 ::voicevox_accent_phrase_validate でエラーになる。
-        ///  - `outputSamplingRate`が`24000`の倍数ではない、もしくは`0` (将来的に解消予定。cf. [#762])。
         ///
         ///  [Rust APIの`AudioQuery`型]: ../rust_api/voicevox_core/struct.AudioQuery.html
         ///  [#762]: https://github.com/VOICEVOX/voicevox_core/issues/762
         ///
         ///  次の状態に対しては警告のログを出す。将来的にはエラーになる予定。
         ///
-        ///  - `accent_phrases`の要素のうちいずれかが警告が出る状態。
-        ///  - `speedScale`が負。
-        ///  - `volumeScale`が負。
-        ///  - `prePhonemeLength`が負。
-        ///  - `postPhonemeLength`が負。
-        ///  - `outputSamplingRate`が`24000`以外の値（エラーと同様将来的に解消予定）。
+        ///  - `outputSamplingRate`が`24000`以外の値（将来的に解消予定。cf. [#762]）。
         ///
         ///  @param [in] audio_query_json `AudioQuery`型のJSON
         ///
@@ -270,14 +288,9 @@ namespace VoicevoxCoreSharp.Core.Native
         ///
         ///  - [Rust APIの`AccentPhrase`型]としてデシリアライズ不可、もしくはJSONとして不正。
         ///  - `moras`もしくは`pause_mora`の要素のうちいずれかが、 ::voicevox_mora_validate でエラーになる。
-        ///  - `accent`が`0`。
+        ///  - `accent`が`moras`の数を超過している。
         ///
         ///  [Rust APIの`AccentPhrase`型]: ../rust_api/voicevox_core/struct.AccentPhrase.html
-        ///
-        ///  次の状態に対しては警告のログを出す。将来的にはエラーになる予定。
-        ///
-        ///  - `moras`もしくは`pause_mora`の要素のうちいずれかが、警告が出る状態。
-        ///  - `accent`が`moras`の数を超過している。
         ///
         ///  @param [in] accent_phrase_json `AccentPhrase`型のJSON
         ///
@@ -299,15 +312,8 @@ namespace VoicevoxCoreSharp.Core.Native
         ///
         ///  - [Rust APIの`Mora`型]としてデシリアライズ不可、もしくはJSONとして不正。
         ///  - `consonant`と`consonant_length`の有無が不一致。
-        ///  - `consonant`が子音以外の音素であるか、もしくは音素として不正。
-        ///  - `vowel`が子音であるか、もしくは音素として不正。
         ///
         ///  [Rust APIの`Mora`型]: ../rust_api/voicevox_core/struct.Mora.html
-        ///
-        ///  次の状態に対しては警告のログを出す。将来的にはエラーになる予定。
-        ///
-        ///  - `consonant_length`が負。
-        ///  - `vowel_length`が負。
         ///
         ///  @param [in] mora_json `Mora`型のJSON
         ///
@@ -1414,7 +1420,7 @@ namespace VoicevoxCoreSharp.Core.Native
         public byte* pronunciation;
         public nuint accent_type;
         public VoicevoxUserDictWordType word_type;
-        public uint priority;
+        public byte priority;
     }
 
 
@@ -1435,7 +1441,7 @@ namespace VoicevoxCoreSharp.Core.Native
         VOICEVOX_RESULT_INVALID_ACCENT_PHRASE_ERROR = 15,
         VOICEVOX_RESULT_OPEN_ZIP_FILE_ERROR = 16,
         VOICEVOX_RESULT_READ_ZIP_ENTRY_ERROR = 17,
-        VOICEVOX_RESULT_INVALID_MODEL_HEADER_ERROR = 28,
+        VOICEVOX_RESULT_INVALID_MODEL_FORMAT_ERROR = 28,
         VOICEVOX_RESULT_MODEL_ALREADY_LOADED_ERROR = 18,
         VOICEVOX_RESULT_STYLE_ALREADY_LOADED_ERROR = 26,
         VOICEVOX_RESULT_INVALID_MODEL_DATA_ERROR = 27,
