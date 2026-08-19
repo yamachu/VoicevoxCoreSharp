@@ -38,19 +38,35 @@ namespace VoicevoxCoreSharp.Core
             Handle = new OnnxruntimeHandle(new IntPtr(onnxruntimeHandle));
         }
 
-        public static string GetVersionedFilename()
+        public static uint GetMinRequiredMinorVersion()
         {
             unsafe
             {
-                return StringConvertCompat.ToUTF8String(CoreUnsafe.voicevox_get_onnxruntime_lib_versioned_filename());
+                return CoreUnsafe.voicevox_get_onnxruntime_lib_min_required_minor_version();
             }
         }
 
-        public static string GetUnversionedFilename()
+        public static uint GetMaxSupportedMinorVersion()
         {
             unsafe
             {
-                return StringConvertCompat.ToUTF8String(CoreUnsafe.voicevox_get_onnxruntime_lib_unversioned_filename());
+                return CoreUnsafe.voicevox_get_onnxruntime_lib_max_supported_minor_version();
+            }
+        }
+
+        public static string GetRecommendedVersionedFilename()
+        {
+            unsafe
+            {
+                return StringConvertCompat.ToUTF8String(CoreUnsafe.voicevox_get_onnxruntime_lib_recommended_versioned_filename());
+            }
+        }
+
+        public static string GetRecommendedUnversionedFilename()
+        {
+            unsafe
+            {
+                return StringConvertCompat.ToUTF8String(CoreUnsafe.voicevox_get_onnxruntime_lib_recommended_unversioned_filename());
             }
         }
 

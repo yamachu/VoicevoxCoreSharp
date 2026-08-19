@@ -39,7 +39,7 @@ namespace VoicevoxCoreSharp.Core.Tests
             var userDict = new UserDict();
 
             var pronunciation = "ホゲ";
-            uint priority = 10;
+            byte priority = 10;
             nuint accentType = 2;
             var wordType = UserDictWordType.ADJECTIVE;
 

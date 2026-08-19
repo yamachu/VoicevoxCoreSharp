@@ -1,6 +1,6 @@
 {
     "name": "VoicevoxCoreSharp.Core.Unity",
-    "rootNamespace": "VoicevoxCoreShap.Core",
+    "rootNamespace": "VoicevoxCoreSharp.Core",
     "references": [],
     "includePlatforms": [],
     "excludePlatforms": [],

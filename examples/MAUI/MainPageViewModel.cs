@@ -56,7 +56,7 @@ public partial class MainPageViewModel : ObservableObject
         var libraryPath = "";
 #if MACCATALYST
         var bundlePath = Foundation.NSBundle.MainBundle.BundlePath;
-        libraryPath = Path.Combine(bundlePath, "Contents", "MonoBundle", "libvoicevox_onnxruntime.1.17.3.dylib");
+        libraryPath = Path.Combine(bundlePath, "Contents", "MonoBundle", "libvoicevox_onnxruntime.1.23.2.dylib");
 #elif ANDROID
         var bundlePath = Android.App.Application.Context.ApplicationInfo?.NativeLibraryDir;
         libraryPath = Path.Combine(bundlePath, "libvoicevox_onnxruntime.so");
@@ -107,7 +107,7 @@ public partial class MainPageViewModel : ObservableObject
         var libraryPath = "";
 #if MACCATALYST
         var bundlePath = Foundation.NSBundle.MainBundle.BundlePath;
-        libraryPath = Path.Combine(bundlePath, "Contents", "MonoBundle", "libvoicevox_onnxruntime.1.17.3.dylib");
+        libraryPath = Path.Combine(bundlePath, "Contents", "MonoBundle", "libvoicevox_onnxruntime.1.23.2.dylib");
 #elif ANDROID
         var bundlePath = Android.App.Application.Context.ApplicationInfo?.NativeLibraryDir;
         libraryPath = Path.Combine(bundlePath, "libvoicevox_onnxruntime.so");

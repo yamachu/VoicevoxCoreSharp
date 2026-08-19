@@ -14,10 +14,10 @@ $ dotnet add package VoicevoxCoreSharp.Core
 ```
 
 Unity の場合は Package Manager から以下の URL を追加してください。
-`#0.16.0` はバージョンを指定しています。
+`#0.17.0` はバージョンを指定しています。
 
 ```
-https://github.com/yamachu/VoicevoxCoreSharp.git?path=/src/VoicevoxCoreSharp.Core.Unity#0.16.0
+https://github.com/yamachu/VoicevoxCoreSharp.git?path=/src/VoicevoxCoreSharp.Core.Unity#0.17.0
 ```
 
 MAUI の場合は以下のパッケージを追加すると便利です。

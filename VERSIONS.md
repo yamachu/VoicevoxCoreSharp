@@ -10,7 +10,8 @@
 | 0.16.0 - 0.16.1   | 0.16.1        |
 | 0.16.0 - 0.16.1   | 0.16.2        |
 | 0.16.2 - 0.16.2   | 0.16.3        |
-| 0.16.3 -          | 0.16.4        |
+| 0.16.3            | 0.16.4        |
+| 0.17.0 -          | 0.17.0        |
 
 ### 対応したPR
 
@@ -21,3 +22,7 @@ https://github.com/yamachu/VoicevoxCoreSharp/pull/252
 #### 0.16.3
 
 https://github.com/yamachu/VoicevoxCoreSharp/pull/264
+
+#### 0.17.0
+
+https://github.com/yamachu/VoicevoxCoreSharp/pull/315
