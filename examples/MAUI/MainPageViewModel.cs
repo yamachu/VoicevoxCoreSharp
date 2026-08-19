@@ -165,7 +165,7 @@ public partial class MainPageViewModel : ObservableObject
     private void GenerateAndPlayImpl()
     {
         // TODO: Select StyleID
-        var result = Synthesizer.Tts(SynthesisText, 0, TtsOptions.Default(), out var outputWavLength, out var outputWav);
+        var result = Synthesizer.Tts(SynthesisText, new StyleId(0), TtsOptions.Default(), out var outputWavLength, out var outputWav);
         if (result != ResultCode.RESULT_OK)
         {
             return;
@@ -180,7 +180,7 @@ public partial class MainPageViewModel : ObservableObject
     private async Task GenerateAndPlayImplAsync()
     {
         // TODO: Select StyleID
-        var (outputWavLength, outputWav) = await Synthesizer.TtsAsync(SynthesisText, 0, TtsOptions.Default());
+        var (outputWavLength, outputWav) = await Synthesizer.TtsAsync(SynthesisText, new StyleId(0), TtsOptions.Default());
 
         using var stream = new MemoryStream(outputWav, 0, (int)outputWavLength);
 

@@ -6,7 +6,7 @@ using VoicevoxCoreSharp.Core.Enum;
 using VoicevoxCoreSharp.Core.Struct;
 
 const string OutputWavName = "audio.wav";
-const uint StyleId = 0;
+var styleId = new StyleId(0);
 
 static int RunTts(string text, string? resourcePath = "voicevox_core")
 {
@@ -61,7 +61,7 @@ static int RunTts(string text, string? resourcePath = "voicevox_core")
 
     Console.WriteLine("音声生成中...");
 
-    result = synthesizer.Tts(text, StyleId, TtsOptions.Default(), out var outputWavSize, out var outputWav);
+    result = synthesizer.Tts(text, styleId, TtsOptions.Default(), out var outputWavSize, out var outputWav);
     if (result != ResultCode.RESULT_OK)
     {
         Console.Error.WriteLine(result.ToMessage());

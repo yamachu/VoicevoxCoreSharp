@@ -10,7 +10,7 @@ using VoicevoxCoreSharp.Core.Struct;
 public class SampleVoicevoxCoreSharpScript : MonoBehaviour
 {
     public string Text = "こんにちは";
-    public uint StyleId = 1;
+    public uint StyleIdValue = 1;
 
     // Start is called before the first frame update
     void Start()
@@ -61,7 +61,7 @@ public class SampleVoicevoxCoreSharpScript : MonoBehaviour
 
         Debug.Log("音声生成中...");
 
-        result = synthesizer.Tts(Text, StyleId, TtsOptions.Default(), out var outputWavSize, out var outputWav);
+        result = synthesizer.Tts(Text, new StyleId(StyleIdValue), TtsOptions.Default(), out var outputWavSize, out var outputWav);
         if (result != ResultCode.RESULT_OK)
         {
             Debug.LogError(result.ToMessage());
