@@ -25,4 +25,4 @@ https://github.com/yamachu/VoicevoxCoreSharp/pull/264
 
 #### 0.17.0
 
-TODO
+https://github.com/yamachu/VoicevoxCoreSharp/pull/315
