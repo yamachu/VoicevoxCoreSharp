@@ -6,10 +6,10 @@ using VoicevoxCoreSharp.Core.Enum;
 using VoicevoxCoreSharp.Core.Struct;
 
 const string OutputWavName = "audio.wav";
-var styleId = new StyleId(0);
 
 static int RunTts(string text, string? resourcePath = "voicevox_core")
 {
+    var styleId = new StyleId(0);
     var openJTalkDictPath = $"{resourcePath}/dict/open_jtalk_dic_utf_8-1.11";
 
     Console.WriteLine("coreの初期化中");
