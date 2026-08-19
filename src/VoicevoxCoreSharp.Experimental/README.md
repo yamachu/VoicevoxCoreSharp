@@ -10,7 +10,7 @@ API は予告なく変更される場合があります。
 
 ### 非同期 API
 
-クラス名に `Extensions` が付属していないメソッドは、VoiceVoxCoreSharp.Core で提供するクラスの拡張メソッドとして提供されています。
+クラス名に `Extensions` が付属していないメソッドは、VoicevoxCoreSharp.Core で提供するクラスの拡張メソッドとして提供されています。
 
 - OnnxruntimeExtensions.LoadOnceAsync
 - OnnxruntimeExtensions.InitOnceAsync
