@@ -42,7 +42,7 @@ jobs:
         ref: ${{ inputs.checkout-ref || github.head_ref }}
     - uses: actions/setup-dotnet@a98b56852c35b8e3190ac28c8c2271da59106c68 # v6.0.0
       with:
-        dotnet-version: 9
+        dotnet-version: 10
     - uses: actions/cache/restore@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
       with:
         path: |
@@ -73,7 +73,7 @@ jobs:
         ref: ${{ inputs.checkout-ref || github.head_ref }}
     - uses: actions/setup-dotnet@a98b56852c35b8e3190ac28c8c2271da59106c68 # v6.0.0
       with:
-        dotnet-version: 9
+        dotnet-version: 10
     - uses: actions/cache/restore@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
       with:
         path: |
@@ -102,7 +102,7 @@ jobs:
       run: |
         cd examples/cli
         dotnet build --property:UseNugetOnnxRuntime=false
-        LD_LIBRARY_PATH="$PWD/bin/Debug/net8.0:${LD_LIBRARY_PATH:-}" dotnet run --property:UseNugetOnnxRuntime=false -- --resource=$PWD/voicevox_core こんにちは
+        LD_LIBRARY_PATH="$PWD/bin/Debug/net10.0:${LD_LIBRARY_PATH:-}" dotnet run --property:UseNugetOnnxRuntime=false -- --resource=$PWD/voicevox_core こんにちは
         test -s audio.wav
         file --brief audio.wav | grep -q "WAVE audio"
 
@@ -116,5 +116,5 @@ jobs:
         ref: ${{ inputs.checkout-ref || github.head_ref }}
     - uses: actions/setup-dotnet@a98b56852c35b8e3190ac28c8c2271da59106c68 # v6.0.0
       with:
-        dotnet-version: 9
+        dotnet-version: 10
     - run: make format/check
