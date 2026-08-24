@@ -53,7 +53,7 @@ namespace VoicevoxCoreSharp.Core
         }
 
         [Obsolete("Use VoiceModelFile.Open(string modelPath, out VoiceModelFile voiceModel) instead.")]
-        public static ResultCode New(string modelPath, out VoiceModelFile voiceModel)
+        private static ResultCode New(string modelPath, out VoiceModelFile voiceModel)
         {
             return Open(modelPath, out voiceModel);
         }
