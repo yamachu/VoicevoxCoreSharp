@@ -13,7 +13,7 @@ namespace VoicevoxCoreSharp.Core.Tests
             Assert.Equal(ResultCode.RESULT_OK, openResult);
             Assert.NotNull(voiceModel);
 
-            Assert.NotEmpty(voiceModel.Id);
+            Assert.NotEqual(VoiceModelId.Empty, voiceModel.Id);
             Assert.NotEmpty(voiceModel.MetasJson);
         }
 
@@ -23,10 +23,10 @@ namespace VoicevoxCoreSharp.Core.Tests
             var _ = VoiceModelFile.Open(Consts.SampleVoiceModel, out var voiceModel);
             using (voiceModel) { }
 
-            Assert.NotEmpty(voiceModel.Id);
+            Assert.NotEqual(VoiceModelId.Empty, voiceModel.Id);
             Assert.NotEmpty(voiceModel.MetasJson);
 
-            Assert.True(voiceModel.Id.Length > 0);
+            Assert.False(voiceModel.Id.Equals(VoiceModelId.Empty));
             Assert.True(voiceModel.MetasJson.Length > 0);
         }
     }

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Text;
 
 namespace VoicevoxCoreSharp.Core
 {
@@ -26,9 +25,19 @@ namespace VoicevoxCoreSharp.Core
             return uuidString.Insert(8, "-").Insert(13, "-").Insert(18, "-").Insert(23, "-");
         }
 
+        internal static unsafe Guid ToGuid(byte* ptr)
+        {
+            return Guid.ParseExact(ToUUIDv4(ptr), "D");
+        }
+
         internal static byte[] ToUUIDv4ByteArray(string uuid)
         {
-            var trimmedUuid = uuid.Replace("-", "");
+            return ToUUIDv4ByteArray(Guid.Parse(uuid));
+        }
+
+        internal static byte[] ToUUIDv4ByteArray(Guid uuid)
+        {
+            var trimmedUuid = uuid.ToString("N");
             var uuidBytes = new byte[16];
             var length = 0;
 

@@ -8,6 +8,10 @@ namespace VoicevoxCoreSharp.Core.Tests
 {
     public class SynthesizerTest
     {
+        private static readonly StyleId DefaultStyleId = new StyleId(0);
+        private static readonly StyleId SingingTeacherStyleId = new StyleId(6000);
+        private static readonly StyleId FrameDecodeStyleId = new StyleId(3000);
+
         [Fact]
         public void Tts()
         {
@@ -27,7 +31,7 @@ namespace VoicevoxCoreSharp.Core.Tests
             Assert.Equal(ResultCode.RESULT_OK, loadResult);
             Assert.NotEmpty(synthesizer.MetasJson);
 
-            var ttsResult = synthesizer.Tts("こんにちは", 0, TtsOptions.Default(), out var wavLength, out var wav);
+            var ttsResult = synthesizer.Tts("こんにちは", DefaultStyleId, TtsOptions.Default(), out var wavLength, out var wav);
 
             Assert.Equal(ResultCode.RESULT_OK, ttsResult);
             Assert.True(wavLength > 0);
@@ -78,19 +82,19 @@ namespace VoicevoxCoreSharp.Core.Tests
             }
             """.Trim();
 
-            var createSingFrameAudioResult = synthesizer.CreateSingFrameAudioQuery(score, 6000 /* singing_teacher */, out var frameAudioQueryJson);
+            var createSingFrameAudioResult = synthesizer.CreateSingFrameAudioQuery(score, SingingTeacherStyleId, out var frameAudioQueryJson);
             Assert.Equal(ResultCode.RESULT_OK, createSingFrameAudioResult);
             Assert.NotEmpty(frameAudioQueryJson);
 
-            var createSingFrameF0 = synthesizer.CreateSingFrameF0(score, frameAudioQueryJson, 6000 /* singing_teacher */, out var frameF0Json);
+            var createSingFrameF0 = synthesizer.CreateSingFrameF0(score, frameAudioQueryJson, SingingTeacherStyleId, out var frameF0Json);
             Assert.Equal(ResultCode.RESULT_OK, createSingFrameF0);
             Assert.NotEmpty(frameF0Json);
 
-            var createSingFrameVolumeResult = synthesizer.CreateSingFrameVolume(score, frameAudioQueryJson, 6000 /* singing_teacher */, out var frameVolumeJson);
+            var createSingFrameVolumeResult = synthesizer.CreateSingFrameVolume(score, frameAudioQueryJson, SingingTeacherStyleId, out var frameVolumeJson);
             Assert.Equal(ResultCode.RESULT_OK, createSingFrameVolumeResult);
             Assert.NotEmpty(frameVolumeJson);
 
-            var frameSynthesisResult = synthesizer.FrameSynthesis(frameAudioQueryJson, 3000 /* frame_decode */, out var outputWavLength, out var outputWav);
+            var frameSynthesisResult = synthesizer.FrameSynthesis(frameAudioQueryJson, FrameDecodeStyleId, out var outputWavLength, out var outputWav);
             Assert.Equal(ResultCode.RESULT_OK, frameSynthesisResult);
             Assert.True(outputWavLength > 0);
             Assert.NotNull(outputWav);

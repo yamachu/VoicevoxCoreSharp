@@ -8,6 +8,8 @@ namespace VoicevoxCoreSharp.Core.Tests
 {
     public class TtsTest
     {
+        private static readonly StyleId DefaultStyleId = new StyleId(0);
+
         [Fact]
         public void TtsBySynthesis()
         {
@@ -30,7 +32,7 @@ namespace VoicevoxCoreSharp.Core.Tests
             openJtalk.Analyze("こんにちは", out var outputAccentPhrasesJson);
             Utils.CreateAudioQueryFromAccentPhrases(outputAccentPhrasesJson!, out var outputAudioQueryJson);
 
-            var synthesisResult = synthesizer.Synthesis(outputAudioQueryJson!, 0, SynthesisOptions.Default(), out var wavLength, out var wav);
+            var synthesisResult = synthesizer.Synthesis(outputAudioQueryJson!, DefaultStyleId, SynthesisOptions.Default(), out var wavLength, out var wav);
             Assert.Equal(ResultCode.RESULT_OK, synthesisResult);
             Assert.True(wavLength > 0);
             Assert.NotNull(wav);

@@ -34,21 +34,21 @@ namespace VoicevoxCoreSharp.Core
         internal VoiceModelFileHandle Handle { get; private set; }
         private bool _disposed = false;
 
-        public string Id { get; private set; }
+        public VoiceModelId Id { get; private set; }
 
         public string MetasJson { get; private set; }
 
         private VoiceModelFile()
         {
             Handle = new VoiceModelFileHandle(IntPtr.Zero);
-            Id = string.Empty;
+            Id = VoiceModelId.Empty;
             MetasJson = string.Empty;
         }
 
-        private unsafe VoiceModelFile(VoicevoxVoiceModelFile* modelHandle, string id, string metasJson)
+        private unsafe VoiceModelFile(VoicevoxVoiceModelFile* modelHandle, VoiceModelId voiceModelId, string metasJson)
         {
             Handle = new VoiceModelFileHandle(new IntPtr(modelHandle));
-            Id = id;
+            Id = voiceModelId;
             MetasJson = metasJson;
         }
 
@@ -70,13 +70,13 @@ namespace VoicevoxCoreSharp.Core
                     {
                         byte* idPtr = stackalloc byte[16];
                         CoreUnsafe.voicevox_voice_model_file_id(p, idPtr);
-                        var id = NativeUuid.ToUUIDv4(idPtr);
+                        var voiceModelId = VoiceModelIdExt.FromNative(idPtr);
 
                         var jsonPtr = CoreUnsafe.voicevox_voice_model_file_create_metas_json(p);
                         var json = StringConvertCompat.ToUTF8String(jsonPtr);
                         CoreUnsafe.voicevox_json_free(jsonPtr);
 
-                        voiceModel = new VoiceModelFile(p, id, json);
+                        voiceModel = new VoiceModelFile(p, voiceModelId, json);
                     }
                     else
                     {
