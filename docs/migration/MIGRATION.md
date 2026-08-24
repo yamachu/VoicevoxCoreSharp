@@ -4,7 +4,123 @@
 
 ## 目次
 
+- [0.17.0 → next](#0170--next)
 - [0.16.3 → 0.17.0](#0163--0170)
+
+---
+
+## 0.17.0 → next
+
+本セクションでは、`main` ブランチに導入された **Newtype パターン** への移行方法を説明します。  
+現時点では後方互換 API（旧シグネチャ）に `[Obsolete]` が付与されており、コンパイル警告で確認できます。  
+**次のリリースでは旧シグネチャが削除される予定**のため、今のうちに移行をお願いします。
+
+### Newtype パターンとは
+
+従来、スタイルID やボイスモデルID は `uint` / `string` といったプリミティブ型で渡していました。  
+新しい設計では **専用の値型（newtype）** を使用します：
+
+| 旧型 | 新型 | 用途 |
+|------|------|------|
+| `uint` | `StyleId` | スタイル ID |
+| `string` (UUID) | `VoiceModelId` | ボイスモデル ID |
+
+これにより、型の取り違えによるバグを防ぎ、意図を明確にコードで表現できます。
+
+### `StyleId` への移行
+
+`Synthesizer` クラス（および `Experimental` 拡張メソッド）の全メソッドで `uint styleId` が `StyleId styleId` に変わりました。
+
+```csharp
+// 変更前（警告が出る旧シグネチャ）
+synthesizer.CreateAudioQuery(text, 1u, out var audioQueryJson);
+synthesizer.Synthesis(audioQueryJson, 1u, options, out var wavLen, out var wav);
+
+// 変更後
+var styleId = new StyleId(1u);
+// または明示的キャスト: var styleId = (StyleId)1u;
+
+synthesizer.CreateAudioQuery(text, styleId, out var audioQueryJson);
+synthesizer.Synthesis(audioQueryJson, styleId, options, out var wavLen, out var wav);
+```
+
+影響を受けるすべてのメソッドは以下のとおりです（`Synthesizer` クラス）：
+
+- `CreateAudioQuery`
+- `CreateAudioQueryFromKana`
+- `CreateAccentPhrases`
+- `CreateAccentPhrasesFromKana`
+- `ReplaceMoraData`
+- `ReplacePhonemeLength`
+- `ReplaceMoraPitch`
+- `Synthesis`
+- `Tts`
+- `TtsFromKana`
+- `CreateSingFrameAudioQuery`
+- `CreateSingFrameF0`
+- `CreateSingFrameVolume`
+- `FrameSynthesis`
+- `UnloadVoiceModel`
+- `IsLoadedVoiceModel`
+
+`Experimental` パッケージの対応する非同期拡張メソッドも同様です。
+
+#### `uint` との相互変換
+
+`StyleId` は `uint` との明示的キャストをサポートしています：
+
+```csharp
+// uint → StyleId
+StyleId styleId = (StyleId)1u;
+
+// StyleId → uint
+uint value = (uint)styleId;
+// または
+uint value = styleId.Value;
+```
+
+### `VoiceModelId` への移行
+
+`Synthesizer.UnloadVoiceModel` と `Synthesizer.IsLoadedVoiceModel` では `string modelId` が `VoiceModelId modelId` に変わりました。  
+また `VoiceModelFile.Id` プロパティの型も `string` から `VoiceModelId` になりました。
+
+```csharp
+// 変更前（警告が出る旧シグネチャ）
+synthesizer.UnloadVoiceModel(voiceModel.Id);         // voiceModel.Id は string だった
+synthesizer.IsLoadedVoiceModel(voiceModel.Id);
+
+// 変更後
+synthesizer.UnloadVoiceModel(voiceModel.Id);         // voiceModel.Id は VoiceModelId
+synthesizer.IsLoadedVoiceModel(voiceModel.Id);
+```
+
+`voiceModel.Id` 経由でそのまま渡している場合はコード変更不要です。  
+UUID 文字列から生成する場合は以下のとおりです：
+
+```csharp
+// string → VoiceModelId
+var modelId = new VoiceModelId("xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx");
+// または明示的キャスト
+var modelId = (VoiceModelId)"xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx";
+
+// VoiceModelId → string
+string value = modelId.ToString();          // "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
+// または明示的キャスト
+string value = (string)modelId;
+
+// VoiceModelId → Guid
+Guid guid = (Guid)modelId;
+// または
+Guid guid = modelId.Value;
+```
+
+### 移行チェックリスト
+
+- [ ] `uint styleId` を受け取っていた箇所を `StyleId styleId` に変更する
+  - `(StyleId)value` または `new StyleId(value)` で生成する
+- [ ] `string modelId` を受け取っていた箇所を `VoiceModelId modelId` に変更する
+  - `new VoiceModelId(uuid)` または `(VoiceModelId)uuid` で生成する
+- [ ] コンパイル警告（`[Obsolete]`）がなくなっていることを確認する
 
 ---
 
