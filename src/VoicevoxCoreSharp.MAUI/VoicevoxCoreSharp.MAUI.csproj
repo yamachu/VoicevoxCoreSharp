@@ -51,7 +51,7 @@
 	</ItemGroup>
 
 	<!-- https://blog.azyobuzi.net/2020/05/03/01-projectref/ -->
-	<!-- dotnet pack -p:CoreVersion=0.17.0 -p:PackageVersion=0.17.0 -->
+	<!-- dotnet pack -p:CoreVersion=0.17.1 -p:PackageVersion=0.17.1 -->
 	<Target Name="SetDependencyVersion" AfterTargets="_GetProjectReferenceVersions">
 		<ItemGroup>
 			<_ProjectReferencesWithVersions Update="..\VoicevoxCoreSharp.Core\VoicevoxCoreSharp.Core.csproj" ProjectVersion="$(CoreVersion)" />

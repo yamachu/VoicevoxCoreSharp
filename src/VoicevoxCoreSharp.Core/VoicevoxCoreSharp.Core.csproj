@@ -29,7 +29,7 @@
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
     <PublishRepositoryUrl>true</PublishRepositoryUrl>
     <EmbedUntrackedSources>true</EmbedUntrackedSources>
-    <!-- when packaging, dotnet pack -p:PackageVersion=0.17.0 -c Release -->
+    <!-- when packaging, dotnet pack -p:PackageVersion=0.17.1 -c Release -->
     <!-- <Version>0.0.0</Version> -->
   </PropertyGroup>
 
