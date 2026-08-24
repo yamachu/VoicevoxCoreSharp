@@ -114,36 +114,12 @@ Guid guid = (Guid)modelId;
 Guid guid = modelId.Value;
 ```
 
-### `VoiceModelFile.New` → `VoiceModelFile.Open` への移行
-
-ファクトリメソッド名が変更されました。
-
-```csharp
-// 変更前
-ResultCode result = VoiceModelFile.New(modelPath, out var voiceModel);
-
-// 変更後
-ResultCode result = VoiceModelFile.Open(modelPath, out var voiceModel);
-```
-
-`Experimental` パッケージの非同期版も同様です：
-
-```csharp
-// 変更前
-var voiceModel = await VoiceModelFileExtensions.NewAsync(modelPath);
-
-// 変更後
-var voiceModel = await VoiceModelFileExtensions.OpenAsync(modelPath);
-```
-
 ### 移行チェックリスト
 
 - [ ] `uint styleId` を受け取っていた箇所を `StyleId styleId` に変更する
   - `(StyleId)value` または `new StyleId(value)` で生成する
 - [ ] `string modelId` を受け取っていた箇所を `VoiceModelId modelId` に変更する
   - `new VoiceModelId(uuid)` または `(VoiceModelId)uuid` で生成する
-- [ ] `VoiceModelFile.New(...)` → `VoiceModelFile.Open(...)` に変更する
-- [ ] `VoiceModelFileExtensions.NewAsync(...)` → `VoiceModelFileExtensions.OpenAsync(...)` に変更する（`Experimental` 利用者）
 - [ ] コンパイル警告（`[Obsolete]`）がなくなっていることを確認する
 
 ---
