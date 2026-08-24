@@ -8,10 +8,6 @@ namespace VoicevoxCoreSharp.Experimental
 {
     public static partial class VoiceModelFileExtensions
     {
-        [Obsolete("Use VoiceModelFile.OpenAsync(string modelPath) instead.")]
-        [NonBlocking]
-        private static partial Task<VoiceModelFile> NewAsync(string modelPath);
-
         [NonBlocking]
         public static partial Task<VoiceModelFile> OpenAsync(string modelPath);
     }
