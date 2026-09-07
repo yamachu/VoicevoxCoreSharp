@@ -607,6 +607,60 @@ namespace VoicevoxCoreSharp.Core
 
         }
 
+        public ResultCode CreateAudioFeature(string audioQueryJson, StyleId styleId, SynthesisOptions synthesisOptions, out AudioFeature? audioFeature)
+        {
+            unsafe
+            {
+                fixed (byte* ptr = System.Text.Encoding.UTF8.GetBytes(audioQueryJson))
+                {
+                    var p = (VoicevoxAudioFeature*)IntPtr.Zero.ToPointer();
+                    var result = CoreUnsafe.voicevox_synthesizer_create_audio_feature((VoicevoxSynthesizer*)Handle, ptr, styleId.ToNative(), synthesisOptions.ToNative(), &p).FromNative();
+                    if (result == ResultCode.RESULT_OK)
+                    {
+                        audioFeature = new AudioFeature(p);
+                    }
+                    else
+                    {
+                        audioFeature = null;
+                    }
+
+                    return result;
+                }
+            }
+        }
+
+        public ResultCode Render(AudioFeature audioFeature, nuint startInclusive, nuint endExclusive, out nuint outputPcmLength, out byte[]? outputPcm)
+        {
+            unsafe
+            {
+                fixed (nuint* ptr = &outputPcmLength)
+                {
+                    byte* resultPcmPtr;
+
+                    var result = CoreUnsafe.voicevox_synthesizer_render((VoicevoxSynthesizer*)Handle, (VoicevoxAudioFeature*)audioFeature.Handle, startInclusive, endExclusive, ptr, &resultPcmPtr);
+                    if (result == VoicevoxResultCode.VOICEVOX_RESULT_OK)
+                    {
+                        var i = 0;
+                        var outputPcmLengthInt = (int)outputPcmLength;
+                        var outputPcmTmp = new byte[outputPcmLengthInt];
+                        while (i < outputPcmLengthInt)
+                        {
+                            outputPcmTmp[i] = resultPcmPtr[i];
+                            i++;
+                        }
+                        outputPcm = outputPcmTmp;
+                        CoreUnsafe.voicevox_wav_free(resultPcmPtr);
+                    }
+                    else
+                    {
+                        outputPcm = null;
+                    }
+
+                    return result.FromNative();
+                }
+            }
+        }
+
         public void Dispose()
         {
             Dispose(true);
