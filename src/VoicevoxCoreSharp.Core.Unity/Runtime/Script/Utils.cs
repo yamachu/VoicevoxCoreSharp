@@ -170,5 +170,21 @@ namespace VoicevoxCoreSharp.Core
                 }
             }
         }
+
+        public static void WavFromS16Le(nuint pcmLength, byte[] pcm, uint samplingRate, bool isStereo, out nuint outputWavLength, out byte[] outputWav)
+        {
+            unsafe
+            {
+                fixed (byte* pcmPtr = pcm)
+                fixed (nuint* lengthPtr = &outputWavLength)
+                {
+                    byte* outputWavPtr;
+                    CoreUnsafe.voicevox_wav_from_s16le(pcmLength, pcmPtr, samplingRate, isStereo, lengthPtr, &outputWavPtr);
+                    outputWav = new byte[(int)outputWavLength];
+                    System.Runtime.InteropServices.Marshal.Copy((IntPtr)outputWavPtr, outputWav, 0, (int)outputWavLength);
+                    CoreUnsafe.voicevox_wav_free(outputWavPtr);
+                }
+            }
+        }
     }
 }
