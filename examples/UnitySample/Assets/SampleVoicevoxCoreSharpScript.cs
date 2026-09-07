@@ -43,7 +43,7 @@ public class SampleVoicevoxCoreSharpScript : MonoBehaviour
 
         using (openJtalk) { }
 
-        result = VoiceModelFile.New(System.IO.Path.Combine(Application.streamingAssetsPath, "voicevox_core/models/vvms/0.vvm"), out var voiceModel);
+        result = VoiceModelFile.Open(System.IO.Path.Combine(Application.streamingAssetsPath, "voicevox_core/models/vvms/0.vvm"), out var voiceModel);
         if (result != ResultCode.RESULT_OK)
         {
             Debug.LogError(result.ToMessage());
