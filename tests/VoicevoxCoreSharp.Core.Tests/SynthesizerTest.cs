@@ -77,6 +77,26 @@ namespace VoicevoxCoreSharp.Core.Tests
             Assert.True(pcmLength > 0);
             Assert.NotNull(pcm);
 
+            Assert.True(audioFeature.FrameLength > 1);
+            var splitFrameIndex = audioFeature.FrameLength / 2;
+            Assert.True(splitFrameIndex > 0);
+            Assert.True(splitFrameIndex < audioFeature.FrameLength);
+
+            var firstRenderResult = synthesizer.Render(audioFeature, 0, splitFrameIndex, out var firstPcmLength, out var firstPcm);
+            Assert.Equal(ResultCode.RESULT_OK, firstRenderResult);
+            Assert.True(firstPcmLength > 0);
+            Assert.NotNull(firstPcm);
+
+            var secondRenderResult = synthesizer.Render(audioFeature, splitFrameIndex, audioFeature.FrameLength, out var secondPcmLength, out var secondPcm);
+            Assert.Equal(ResultCode.RESULT_OK, secondRenderResult);
+            Assert.True(secondPcmLength > 0);
+            Assert.NotNull(secondPcm);
+
+            var concatenatedPcm = new byte[(int)(firstPcmLength + secondPcmLength)];
+            Array.Copy(firstPcm, 0, concatenatedPcm, 0, (int)firstPcmLength);
+            Array.Copy(secondPcm, 0, concatenatedPcm, (int)firstPcmLength, (int)secondPcmLength);
+            Assert.Equal(pcm, concatenatedPcm);
+
             using var audioQuery = JsonDocument.Parse(audioQueryJson);
             var outputSamplingRate = audioQuery.RootElement.GetProperty("outputSamplingRate").GetUInt32();
             var outputStereo = audioQuery.RootElement.GetProperty("outputStereo").GetBoolean();
