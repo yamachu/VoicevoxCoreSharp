@@ -447,6 +447,29 @@ namespace VoicevoxCoreSharp.Core.Native
         internal static extern VoicevoxResultCode voicevox_ensure_compatible(byte* score_json, byte* frame_audio_query_json);
 
         /// <summary>
+        ///  signed 16-bit little endianのPCMデータからWAV形式のバイナリを生成する。
+        ///
+        ///  @param [in] pcm_length PCMデータのバイト長
+        ///  @param [in] pcm PCMデータ
+        ///  @param [in] sampling_rate サンプリングレート
+        ///  @param [in] is_stereo ステレオかどうか
+        ///  @param [out] output_wav_length 出力のバイト長
+        ///  @param [out] output_wav 出力先
+        ///
+        ///  @returns 結果コード
+        ///
+        ///  \safety{
+        ///  - `pcm`は長さ`pcm_length`にわたって&lt;a href="#voicevox-core-safety"&gt;読み込みについて有効&lt;/a&gt;でなければならない。
+        ///  - `output_wav_length`は&lt;a href="#voicevox-core-safety"&gt;書き込みについて有効&lt;/a&gt;でなければならない。
+        ///  - `output_wav`は&lt;a href="#voicevox-core-safety"&gt;書き込みについて有効&lt;/a&gt;でなければならない。
+        ///  }
+        ///
+        ///  \orig-impl{voicevox_wav_from_s16le}
+        /// </summary>
+        [DllImport(__DllName, EntryPoint = "voicevox_wav_from_s16le", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        internal static extern void voicevox_wav_from_s16le(nuint pcm_length, byte* pcm, uint sampling_rate, [MarshalAs(UnmanagedType.U1)] bool is_stereo, nuint* output_wav_length, byte** output_wav);
+
+        /// <summary>
         ///  VVMファイルを開く。
         ///
         ///  @param [in] path vvmファイルへのUTF-8のファイルパス
@@ -906,6 +929,79 @@ namespace VoicevoxCoreSharp.Core.Native
         /// </summary>
         [DllImport(__DllName, EntryPoint = "voicevox_synthesizer_synthesis", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         internal static extern VoicevoxResultCode voicevox_synthesizer_synthesis(VoicevoxSynthesizer* synthesizer, byte* audio_query_json, uint style_id, VoicevoxSynthesisOptions options, nuint* output_wav_length, byte** output_wav);
+
+        /// <summary>
+        ///  AudioQueryから音声合成用の中間表現を&lt;b&gt;構築&lt;/b&gt;(_construct_)する。
+        ///
+        ///  生成した中間表現を解放するには ::voicevox_audio_feature_delete を使う。
+        ///
+        ///  @param [in] synthesizer 音声シンセサイザ
+        ///  @param [in] audio_query_json AudioQueryのJSON文字列
+        ///  @param [in] style_id スタイルID
+        ///  @param [in] options オプション
+        ///  @param [out] out_audio_feature 構築先
+        ///
+        ///  @returns 結果コード
+        ///
+        ///  \safety{
+        ///  - `audio_query_json`はヌル終端文字列を指し、かつ&lt;a href="#voicevox-core-safety"&gt;読み込みについて有効&lt;/a&gt;でなければならない。
+        ///  - `out_audio_feature`は&lt;a href="#voicevox-core-safety"&gt;書き込みについて有効&lt;/a&gt;でなければならない。
+        ///  }
+        ///
+        ///  \orig-impl{voicevox_synthesizer_create_audio_feature}
+        /// </summary>
+        [DllImport(__DllName, EntryPoint = "voicevox_synthesizer_create_audio_feature", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        internal static extern VoicevoxResultCode voicevox_synthesizer_create_audio_feature(VoicevoxSynthesizer* synthesizer, byte* audio_query_json, uint style_id, VoicevoxSynthesisOptions options, VoicevoxAudioFeature** out_audio_feature);
+
+        /// <summary>
+        ///  ::VoicevoxAudioFeature のフレーム数を取得する。
+        ///
+        ///  @param [in] audio_feature 音声合成用の中間表現
+        ///
+        ///  @returns フレーム数
+        ///
+        ///  \no-orig-impl{voicevox_audio_feature_frame_length}
+        /// </summary>
+        [DllImport(__DllName, EntryPoint = "voicevox_audio_feature_frame_length", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        internal static extern nuint voicevox_audio_feature_frame_length(VoicevoxAudioFeature* audio_feature);
+
+        /// <summary>
+        ///  ::VoicevoxAudioFeature の一部区間から、16bit PCMで音声波形を生成する。
+        ///
+        ///  生成したPCMデータを解放するには ::voicevox_wav_free を使う。
+        ///
+        ///  @param [in] synthesizer 音声シンセサイザ
+        ///  @param [in] audio_feature 音声合成用の中間表現
+        ///  @param [in] start_inclusive 開始フレーム番号
+        ///  @param [in] end_exclusive 終了フレーム番号（この番号は含まれない）
+        ///  @param [out] output_pcm_length 出力のバイト長
+        ///  @param [out] output_pcm 出力先
+        ///
+        ///  @returns 結果コード
+        ///
+        ///  \safety{
+        ///  - `output_pcm_length`は&lt;a href="#voicevox-core-safety"&gt;書き込みについて有効&lt;/a&gt;でなければならない。
+        ///  - `output_pcm`は&lt;a href="#voicevox-core-safety"&gt;書き込みについて有効&lt;/a&gt;でなければならない。
+        ///  }
+        ///
+        ///  \orig-impl{voicevox_synthesizer_render}
+        /// </summary>
+        [DllImport(__DllName, EntryPoint = "voicevox_synthesizer_render", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        internal static extern VoicevoxResultCode voicevox_synthesizer_render(VoicevoxSynthesizer* synthesizer, VoicevoxAudioFeature* audio_feature, nuint start_inclusive, nuint end_exclusive, nuint* output_pcm_length, byte** output_pcm);
+
+        /// <summary>
+        ///  ::VoicevoxAudioFeature を&lt;b&gt;破棄&lt;/b&gt;(_destruct_)する。
+        ///
+        ///  破棄対象への他スレッドでのアクセスが存在する場合、それらがすべて終わるのを待ってから破棄する。
+        ///
+        ///  この関数の呼び出し後に破棄し終えた対象にアクセスすると、プロセスを異常終了する。
+        ///
+        ///  @param [in] audio_feature 破棄対象。nullable
+        ///
+        ///  \no-orig-impl{voicevox_audio_feature_delete}
+        /// </summary>
+        [DllImport(__DllName, EntryPoint = "voicevox_audio_feature_delete", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        internal static extern void voicevox_audio_feature_delete(VoicevoxAudioFeature* audio_feature);
 
         /// <summary>
         ///  デフォルトのテキスト音声合成オプションを生成する
@@ -1400,6 +1496,11 @@ namespace VoicevoxCoreSharp.Core.Native
     internal unsafe partial struct VoicevoxSynthesisOptions
     {
         [MarshalAs(UnmanagedType.U1)] public bool enable_interrogative_upspeak;
+    }
+
+    [StructLayout(LayoutKind.Sequential)]
+    internal unsafe partial struct VoicevoxAudioFeature
+    {
     }
 
     [StructLayout(LayoutKind.Sequential)]
