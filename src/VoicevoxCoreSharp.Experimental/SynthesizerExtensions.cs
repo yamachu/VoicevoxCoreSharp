@@ -136,5 +136,8 @@ namespace VoicevoxCoreSharp.Experimental
         {
             return FrameSynthesisAsync(synthesizer, frameAudioQueryJson, styleId.Value);
         }
+
+        [NonBlocking]
+        public static partial Task<(nuint outputWavLength, byte[] outputWav)> RenderAsync(this Synthesizer synthesizer, AudioFeature audioFeature, nuint startInclusive, nuint endExclusive);
     }
 }
