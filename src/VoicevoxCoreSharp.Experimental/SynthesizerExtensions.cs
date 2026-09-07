@@ -138,6 +138,6 @@ namespace VoicevoxCoreSharp.Experimental
         }
 
         [NonBlocking]
-        public static partial Task<(nuint outputWavLength, byte[] outputWav)> RenderAsync(this Synthesizer synthesizer, AudioFeature audioFeature, nuint startInclusive, nuint endExclusive);
+        public static partial Task<(nuint outputPcmLength, byte[] outputPcm)> RenderAsync(this Synthesizer synthesizer, AudioFeature audioFeature, nuint startInclusive, nuint endExclusive);
     }
 }
