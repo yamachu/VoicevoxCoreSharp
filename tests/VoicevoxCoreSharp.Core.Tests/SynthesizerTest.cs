@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Text.Json;
 using VoicevoxCoreSharp.Core.Enum;
 using VoicevoxCoreSharp.Core.Struct;
 using Xunit;
@@ -11,6 +12,7 @@ namespace VoicevoxCoreSharp.Core.Tests
         private static readonly StyleId DefaultStyleId = new StyleId(0);
         private static readonly StyleId SingingTeacherStyleId = new StyleId(6000);
         private static readonly StyleId FrameDecodeStyleId = new StyleId(3000);
+        private static readonly StyleId StreamingTalkStyleId = new StyleId(302);
 
         [Fact]
         public void Tts()
@@ -36,6 +38,52 @@ namespace VoicevoxCoreSharp.Core.Tests
             Assert.Equal(ResultCode.RESULT_OK, ttsResult);
             Assert.True(wavLength > 0);
             Assert.NotNull(wav);
+        }
+
+        [Fact]
+        public void SynthesisByRender()
+        {
+            OpenJtalk.New(Consts.OpenJTalkDictDir, out var openJtalk);
+            var initializeOptions = InitializeOptions.Default();
+            var onnxruntimeOptions = new LoadOnnxruntimeOptions(Path.Join(AppContext.BaseDirectory, Helper.GetOnnxruntimeAssemblyName()));
+            if (Onnxruntime.LoadOnce(onnxruntimeOptions, out var onnruntime) != ResultCode.RESULT_OK)
+            {
+                Assert.Fail("Failed to initialize onnxruntime");
+            }
+            var synthesizerResult = Synthesizer.New(onnruntime, openJtalk, initializeOptions, out var synthesizer);
+
+            VoiceModelFile.Open(Consts.SampleVoiceModel, out var voiceModel);
+            var loadResult = synthesizer.LoadVoiceModel(voiceModel, LoadVoiceModelOptions.Default());
+
+            Assert.Equal(ResultCode.RESULT_OK, synthesizerResult);
+            Assert.Equal(ResultCode.RESULT_OK, loadResult);
+            Assert.NotEmpty(synthesizer.MetasJson);
+
+            var createAudioQueryResult = synthesizer.CreateAudioQuery("こんにちは？", StreamingTalkStyleId, out var audioQueryJson);
+            Assert.Equal(ResultCode.RESULT_OK, createAudioQueryResult);
+            Assert.NotNull(audioQueryJson);
+
+            var synthesisResult = synthesizer.Synthesis(audioQueryJson, StreamingTalkStyleId, SynthesisOptions.Default(), out var wavLength, out var wav);
+            Assert.Equal(ResultCode.RESULT_OK, synthesisResult);
+            Assert.True(wavLength > 0);
+            Assert.NotNull(wav);
+
+            var createAudioFeatureResult = synthesizer.CreateAudioFeature(audioQueryJson, StreamingTalkStyleId, SynthesisOptions.Default(), out var audioFeature);
+            Assert.Equal(ResultCode.RESULT_OK, createAudioFeatureResult);
+            Assert.NotNull(audioFeature);
+
+            var renderResult = synthesizer.Render(audioFeature, 0, audioFeature.FrameLength, out var pcmLength, out var pcm);
+            Assert.Equal(ResultCode.RESULT_OK, renderResult);
+            Assert.True(pcmLength > 0);
+            Assert.NotNull(pcm);
+
+            using var audioQuery = JsonDocument.Parse(audioQueryJson);
+            var outputSamplingRate = audioQuery.RootElement.GetProperty("outputSamplingRate").GetUInt32();
+            var outputStereo = audioQuery.RootElement.GetProperty("outputStereo").GetBoolean();
+            Utils.WavFromS16Le(pcmLength, pcm, outputSamplingRate, outputStereo, out var renderedWavLength, out var renderedWav);
+
+            Assert.Equal(wavLength, renderedWavLength);
+            Assert.Equal(wav, renderedWav);
         }
 
         [Fact]
