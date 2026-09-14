@@ -7,6 +7,7 @@ API は予告なく変更される場合があります。
 ## Feature
 
 - 非同期 API
+- AudioFeature Reader API
 
 ### 非同期 API
 
@@ -31,10 +32,22 @@ API は予告なく変更される場合があります。
 - Synthesizer.CreateSingFrameF0Async
 - Synthesizer.CreateSingFrameVolumeAsync
 - Synthesizer.FrameSynthesisAsync
+- Synthesizer.CreateAudioFeatureReader
+- Synthesizer.CreateAudioFeatureReaderAsync
 - UserDict.SaveAsync
 - UserDict.LoadAsync
 - ~~VoiceModelFileExtensions.NewAsync~~
 - VoiceModelFileExtensions.OpenAsync
+
+### AudioFeature Reader API
+
+`AudioFeature` をベースに、シーク可能かつ可変サイズで PCM を読み出せる API です。
+
+- `AudioFeatureReader.Read`
+- `AudioFeatureReader.ReadAsync`
+- `AudioFeatureReader.ReadAllAsync`
+
+`ReadAllAsync` は固定チャンクサイズまたは chunk size provider を使って `IAsyncEnumerable<AudioChunk>` として順次取得できます。
 
 ## Usage
 

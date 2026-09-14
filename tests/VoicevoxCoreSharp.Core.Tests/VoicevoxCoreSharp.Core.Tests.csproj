@@ -62,6 +62,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\src\VoicevoxCoreSharp.Core\VoicevoxCoreSharp.Core.csproj" />
+    <ProjectReference Include="..\..\src\VoicevoxCoreSharp.Experimental\VoicevoxCoreSharp.Experimental.csproj" />
   </ItemGroup>
 
   <ItemGroup>

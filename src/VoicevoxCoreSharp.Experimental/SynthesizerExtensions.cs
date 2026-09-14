@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Threading;
 using System.Threading.Tasks;
 using VoicevoxCoreSharp.Core;
 using VoicevoxCoreSharp.Core.Struct;
 using VoicevoxCoreSharp.Experimental.Attribute;
+using VoicevoxCoreSharp.Experimental.Exception;
 
 namespace VoicevoxCoreSharp.Experimental
 {
@@ -139,5 +141,43 @@ namespace VoicevoxCoreSharp.Experimental
 
         [NonBlocking]
         public static partial Task<(nuint outputPcmLength, byte[] outputPcm)> RenderAsync(this Synthesizer synthesizer, AudioFeature audioFeature, nuint startInclusive, nuint endExclusive);
+
+        public static AudioFeatureReader CreateAudioFeatureReader(this Synthesizer synthesizer, AudioFeature audioFeature)
+        {
+            return new AudioFeatureReader(synthesizer, audioFeature);
+        }
+
+        [Obsolete("Use CreateAudioFeatureReader(this Synthesizer synthesizer, string audioQueryJson, StyleId styleId, SynthesisOptions synthesisOptions) instead.")]
+        public static AudioFeatureReader CreateAudioFeatureReader(this Synthesizer synthesizer, string audioQueryJson, uint styleId, SynthesisOptions synthesisOptions)
+        {
+            return CreateAudioFeatureReader(synthesizer, audioQueryJson, new StyleId(styleId), synthesisOptions);
+        }
+
+        public static AudioFeatureReader CreateAudioFeatureReader(this Synthesizer synthesizer, string audioQueryJson, StyleId styleId, SynthesisOptions synthesisOptions)
+        {
+            var resultCode = synthesizer.CreateAudioFeature(audioQueryJson, styleId, synthesisOptions, out var audioFeature);
+            if (resultCode != Core.Enum.ResultCode.RESULT_OK || audioFeature == null)
+            {
+                throw new VoicevoxCoreResultException(resultCode);
+            }
+
+            return new AudioFeatureReader(synthesizer, audioFeature, true);
+        }
+
+        [Obsolete("Use CreateAudioFeatureReaderAsync(this Synthesizer synthesizer, string audioQueryJson, StyleId styleId, SynthesisOptions synthesisOptions, CancellationToken cancellationToken = default) instead.")]
+        public static Task<AudioFeatureReader> CreateAudioFeatureReaderAsync(this Synthesizer synthesizer, string audioQueryJson, uint styleId, SynthesisOptions synthesisOptions, CancellationToken cancellationToken = default)
+        {
+            return CreateAudioFeatureReaderAsync(synthesizer, audioQueryJson, new StyleId(styleId), synthesisOptions, cancellationToken);
+        }
+
+        public static Task<AudioFeatureReader> CreateAudioFeatureReaderAsync(this Synthesizer synthesizer, string audioQueryJson, StyleId styleId, SynthesisOptions synthesisOptions, CancellationToken cancellationToken = default)
+        {
+            cancellationToken.ThrowIfCancellationRequested();
+            return Task.Run(() =>
+            {
+                cancellationToken.ThrowIfCancellationRequested();
+                return CreateAudioFeatureReader(synthesizer, audioQueryJson, styleId, synthesisOptions);
+            }, cancellationToken);
+        }
     }
 }

@@ -45,7 +45,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.Bcl.AsyncInterfaces" Version="9.0.0" />
     <PackageReference Include="Microsoft.SourceLink.GitHub" Version="8.0.0" PrivateAssets="All"/>
+    <PackageReference Include="System.Memory" Version="4.5.5" />
   </ItemGroup>
 
   <!-- dotnet pack -p:CoreVersion=0.17.1 -p:PackageVersion=0.17.1 -->
