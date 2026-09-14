@@ -48,6 +48,7 @@ API は予告なく変更される場合があります。
 - `AudioFeatureReader.ReadAllAsync`
 
 `ReadAllAsync` は固定チャンクサイズまたは chunk size provider を使って `IAsyncEnumerable<AudioChunk>` として順次取得できます。
+`AudioFeatureReader` は状態を持つカーソルです。複数の consumer で同時に独立した読み取り位置を持ちたい場合は、reader を分けてください。
 
 ## Usage
 

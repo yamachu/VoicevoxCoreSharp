@@ -14,7 +14,10 @@ namespace VoicevoxCoreSharp.Experimental
         private readonly Synthesizer _synthesizer;
         private readonly AudioFeature _audioFeature;
         private readonly bool _ownsAudioFeature;
+        private readonly object _gate = new object();
+        private readonly SemaphoreSlim _readLock = new SemaphoreSlim(1, 1);
         private bool _disposed;
+        private nuint _position;
 
         public AudioFeatureReader(Synthesizer synthesizer, AudioFeature audioFeature)
             : this(synthesizer, audioFeature, false)
@@ -28,65 +31,116 @@ namespace VoicevoxCoreSharp.Experimental
             _ownsAudioFeature = ownsAudioFeature;
         }
 
-        public nuint Position { get; private set; }
+        public nuint Position
+        {
+            get
+            {
+                lock (_gate)
+                {
+                    ThrowIfDisposed();
+                    return _position;
+                }
+            }
+        }
+
         public nuint Length
         {
             get
             {
-                ThrowIfDisposed();
-                return _audioFeature.FrameLength;
+                lock (_gate)
+                {
+                    ThrowIfDisposed();
+                    return _audioFeature.FrameLength;
+                }
             }
         }
 
-        public bool EndOfStream => Position >= Length;
+        public bool EndOfStream
+        {
+            get
+            {
+                lock (_gate)
+                {
+                    ThrowIfDisposed();
+                    return _position >= _audioFeature.FrameLength;
+                }
+            }
+        }
 
         public void Seek(nuint position)
         {
-            ThrowIfDisposed();
-            if (position > Length)
+            _readLock.Wait();
+            try
             {
-                throw new ArgumentOutOfRangeException(nameof(position));
-            }
+                lock (_gate)
+                {
+                    ThrowIfDisposed();
+                    if (position > _audioFeature.FrameLength)
+                    {
+                        throw new ArgumentOutOfRangeException(nameof(position));
+                    }
 
-            Position = position;
+                    _position = position;
+                }
+            }
+            finally
+            {
+                _readLock.Release();
+            }
         }
 
         public AudioChunk Read(nuint frameCount)
         {
-            ThrowIfDisposed();
             if (frameCount == 0)
             {
                 throw new ArgumentOutOfRangeException(nameof(frameCount));
             }
 
-            var startInclusive = Position;
-            if (startInclusive >= Length)
+            _readLock.Wait();
+            try
             {
-                return new AudioChunk(ReadOnlyMemory<byte>.Empty, Length, Length, true);
+                nuint startInclusive;
+                nuint endExclusive;
+                nuint frameLength;
+
+                lock (_gate)
+                {
+                    ThrowIfDisposed();
+                    startInclusive = _position;
+                    frameLength = _audioFeature.FrameLength;
+                    if (startInclusive >= frameLength)
+                    {
+                        return new AudioChunk(ReadOnlyMemory<byte>.Empty, frameLength, frameLength, true);
+                    }
+
+                    var remainingFrames = frameLength - startInclusive;
+                    var framesToRead = frameCount > remainingFrames ? remainingFrames : frameCount;
+                    endExclusive = startInclusive + framesToRead;
+                }
+
+                var result = _synthesizer.Render(_audioFeature, startInclusive, endExclusive, out _, out var outputPcm);
+                if (result != ResultCode.RESULT_OK)
+                {
+                    throw new VoicevoxCoreResultException(result);
+                }
+
+                lock (_gate)
+                {
+                    ThrowIfDisposed();
+                    _position = endExclusive;
+                    return new AudioChunk(outputPcm ?? Array.Empty<byte>(), startInclusive, endExclusive, _position >= frameLength);
+                }
             }
-
-            var remainingFrames = Length - startInclusive;
-            var framesToRead = frameCount > remainingFrames ? remainingFrames : frameCount;
-            var endExclusive = startInclusive + framesToRead;
-
-            var result = _synthesizer.Render(_audioFeature, startInclusive, endExclusive, out _, out var outputPcm);
-            if (result != ResultCode.RESULT_OK)
+            finally
             {
-                throw new VoicevoxCoreResultException(result);
+                _readLock.Release();
             }
-
-            Position = endExclusive;
-            return new AudioChunk(outputPcm ?? Array.Empty<byte>(), startInclusive, endExclusive, Position >= Length);
         }
 
         public Task<AudioChunk> ReadAsync(nuint frameCount, CancellationToken cancellationToken = default)
         {
             cancellationToken.ThrowIfCancellationRequested();
-            return Task.Run(() =>
-            {
-                cancellationToken.ThrowIfCancellationRequested();
-                return Read(frameCount);
-            }, cancellationToken);
+            return Task.FromResult(Read(frameCount));
         }
 
         public async IAsyncEnumerable<AudioChunk> ReadAllAsync(
@@ -95,13 +149,19 @@ namespace VoicevoxCoreSharp.Experimental
         {
             if (frameCount == 0)
             {
-                throw new ArgumentOutOfRangeException(nameof(frameCount));
+                throw new ArgumentOutOfRangeException(nameof(frameCount), "frameCount must be greater than zero.");
             }
 
-            while (!EndOfStream)
+            while (true)
             {
                 cancellationToken.ThrowIfCancellationRequested();
-                yield return await ReadAsync(frameCount, cancellationToken).ConfigureAwait(false);
+                var chunk = await ReadAsync(frameCount, cancellationToken).ConfigureAwait(false);
+                if (chunk.IsEndOfStream && chunk.Pcm.IsEmpty)
+                {
+                    yield break;
+                }
+
+                yield return chunk;
             }
         }
 
@@ -109,22 +169,27 @@ namespace VoicevoxCoreSharp.Experimental
             Func<AudioFeatureReader, nuint> frameCountProvider,
             [EnumeratorCancellation] CancellationToken cancellationToken = default)
         {
-            ThrowIfDisposed();
             if (frameCountProvider == null)
             {
                 throw new ArgumentNullException(nameof(frameCountProvider));
             }
 
-            while (!EndOfStream)
+            while (true)
             {
                 cancellationToken.ThrowIfCancellationRequested();
                 var frameCount = frameCountProvider(this);
                 if (frameCount == 0)
                 {
-                    throw new ArgumentOutOfRangeException(nameof(frameCountProvider));
+                    throw new ArgumentOutOfRangeException(nameof(frameCountProvider), "frameCountProvider must return a value greater than zero.");
                 }
 
-                yield return await ReadAsync(frameCount, cancellationToken).ConfigureAwait(false);
+                var chunk = await ReadAsync(frameCount, cancellationToken).ConfigureAwait(false);
+                if (chunk.IsEndOfStream && chunk.Pcm.IsEmpty)
+                {
+                    yield break;
+                }
+
+                yield return chunk;
             }
         }
 
@@ -136,14 +201,25 @@ namespace VoicevoxCoreSharp.Experimental
 
         private void Dispose(bool disposing)
         {
-            if (!_disposed)
+            _readLock.Wait();
+            try
             {
-                if (disposing && _ownsAudioFeature)
+                lock (_gate)
                 {
-                    _audioFeature.Dispose();
-                }
+                    if (!_disposed)
+                    {
+                        if (disposing && _ownsAudioFeature)
+                        {
+                            _audioFeature.Dispose();
+                        }
 
-                _disposed = true;
+                        _disposed = true;
+                    }
+                }
+            }
+            finally
+            {
+                _readLock.Release();
             }
         }
 

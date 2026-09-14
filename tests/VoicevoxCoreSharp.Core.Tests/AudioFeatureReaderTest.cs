@@ -104,6 +104,32 @@ namespace VoicevoxCoreSharp.Core.Tests
             Assert.Equal(fullPcm, combinedPcm.ToArray());
         }
 
+        [Fact]
+        public async Task ReadAllAsyncWithZeroFrameCountThrows()
+        {
+            var context = CreateStreamingContext();
+            using var audioFeature = context.AudioFeature;
+            using var reader = context.Synthesizer.CreateAudioFeatureReader(audioFeature);
+
+            await using var enumerator = reader.ReadAllAsync(0).GetAsyncEnumerator();
+
+            var exception = await Assert.ThrowsAsync<ArgumentOutOfRangeException>(async () => await enumerator.MoveNextAsync().AsTask());
+            Assert.Equal("frameCount", exception.ParamName);
+        }
+
+        [Fact]
+        public async Task ReadAllAsyncWithZeroFrameCountProviderResultThrows()
+        {
+            var context = CreateStreamingContext();
+            using var audioFeature = context.AudioFeature;
+            using var reader = context.Synthesizer.CreateAudioFeatureReader(audioFeature);
+
+            await using var enumerator = reader.ReadAllAsync(_ => 0).GetAsyncEnumerator();
+
+            var exception = await Assert.ThrowsAsync<ArgumentOutOfRangeException>(async () => await enumerator.MoveNextAsync().AsTask());
+            Assert.Equal("frameCountProvider", exception.ParamName);
+        }
+
         private static (Onnxruntime Onnxruntime, OpenJtalk OpenJtalk, VoiceModelFile VoiceModel, Synthesizer Synthesizer, string AudioQueryJson, AudioFeature AudioFeature) CreateStreamingContext()
         {
             OpenJtalk.New(Consts.OpenJTalkDictDir, out var openJtalk);
