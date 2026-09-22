@@ -449,8 +449,10 @@ namespace VoicevoxCoreSharp.Core.Native
         /// <summary>
         ///  signed 16-bit little endianのPCMデータからWAV形式のバイナリを生成する。
         ///
+        ///  `pcm`がヌルならクラッシュする。
+        ///
         ///  @param [in] pcm_length PCMデータのバイト長
-        ///  @param [in] pcm PCMデータ
+        ///  @param [in] pcm PCMデータ。非ヌル
         ///  @param [in] sampling_rate サンプリングレート
         ///  @param [in] is_stereo ステレオかどうか
         ///  @param [out] output_wav_length 出力のバイト長
@@ -459,7 +461,7 @@ namespace VoicevoxCoreSharp.Core.Native
         ///  @returns 結果コード
         ///
         ///  \safety{
-        ///  - `pcm`は長さ`pcm_length`にわたって&lt;a href="#voicevox-core-safety"&gt;読み込みについて有効&lt;/a&gt;でなければならない。
+        ///  - `pcm_length &gt; 0`のとき、`pcm`は長さ`pcm_length`にわたって&lt;a href="#voicevox-core-safety"&gt;読み込みについて有効&lt;/a&gt;でなければならない。
         ///  - `output_wav_length`は&lt;a href="#voicevox-core-safety"&gt;書き込みについて有効&lt;/a&gt;でなければならない。
         ///  - `output_wav`は&lt;a href="#voicevox-core-safety"&gt;書き込みについて有効&lt;/a&gt;でなければならない。
         ///  }
@@ -968,7 +970,9 @@ namespace VoicevoxCoreSharp.Core.Native
         /// <summary>
         ///  ::VoicevoxAudioFeature の一部区間から、16bit PCMで音声波形を生成する。
         ///
-        ///  生成したPCMデータを解放するには ::voicevox_wav_free を使う。
+        ///  生成されたPCMデータが`0`バイトのとき、`output_pcm_length`には`0`が、`output_pcm`には ::voicevox_empty_bytes が書き込まれる。
+        ///
+        ///  生成した`1`バイト以上のPCMデータを解放するには ::voicevox_wav_free を使う。
         ///
         ///  @param [in] synthesizer 音声シンセサイザ
         ///  @param [in] audio_feature 音声合成用の中間表現
@@ -1253,16 +1257,20 @@ namespace VoicevoxCoreSharp.Core.Native
         /// <summary>
         ///  WAVデータを解放する。
         ///
+        ///  ::voicevox_empty_bytes に対しては警告のログを出す。
+        ///
         ///  @param [in] wav 解放するWAVデータ。nullable
         ///
         ///  \safety{
         ///  - `wav`がヌルポインタでないならば、以下のAPIで得られたポインタでなくてはいけない。
+        ///      - ::voicevox_synthesizer_render
         ///      - ::voicevox_synthesizer_synthesis
         ///      - ::voicevox_synthesizer_tts
         ///      - ::voicevox_synthesizer_tts_from_kana
         ///      - ::voicevox_synthesizer_frame_synthesis
-        ///  - `wav`がヌルポインタでないならば、&lt;a href="#voicevox-core-safety"&gt;読み込みと書き込みについて有効&lt;/a&gt;でなければならない。
-        ///  - `wav`がヌルポインタでないならば、以後&lt;b&gt;ダングリングポインタ&lt;/b&gt;(_dangling pointer_)として扱われなくてはならない。
+        ///      - ::voicevox_wav_from_s16le
+        ///  - `wav`がヌルポインタでも ::voicevox_empty_bytes でもないならば、&lt;a href="#voicevox-core-safety"&gt;読み込みと書き込みについて有効&lt;/a&gt;でなければならない。
+        ///  - `wav`がヌルポインタでも ::voicevox_empty_bytes でもないならば、以後&lt;b&gt;ダングリングポインタ&lt;/b&gt;(_dangling pointer_)として扱われなくてはならない。
         ///  }
         ///
         ///  \no-orig-impl{voicevox_wav_free}
