@@ -22,7 +22,7 @@ namespace VoicevoxCoreSharp.Core
                     supportedDevicesJson = null;
                 }
 
-                CoreUnsafe.voicevox_json_free(jsonPtr);
+                CoreUnsafe.voicevox_string_free(jsonPtr);
 
                 return result.FromNative();
             }
@@ -47,7 +47,7 @@ namespace VoicevoxCoreSharp.Core
                     if (result == VoicevoxResultCode.VOICEVOX_RESULT_OK)
                     {
                         outputAudioQueryJson = StringConvertCompat.ToUTF8String(outputAudioQueryJsonPtr);
-                        CoreUnsafe.voicevox_json_free(outputAudioQueryJsonPtr);
+                        CoreUnsafe.voicevox_string_free(outputAudioQueryJsonPtr);
                     }
                     else
                     {
@@ -182,7 +182,7 @@ namespace VoicevoxCoreSharp.Core
                     CoreUnsafe.voicevox_wav_from_s16le(pcmLength, pcmPtr, samplingRate, isStereo, lengthPtr, &outputWavPtr);
                     outputWav = new byte[(int)outputWavLength];
                     System.Runtime.InteropServices.Marshal.Copy((IntPtr)outputWavPtr, outputWav, 0, (int)outputWavLength);
-                    CoreUnsafe.voicevox_wav_free(outputWavPtr);
+                    CoreUnsafe.voicevox_bytes_free(outputWavPtr);
                 }
             }
         }

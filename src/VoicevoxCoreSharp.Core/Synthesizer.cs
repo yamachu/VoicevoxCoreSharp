@@ -138,7 +138,7 @@ namespace VoicevoxCoreSharp.Core
                     if (result == ResultCode.RESULT_OK)
                     {
                         audioQueryJson = StringConvertCompat.ToUTF8String(resultJsonPtr);
-                        CoreUnsafe.voicevox_json_free(resultJsonPtr);
+                        CoreUnsafe.voicevox_string_free(resultJsonPtr);
                     }
                     else
                     {
@@ -168,7 +168,7 @@ namespace VoicevoxCoreSharp.Core
                     if (result == ResultCode.RESULT_OK)
                     {
                         audioQueryJson = StringConvertCompat.ToUTF8String(resultJsonPtr);
-                        CoreUnsafe.voicevox_json_free(resultJsonPtr);
+                        CoreUnsafe.voicevox_string_free(resultJsonPtr);
                     }
                     else
                     {
@@ -198,7 +198,7 @@ namespace VoicevoxCoreSharp.Core
                     if (result == ResultCode.RESULT_OK)
                     {
                         accentPhrasesJson = StringConvertCompat.ToUTF8String(resultJsonPtr);
-                        CoreUnsafe.voicevox_json_free(resultJsonPtr);
+                        CoreUnsafe.voicevox_string_free(resultJsonPtr);
                     }
                     else
                     {
@@ -228,7 +228,7 @@ namespace VoicevoxCoreSharp.Core
                     if (result == ResultCode.RESULT_OK)
                     {
                         accentPhrasesJson = StringConvertCompat.ToUTF8String(resultJsonPtr);
-                        CoreUnsafe.voicevox_json_free(resultJsonPtr);
+                        CoreUnsafe.voicevox_string_free(resultJsonPtr);
                     }
                     else
                     {
@@ -258,7 +258,7 @@ namespace VoicevoxCoreSharp.Core
                     if (result == ResultCode.RESULT_OK)
                     {
                         outputAccentPhrasesJson = StringConvertCompat.ToUTF8String(resultJsonPtr);
-                        CoreUnsafe.voicevox_json_free(resultJsonPtr);
+                        CoreUnsafe.voicevox_string_free(resultJsonPtr);
                     }
                     else
                     {
@@ -288,7 +288,7 @@ namespace VoicevoxCoreSharp.Core
                     if (result == ResultCode.RESULT_OK)
                     {
                         outputAccentPhrasesJson = StringConvertCompat.ToUTF8String(resultJsonPtr);
-                        CoreUnsafe.voicevox_json_free(resultJsonPtr);
+                        CoreUnsafe.voicevox_string_free(resultJsonPtr);
                     }
                     else
                     {
@@ -318,7 +318,7 @@ namespace VoicevoxCoreSharp.Core
                     if (result == ResultCode.RESULT_OK)
                     {
                         outputAccentPhrasesJson = StringConvertCompat.ToUTF8String(resultJsonPtr);
-                        CoreUnsafe.voicevox_json_free(resultJsonPtr);
+                        CoreUnsafe.voicevox_string_free(resultJsonPtr);
                     }
                     else
                     {
@@ -359,7 +359,7 @@ namespace VoicevoxCoreSharp.Core
                                 i++;
                             }
                             outputWav = outputWavTmp;
-                            CoreUnsafe.voicevox_wav_free(resultWavPtr);
+                            CoreUnsafe.voicevox_bytes_free(resultWavPtr);
                         }
                         else
                         {
@@ -402,7 +402,7 @@ namespace VoicevoxCoreSharp.Core
                                 i++;
                             }
                             outputWav = outputWavTmp;
-                            CoreUnsafe.voicevox_wav_free(resultWavPtr);
+                            CoreUnsafe.voicevox_bytes_free(resultWavPtr);
                         }
                         else
                         {
@@ -444,7 +444,7 @@ namespace VoicevoxCoreSharp.Core
                             i++;
                         }
                         outputWav = outputWavTmp;
-                        CoreUnsafe.voicevox_wav_free(resultWavPtr);
+                        CoreUnsafe.voicevox_bytes_free(resultWavPtr);
                     }
                     else
                     {
@@ -474,7 +474,7 @@ namespace VoicevoxCoreSharp.Core
                     if (result == ResultCode.RESULT_OK)
                     {
                         frameAudioQueryJson = StringConvertCompat.ToUTF8String(resultJsonPtr);
-                        CoreUnsafe.voicevox_json_free(resultJsonPtr);
+                        CoreUnsafe.voicevox_string_free(resultJsonPtr);
                     }
                     else
                     {
@@ -505,7 +505,7 @@ namespace VoicevoxCoreSharp.Core
                     if (result == ResultCode.RESULT_OK)
                     {
                         f0Json = StringConvertCompat.ToUTF8String(resultJsonPtr);
-                        CoreUnsafe.voicevox_json_free(resultJsonPtr);
+                        CoreUnsafe.voicevox_string_free(resultJsonPtr);
                     }
                     else
                     {
@@ -536,7 +536,7 @@ namespace VoicevoxCoreSharp.Core
                     if (result == ResultCode.RESULT_OK)
                     {
                         volumeJson = StringConvertCompat.ToUTF8String(resultJsonPtr);
-                        CoreUnsafe.voicevox_json_free(resultJsonPtr);
+                        CoreUnsafe.voicevox_string_free(resultJsonPtr);
                     }
                     else
                     {
@@ -575,7 +575,7 @@ namespace VoicevoxCoreSharp.Core
                             i++;
                         }
                         outputWav = outputWavTmp;
-                        CoreUnsafe.voicevox_wav_free(resultWavPtr);
+                        CoreUnsafe.voicevox_bytes_free(resultWavPtr);
                     }
                     else
                     {
@@ -649,7 +649,7 @@ namespace VoicevoxCoreSharp.Core
                             i++;
                         }
                         outputPcm = outputPcmTmp;
-                        CoreUnsafe.voicevox_wav_free(resultPcmPtr);
+                        CoreUnsafe.voicevox_bytes_free(resultPcmPtr);
                     }
                     else
                     {

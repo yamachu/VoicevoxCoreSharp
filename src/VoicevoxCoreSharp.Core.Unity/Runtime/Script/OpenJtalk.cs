@@ -72,7 +72,7 @@ namespace VoicevoxCoreSharp.Core
                     if (result == VoicevoxResultCode.VOICEVOX_RESULT_OK)
                     {
                         outputAccentPhrasesJson = StringConvertCompat.ToUTF8String(output);
-                        CoreUnsafe.voicevox_json_free(output);
+                        CoreUnsafe.voicevox_string_free(output);
                     }
                     else
                     {

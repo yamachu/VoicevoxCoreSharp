@@ -186,7 +186,7 @@ namespace VoicevoxCoreSharp.Core.Native
         /// <summary>
         ///  日本語のテキストを解析する。
         ///
-        ///  生成したJSON文字列を解放するには ::voicevox_json_free を使う。
+        ///  生成したJSON文字列を解放するには ::voicevox_string_free を使う。
         ///
         ///  @param [in] open_jtalk Open JTalkのオブジェクト
         ///  @param [in] text UTF-8の日本語テキスト
@@ -238,7 +238,7 @@ namespace VoicevoxCoreSharp.Core.Native
         /// <summary>
         ///  AccentPhraseの配列からAudioQueryを作る。
         ///
-        ///  生成したJSON文字列を解放するには ::voicevox_json_free を使う。
+        ///  生成したJSON文字列を解放するには ::voicevox_string_free を使う。
         ///
         ///  @param [in] accent_phrases_json AccentPhraseの配列のJSON文字列
         ///  @param [out] output_accent_phrases_json 生成先
@@ -507,7 +507,7 @@ namespace VoicevoxCoreSharp.Core.Native
         /// <summary>
         ///  ::VoicevoxVoiceModelFile からメタ情報を取得する。
         ///
-        ///  JSONの解放は ::voicevox_json_free で行う。
+        ///  JSONの解放は ::voicevox_string_free で行う。
         ///
         ///  @param [in] model 音声モデル
         ///
@@ -652,7 +652,7 @@ namespace VoicevoxCoreSharp.Core.Native
         /// <summary>
         ///  今読み込んでいる音声モデルのメタ情報を、JSONで取得する。
         ///
-        ///  JSONの解放は ::voicevox_json_free で行う。
+        ///  JSONの解放は ::voicevox_string_free で行う。
         ///
         ///  @param [in] synthesizer 音声シンセサイザ
         ///
@@ -666,7 +666,7 @@ namespace VoicevoxCoreSharp.Core.Native
         /// <summary>
         ///  ONNX Runtimeとして利用可能なデバイスの情報を、JSONで取得する。
         ///
-        ///  JSONの解放は ::voicevox_json_free で行う。
+        ///  JSONの解放は ::voicevox_string_free で行う。
         ///
         ///  あくまでONNX Runtimeが対応しているデバイスの情報であることに注意。GPUが使える環境ではなかったとしても`cuda`や`dml`は`true`を示しうる。
         ///
@@ -695,7 +695,7 @@ namespace VoicevoxCoreSharp.Core.Native
         /// <summary>
         ///  AquesTalk風記法から、AudioQueryをJSONとして生成する。
         ///
-        ///  生成したJSON文字列を解放するには ::voicevox_json_free を使う。
+        ///  生成したJSON文字列を解放するには ::voicevox_string_free を使う。
         ///
         ///  @param [in] synthesizer 音声シンセサイザ
         ///  @param [in] kana AquesTalk風記法
@@ -726,7 +726,7 @@ namespace VoicevoxCoreSharp.Core.Native
         /// <summary>
         ///  日本語テキストから、AudioQueryをJSONとして生成する。
         ///
-        ///  生成したJSON文字列を解放するには ::voicevox_json_free を使う。
+        ///  生成したJSON文字列を解放するには ::voicevox_string_free を使う。
         ///
         ///  ::voicevox_synthesizer_create_accent_phrases と ::voicevox_audio_query_create_from_accent_phrases
         ///  が一体になったショートハンド。詳細は[テキスト音声合成の流れ]を参照。
@@ -762,7 +762,7 @@ namespace VoicevoxCoreSharp.Core.Native
         /// <summary>
         ///  AquesTalk風記法から、AccentPhrase (アクセント句)の配列をJSON形式で生成する。
         ///
-        ///  生成したJSON文字列を解放するには ::voicevox_json_free を使う。
+        ///  生成したJSON文字列を解放するには ::voicevox_string_free を使う。
         ///
         ///  @param [in] synthesizer 音声シンセサイザ
         ///  @param [in] kana AquesTalk風記法
@@ -794,7 +794,7 @@ namespace VoicevoxCoreSharp.Core.Native
         /// <summary>
         ///  日本語テキストから、AccentPhrase (アクセント句)の配列をJSON形式で生成する。
         ///
-        ///  生成したJSON文字列を解放するには ::voicevox_json_free を使う。
+        ///  生成したJSON文字列を解放するには ::voicevox_string_free を使う。
         ///
         ///  ::voicevox_open_jtalk_rc_analyze と ::voicevox_synthesizer_replace_mora_data
         ///  が一体になったショートハンド。詳細は[テキスト音声合成の流れ]を参照。
@@ -830,7 +830,7 @@ namespace VoicevoxCoreSharp.Core.Native
         /// <summary>
         ///  AccentPhraseの配列の音高・音素長を、特定の声で生成しなおす。
         ///
-        ///  生成したJSON文字列を解放するには ::voicevox_json_free を使う。
+        ///  生成したJSON文字列を解放するには ::voicevox_string_free を使う。
         ///
         ///  ::voicevox_synthesizer_replace_phoneme_length と ::voicevox_synthesizer_replace_mora_pitch
         ///  が一体になったショートハンド。詳細は[テキスト音声合成の流れ]を参照。
@@ -857,7 +857,7 @@ namespace VoicevoxCoreSharp.Core.Native
         /// <summary>
         ///  AccentPhraseの配列の音素長を、特定の声で生成しなおす。
         ///
-        ///  生成したJSON文字列を解放するには ::voicevox_json_free を使う。
+        ///  生成したJSON文字列を解放するには ::voicevox_string_free を使う。
         ///
         ///  @param [in] synthesizer 音声シンセサイザ
         ///  @param [in] accent_phrases_json AccentPhraseの配列のJSON文字列
@@ -879,7 +879,7 @@ namespace VoicevoxCoreSharp.Core.Native
         /// <summary>
         ///  AccentPhraseの配列の音高を、特定の声で生成しなおす。
         ///
-        ///  生成したJSON文字列を解放するには ::voicevox_json_free を使う。
+        ///  生成したJSON文字列を解放するには ::voicevox_string_free を使う。
         ///
         ///  @param [in] synthesizer 音声シンセサイザ
         ///  @param [in] accent_phrases_json AccentPhraseの配列のJSON文字列
@@ -910,7 +910,7 @@ namespace VoicevoxCoreSharp.Core.Native
         /// <summary>
         ///  AudioQueryから音声合成を行う。
         ///
-        ///  生成したWAVデータを解放するには ::voicevox_wav_free を使う。
+        ///  生成したWAVデータを解放するには ::voicevox_bytes_free を使う。
         ///
         ///  @param [in] synthesizer 音声シンセサイザ
         ///  @param [in] audio_query_json AudioQueryのJSON文字列
@@ -972,7 +972,7 @@ namespace VoicevoxCoreSharp.Core.Native
         ///
         ///  生成されたPCMデータが`0`バイトのとき、`output_pcm_length`には`0`が、`output_pcm`には ::voicevox_empty_bytes が書き込まれる。
         ///
-        ///  生成した`1`バイト以上のPCMデータを解放するには ::voicevox_wav_free を使う。
+        ///  生成した`1`バイト以上のPCMデータを解放するには ::voicevox_bytes_free を使う。
         ///
         ///  @param [in] synthesizer 音声シンセサイザ
         ///  @param [in] audio_feature 音声合成用の中間表現
@@ -1019,7 +1019,7 @@ namespace VoicevoxCoreSharp.Core.Native
         /// <summary>
         ///  AquesTalk風記法から音声合成を行う。
         ///
-        ///  生成したWAVデータを解放するには ::voicevox_wav_free を使う。
+        ///  生成したWAVデータを解放するには ::voicevox_bytes_free を使う。
         ///
         ///  @param [in] synthesizer
         ///  @param [in] kana AquesTalk風記法
@@ -1044,7 +1044,7 @@ namespace VoicevoxCoreSharp.Core.Native
         /// <summary>
         ///  日本語テキストから音声合成を行う。
         ///
-        ///  生成したWAVデータを解放するには ::voicevox_wav_free を使う。
+        ///  生成したWAVデータを解放するには ::voicevox_bytes_free を使う。
         ///
         ///  ::voicevox_synthesizer_create_audio_query と ::voicevox_synthesizer_synthesis
         ///  が一体になったショートハンド。詳細は[テキスト音声合成の流れ]を参照。
@@ -1078,7 +1078,7 @@ namespace VoicevoxCoreSharp.Core.Native
         ///
         ///  [歌唱音声合成]: https://github.com/VOICEVOX/voicevox_core/blob/main/docs/guide/user/song.md
         ///
-        ///  生成したJSONを解放するには ::voicevox_json_free を使う。
+        ///  生成したJSONを解放するには ::voicevox_string_free を使う。
         ///
         ///  @param [in] synthesizer 音声シンセサイザ
         ///  @param [in] score_json [`Score`型]を表すJSON
@@ -1127,7 +1127,7 @@ namespace VoicevoxCoreSharp.Core.Native
         ///
         ///  [歌唱音声合成]: https://github.com/VOICEVOX/voicevox_core/blob/main/docs/guide/user/song.md
         ///
-        ///  生成したJSONを解放するには ::voicevox_json_free を使う。
+        ///  生成したJSONを解放するには ::voicevox_string_free を使う。
         ///
         ///  @param [in] synthesizer 音声シンセサイザ
         ///  @param [in] score_json [`Score`型]を表すJSON
@@ -1157,7 +1157,7 @@ namespace VoicevoxCoreSharp.Core.Native
         ///
         ///  [歌唱音声合成]: https://github.com/VOICEVOX/voicevox_core/blob/main/docs/guide/user/song.md
         ///
-        ///  生成したJSONを解放するには ::voicevox_json_free を使う。
+        ///  生成したJSONを解放するには ::voicevox_string_free を使う。
         ///
         ///  @param [in] synthesizer 音声シンセサイザ
         ///  @param [in] score_json [`Score`型]を表すJSON
@@ -1187,7 +1187,7 @@ namespace VoicevoxCoreSharp.Core.Native
         ///
         ///  [歌唱音声合成]: https://github.com/VOICEVOX/voicevox_core/blob/main/docs/guide/user/song.md
         ///
-        ///  生成したWAVデータを解放するには ::voicevox_wav_free を使う。
+        ///  生成したWAVデータを解放するには ::voicevox_bytes_free を使う。
         ///
         ///  @param [in] synthesizer 音声シンセサイザ
         ///  @param [in] frame_audio_query_json [`FrameAudioQuery`型]を表すJSON
@@ -1222,7 +1222,40 @@ namespace VoicevoxCoreSharp.Core.Native
         internal static extern VoicevoxResultCode voicevox_synthesizer_frame_synthesis(VoicevoxSynthesizer* synthesizer, byte* frame_audio_query_json, uint style_id, nuint* output_wav_length, byte** output_wav);
 
         /// <summary>
-        ///  JSON文字列を解放する。
+        ///  文字列を解放する。
+        ///
+        ///  @param [in] string 解放する文字列。nullable
+        ///
+        ///  \safety{
+        ///  - `string`がヌルポインタでないならば、以下のAPIで得られたポインタでなくてはいけない。
+        ///      - ::voicevox_audio_query_create_from_accent_phrases
+        ///      - ::voicevox_onnxruntime_create_supported_devices_json
+        ///      - ::voicevox_voice_model_file_create_metas_json
+        ///      - ::voicevox_open_jtalk_rc_analyze
+        ///      - ::voicevox_synthesizer_create_metas_json
+        ///      - ::voicevox_synthesizer_create_audio_query
+        ///      - ::voicevox_synthesizer_create_audio_query_from_kana
+        ///      - ::voicevox_synthesizer_create_accent_phrases
+        ///      - ::voicevox_synthesizer_create_accent_phrases_from_kana
+        ///      - ::voicevox_synthesizer_replace_mora_data
+        ///      - ::voicevox_synthesizer_replace_phoneme_length
+        ///      - ::voicevox_synthesizer_replace_mora_pitch
+        ///      - ::voicevox_synthesizer_create_sing_frame_audio_query
+        ///      - ::voicevox_synthesizer_create_sing_frame_f0
+        ///      - ::voicevox_synthesizer_create_sing_frame_volume
+        ///      - ::voicevox_user_dict_to_json
+        ///  - 文字列の長さは生成時より変更されていてはならない。
+        ///  - `string`がヌルポインタでないならば、&lt;a href="#voicevox-core-safety"&gt;読み込みと書き込みについて有効&lt;/a&gt;でなければならない。
+        ///  - `string`がヌルポインタでないならば、以後&lt;b&gt;ダングリングポインタ&lt;/b&gt;(_dangling pointer_)として扱われなくてはならない。
+        ///  }
+        ///
+        ///  \no-orig-impl{voicevox_string_free}
+        /// </summary>
+        [DllImport(__DllName, EntryPoint = "voicevox_string_free", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        internal static extern void voicevox_string_free(byte* @string);
+
+        /// <summary>
+        ///  ::voicevox_string_free の別名。非推奨。
         ///
         ///  @param [in] json 解放するJSON文字列。nullable
         ///
@@ -1255,9 +1288,31 @@ namespace VoicevoxCoreSharp.Core.Native
         internal static extern void voicevox_json_free(byte* json);
 
         /// <summary>
-        ///  WAVデータを解放する。
+        ///  バイト列を解放する。
         ///
         ///  ::voicevox_empty_bytes に対しては警告のログを出す。
+        ///
+        ///  @param [in] bytes 解放するバイト列。nullable
+        ///
+        ///  \safety{
+        ///  - `bytes`がヌルポインタでないならば、以下のAPIで得られたポインタでなくてはいけない。
+        ///      - ::voicevox_synthesizer_render
+        ///      - ::voicevox_synthesizer_synthesis
+        ///      - ::voicevox_synthesizer_tts
+        ///      - ::voicevox_synthesizer_tts_from_kana
+        ///      - ::voicevox_synthesizer_frame_synthesis
+        ///      - ::voicevox_wav_from_s16le
+        ///  - `bytes`がヌルポインタでも ::voicevox_empty_bytes でもないならば、&lt;a href="#voicevox-core-safety"&gt;読み込みと書き込みについて有効&lt;/a&gt;でなければならない。
+        ///  - `bytes`がヌルポインタでも ::voicevox_empty_bytes でもないならば、以後&lt;b&gt;ダングリングポインタ&lt;/b&gt;(_dangling pointer_)として扱われなくてはならない。
+        ///  }
+        ///
+        ///  \no-orig-impl{voicevox_bytes_free}
+        /// </summary>
+        [DllImport(__DllName, EntryPoint = "voicevox_bytes_free", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        internal static extern void voicevox_bytes_free(byte* bytes);
+
+        /// <summary>
+        ///  ::voicevox_bytes_free の別名。非推奨。
         ///
         ///  @param [in] wav 解放するWAVデータ。nullable
         ///
@@ -1402,7 +1457,7 @@ namespace VoicevoxCoreSharp.Core.Native
         /// <summary>
         ///  ユーザー辞書の単語をJSON形式で出力する。
         ///
-        ///  生成したJSON文字列を解放するには ::voicevox_json_free を使う。
+        ///  生成したJSON文字列を解放するには ::voicevox_string_free を使う。
         ///
         ///  @param [in] user_dict ユーザー辞書
         ///  @param [out] output_json 出力先
