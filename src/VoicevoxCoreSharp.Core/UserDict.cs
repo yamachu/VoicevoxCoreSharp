@@ -86,7 +86,7 @@ namespace VoicevoxCoreSharp.Core
                 if (result == VoicevoxResultCode.VOICEVOX_RESULT_OK)
                 {
                     json = StringConvertCompat.ToUTF8String(ptr);
-                    CoreUnsafe.voicevox_json_free(ptr);
+                    CoreUnsafe.voicevox_string_free(ptr);
                 }
                 else
                 {

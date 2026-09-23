@@ -74,7 +74,7 @@ namespace VoicevoxCoreSharp.Core
 
                         var jsonPtr = CoreUnsafe.voicevox_voice_model_file_create_metas_json(p);
                         var json = StringConvertCompat.ToUTF8String(jsonPtr);
-                        CoreUnsafe.voicevox_json_free(jsonPtr);
+                        CoreUnsafe.voicevox_string_free(jsonPtr);
 
                         voiceModel = new VoiceModelFile(p, voiceModelId, json);
                     }
