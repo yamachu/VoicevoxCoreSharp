@@ -36,6 +36,11 @@ namespace VoicevoxCoreSharp.Core
             }
         }
 
+        public static double GetFrameRate()
+        {
+            return CoreUnsafe.voicevox_get_frame_rate();
+        }
+
         public static ResultCode CreateAudioQueryFromAccentPhrases(string accentPhrasesJson, out string? outputAudioQueryJson)
         {
             unsafe
@@ -183,6 +188,27 @@ namespace VoicevoxCoreSharp.Core
                     outputWav = new byte[(int)outputWavLength];
                     System.Runtime.InteropServices.Marshal.Copy((IntPtr)outputWavPtr, outputWav, 0, (int)outputWavLength);
                     CoreUnsafe.voicevox_bytes_free(outputWavPtr);
+                }
+            }
+        }
+
+        public static ResultCode AudioQueryFrameLength(string audioQueryJson, AudioQueryFrameLengthOptions options, out nuint? outputFrameLength)
+        {
+            unsafe
+            {
+                nuint outputFrameLengthValue;
+                fixed (byte* ptr = System.Text.Encoding.UTF8.GetBytes(audioQueryJson))
+                {
+                    var result = CoreUnsafe.voicevox_audio_query_frame_length(ptr, options.ToNative(), &outputFrameLengthValue);
+                    if (result == VoicevoxResultCode.VOICEVOX_RESULT_OK)
+                    {
+                        outputFrameLength = outputFrameLengthValue;
+                    }
+                    else
+                    {
+                        outputFrameLength = null;
+                    }
+                    return result.FromNative();
                 }
             }
         }
