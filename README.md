@@ -40,8 +40,8 @@ $ dotnet add package VoicevoxCoreSharp.MAUI
 
 特に MAUI アプリケーションで Android や iOS で使用する場合は、Native Library のパス解決の問題があるため、[VoicevoxCoreSharp.MAUI](./src/VoicevoxCoreSharp.MAUI) を使用することをお勧めします。
 
-`voicevox_core` の newtype に合わせて、C# 側でも [StyleId](/Users/yamachu/Projects/github.com/yamachu/VoicevoxCoreSharp/src/VoicevoxCoreSharp.Core/Type/StyleId.cs) と [VoiceModelId](/Users/yamachu/Projects/github.com/yamachu/VoicevoxCoreSharp/src/VoicevoxCoreSharp.Core/Type/VoiceModelId.cs) を提供しています。
-新しい API ではこれらの型を直接渡せます。`uint` / `string` を使うメソッドオーバーロードは当面残していますが、[VoiceModelFile.Id](/Users/yamachu/Projects/github.com/yamachu/VoicevoxCoreSharp/src/VoicevoxCoreSharp.Core/VoiceModel.cs:37) は typed ID に切り替わっています。
+`voicevox_core` の newtype に合わせて、C# 側でも [StyleId](./src/VoicevoxCoreSharp.Core/Type/StyleId.cs) と [VoiceModelId](./src/VoicevoxCoreSharp.Core/Type/VoiceModelId.cs) を提供しています。
+新しい API ではこれらの型を直接渡せます。`uint` / `string` を使うメソッドオーバーロードは当面残していますが、[VoiceModelFile.Id](./src/VoicevoxCoreSharp.Core/VoiceModel.cs#L37) は typed ID に切り替わっています。
 
 ## Sample
 
