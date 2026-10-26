@@ -629,36 +629,61 @@ namespace VoicevoxCoreSharp.Core
             }
         }
 
-        public ResultCode Render(AudioFeature audioFeature, nuint startInclusive, nuint endExclusive, out nuint outputPcmLength, out byte[]? outputPcm)
+        public ResultCode Render(AudioFeatureSlice audioFeatureSlice, out nuint outputPcmLength, out byte[]? outputPcm)
         {
+            if (audioFeatureSlice == null)
+            {
+                throw new ArgumentNullException(nameof(audioFeatureSlice));
+            }
+
             unsafe
             {
                 fixed (nuint* ptr = &outputPcmLength)
                 {
                     byte* resultPcmPtr;
-
-                    var result = CoreUnsafe.voicevox_synthesizer_render((VoicevoxSynthesizer*)Handle, (VoicevoxAudioFeature*)audioFeature.Handle, startInclusive, endExclusive, ptr, &resultPcmPtr);
-                    if (result == VoicevoxResultCode.VOICEVOX_RESULT_OK)
+                    var nativeSlice = audioFeatureSlice.AcquireNative();
+                    try
                     {
-                        var i = 0;
-                        var outputPcmLengthInt = (int)outputPcmLength;
-                        var outputPcmTmp = new byte[outputPcmLengthInt];
-                        while (i < outputPcmLengthInt)
+                        var result = CoreUnsafe.voicevox_synthesizer_render((VoicevoxSynthesizer*)Handle, nativeSlice, ptr, &resultPcmPtr);
+                        if (result == VoicevoxResultCode.VOICEVOX_RESULT_OK)
                         {
-                            outputPcmTmp[i] = resultPcmPtr[i];
-                            i++;
+                            var i = 0;
+                            var outputPcmLengthInt = (int)outputPcmLength;
+                            var outputPcmTmp = new byte[outputPcmLengthInt];
+                            while (i < outputPcmLengthInt)
+                            {
+                                outputPcmTmp[i] = resultPcmPtr[i];
+                                i++;
+                            }
+                            outputPcm = outputPcmTmp;
+                            CoreUnsafe.voicevox_bytes_free(resultPcmPtr);
                         }
-                        outputPcm = outputPcmTmp;
-                        CoreUnsafe.voicevox_bytes_free(resultPcmPtr);
-                    }
-                    else
-                    {
-                        outputPcm = null;
-                    }
+                        else
+                        {
+                            outputPcm = null;
+                        }
 
-                    return result.FromNative();
+                        return result.FromNative();
+                    }
+                    finally
+                    {
+                        audioFeatureSlice.ReleaseNative();
+                    }
                 }
             }
+        }
+
+        public ResultCode Render(AudioFeature audioFeature, nuint startInclusive, nuint endExclusive, out nuint outputPcmLength, out byte[]? outputPcm)
+        {
+            var result = audioFeature.Slice(startInclusive, endExclusive, false, false, false, out var audioFeatureSlice);
+            if (result != ResultCode.RESULT_OK)
+            {
+                outputPcmLength = 0;
+                outputPcm = null;
+                return result;
+            }
+
+            return Render(audioFeatureSlice!, out outputPcmLength, out outputPcm);
         }
 
         public void Dispose()
