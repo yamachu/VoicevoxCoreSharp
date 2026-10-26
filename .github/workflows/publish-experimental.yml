@@ -1,0 +1,72 @@
+name: Publish Experimental package
+
+on:
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: Existing Git tag to build from
+        required: true
+        type: string
+      package_version:
+        description: NuGet version for VoicevoxCoreSharp.Experimental
+        required: true
+        type: string
+      core_version:
+        description: VoicevoxCoreSharp.Core dependency version
+        required: true
+        type: string
+
+permissions:
+  contents: read
+  id-token: write
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: refs/tags/${{ inputs.tag }}
+          persist-credentials: false
+      - uses: actions/setup-dotnet@a98b56852c35b8e3190ac28c8c2271da59106c68 # v6.0.0
+        with:
+          dotnet-version: 10
+      - name: Validate inputs
+        env:
+          TAG: ${{ inputs.tag }}
+          PACKAGE_VERSION: ${{ inputs.package_version }}
+          CORE_VERSION: ${{ inputs.core_version }}
+        run: |
+          git check-ref-format "refs/tags/$TAG"
+          for VERSION in "$PACKAGE_VERSION" "$CORE_VERSION"; do
+            if [[ ! "$VERSION" =~ ^[0-9]+\.[0-9]+\.[0-9]+(-[0-9A-Za-z.-]+)?(\+[0-9A-Za-z.-]+)?$ ]]; then
+              echo "Invalid NuGet version: $VERSION" >&2
+              exit 1
+            fi
+          done
+      - name: Pack Experimental package
+        env:
+          PACKAGE_VERSION: ${{ inputs.package_version }}
+          CORE_VERSION: ${{ inputs.core_version }}
+        run: |
+          dotnet pack src/VoicevoxCoreSharp.Experimental/VoicevoxCoreSharp.Experimental.csproj \
+            -p:PackageVersion="$PACKAGE_VERSION" \
+            -p:CoreVersion="$CORE_VERSION" \
+            -c Release \
+            -o ./artifacts
+
+      - name: NuGet login (OIDC → temp API key)
+        uses: NuGet/login@v1
+        id: login
+        with:
+          user: ${{ secrets.NUGET_USER }}
+      - name: NuGet push
+        env:
+          NUGET_API_KEY: ${{ steps.login.outputs.NUGET_API_KEY }}
+        run: |
+          for package in ./artifacts/*.nupkg ./artifacts/*.snupkg; do
+            dotnet nuget push "$package" \
+              --api-key "$NUGET_API_KEY" \
+              --source https://api.nuget.org/v3/index.json \
+              --skip-duplicate
+          done

@@ -37,7 +37,6 @@ jobs:
       - run: mkdir -p ./artifacts
       - run: |
           dotnet pack src/VoicevoxCoreSharp.Core/VoicevoxCoreSharp.Core.csproj -p:PackageVersion=${{ github.ref_name }} -c Release -o ./artifacts
-          # TODO: src/VoicevoxCoreSharp.Experimental/VoicevoxCoreSharp.Experimental.csproj の扱いを考える
       - run: dotnet nuget push ./artifacts/*.nupkg --source https://api.nuget.org/v3/index.json --api-key ${{ secrets.NUGET_KEY }} --skip-duplicate
       - run: gh release create ${{github.ref_name}} --generate-notes ./artifacts/*.nupkg
         env:
