@@ -78,16 +78,40 @@ namespace VoicevoxCoreSharp.Core.Tests
             Assert.NotNull(pcm);
 
             Assert.True(audioFeature.FrameLength > 1);
+            Assert.False(audioFeature.IsEmpty);
+            var wholeSlice = audioFeature.Slice();
+            Assert.Equal(audioFeature.FrameLength, wholeSlice.FrameLength);
+            Assert.False(wholeSlice.IsEmpty);
+
             var splitFrameIndex = audioFeature.FrameLength / 2;
             Assert.True(splitFrameIndex > 0);
             Assert.True(splitFrameIndex < audioFeature.FrameLength);
 
-            var firstRenderResult = synthesizer.Render(audioFeature, 0, splitFrameIndex, out var firstPcmLength, out var firstPcm);
+            Assert.Equal(
+                ResultCode.RESULT_OK,
+                audioFeature.Slice(0, splitFrameIndex, false, false, false, out var firstSlice));
+            Assert.NotNull(firstSlice);
+            Assert.Equal((nuint)0, firstSlice.StartOffset);
+            Assert.Equal(splitFrameIndex, firstSlice.FrameLength);
+            Assert.Equal(
+                ResultCode.RESULT_OK,
+                firstSlice.Slice(0, splitFrameIndex, false, false, false, out var firstSubSlice));
+            Assert.NotNull(firstSubSlice);
+            Assert.Equal(splitFrameIndex, firstSubSlice!.FrameLength);
+
+            Assert.Equal(
+                ResultCode.RESULT_OK,
+                audioFeature.Slice(splitFrameIndex, audioFeature.FrameLength, false, false, false, out var secondSlice));
+            Assert.NotNull(secondSlice);
+            Assert.Equal(splitFrameIndex, secondSlice.StartOffset);
+            Assert.Equal(audioFeature.FrameLength - splitFrameIndex, secondSlice.FrameLength);
+
+            var firstRenderResult = synthesizer.Render(firstSlice!, out var firstPcmLength, out var firstPcm);
             Assert.Equal(ResultCode.RESULT_OK, firstRenderResult);
             Assert.True(firstPcmLength > 0);
             Assert.NotNull(firstPcm);
 
-            var secondRenderResult = synthesizer.Render(audioFeature, splitFrameIndex, audioFeature.FrameLength, out var secondPcmLength, out var secondPcm);
+            var secondRenderResult = synthesizer.Render(secondSlice!, out var secondPcmLength, out var secondPcm);
             Assert.Equal(ResultCode.RESULT_OK, secondRenderResult);
             Assert.True(secondPcmLength > 0);
             Assert.NotNull(secondPcm);
@@ -96,6 +120,11 @@ namespace VoicevoxCoreSharp.Core.Tests
             Array.Copy(firstPcm, 0, concatenatedPcm, 0, (int)firstPcmLength);
             Array.Copy(secondPcm, 0, concatenatedPcm, (int)firstPcmLength, (int)secondPcmLength);
             Assert.Equal(pcm, concatenatedPcm);
+
+            Assert.Equal(
+                ResultCode.RESULT_END_OUT_OF_BOUNDS_ERROR,
+                audioFeature.Slice(0, audioFeature.FrameLength + 1, false, false, false, out var invalidSlice));
+            Assert.Null(invalidSlice);
 
             using var audioQuery = JsonDocument.Parse(audioQueryJson);
             var outputSamplingRate = audioQuery.RootElement.GetProperty("outputSamplingRate").GetUInt32();

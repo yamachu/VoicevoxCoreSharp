@@ -132,6 +132,18 @@ namespace VoicevoxCoreSharp.Core.Enum
         /// 楽譜とFrameAudioQueryの組み合わせが不正
         /// </summary>
         RESULT_INCOMPATIBLE_QUERIES_ERROR = 35,
+        /// <summary>
+        /// 音声特徴量スライスの開始位置が範囲外
+        /// </summary>
+        RESULT_START_OUT_OF_BOUNDS_ERROR = 36,
+        /// <summary>
+        /// 音声特徴量スライスの終了位置が範囲外
+        /// </summary>
+        RESULT_END_OUT_OF_BOUNDS_ERROR = 37,
+        /// <summary>
+        /// 音声特徴量スライスの開始位置が終了位置を超えている
+        /// </summary>
+        RESULT_START_EXCEEDS_END_ERROR = 38,
     }
 
     public static class ResultCodeExt
@@ -172,6 +184,9 @@ namespace VoicevoxCoreSharp.Core.Enum
                 VoicevoxResultCode.VOICEVOX_RESULT_INVALID_FRAME_AUDIO_QUERY_ERROR => ResultCode.RESULT_INVALID_FRAME_AUDIO_QUERY_ERROR,
                 VoicevoxResultCode.VOICEVOX_RESULT_INVALID_FRAME_PHONEME_ERROR => ResultCode.RESULT_INVALID_FRAME_PHONEME_ERROR,
                 VoicevoxResultCode.VOICEVOX_RESULT_INCOMPATIBLE_QUERIES_ERROR => ResultCode.RESULT_INCOMPATIBLE_QUERIES_ERROR,
+                VoicevoxResultCode.VOICEVOX_RESULT_START_OUT_OF_BOUNDS_ERROR => ResultCode.RESULT_START_OUT_OF_BOUNDS_ERROR,
+                VoicevoxResultCode.VOICEVOX_RESULT_END_OUT_OF_BOUNDS_ERROR => ResultCode.RESULT_END_OUT_OF_BOUNDS_ERROR,
+                VoicevoxResultCode.VOICEVOX_RESULT_START_EXCEEDS_END_ERROR => ResultCode.RESULT_START_EXCEEDS_END_ERROR,
             };
 #pragma warning restore CS8524
         }
@@ -212,6 +227,9 @@ namespace VoicevoxCoreSharp.Core.Enum
                 ResultCode.RESULT_INVALID_FRAME_AUDIO_QUERY_ERROR => VoicevoxResultCode.VOICEVOX_RESULT_INVALID_FRAME_AUDIO_QUERY_ERROR,
                 ResultCode.RESULT_INVALID_FRAME_PHONEME_ERROR => VoicevoxResultCode.VOICEVOX_RESULT_INVALID_FRAME_PHONEME_ERROR,
                 ResultCode.RESULT_INCOMPATIBLE_QUERIES_ERROR => VoicevoxResultCode.VOICEVOX_RESULT_INCOMPATIBLE_QUERIES_ERROR,
+                ResultCode.RESULT_START_OUT_OF_BOUNDS_ERROR => VoicevoxResultCode.VOICEVOX_RESULT_START_OUT_OF_BOUNDS_ERROR,
+                ResultCode.RESULT_END_OUT_OF_BOUNDS_ERROR => VoicevoxResultCode.VOICEVOX_RESULT_END_OUT_OF_BOUNDS_ERROR,
+                ResultCode.RESULT_START_EXCEEDS_END_ERROR => VoicevoxResultCode.VOICEVOX_RESULT_START_EXCEEDS_END_ERROR,
             };
 #pragma warning restore CS8524
         }
