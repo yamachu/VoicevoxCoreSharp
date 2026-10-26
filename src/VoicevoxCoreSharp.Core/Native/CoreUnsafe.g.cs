@@ -347,8 +347,7 @@ namespace VoicevoxCoreSharp.Core.Native
         ///      query, voicevox_make_default_audio_query_frame_length_options(),
         ///      &amp;frame_length_of_audio_query));
         ///
-        ///  const size_t frame_length_of_audio_feature =
-        ///      voicevox_audio_feature_frame_length(audio);
+        ///  const size_t frame_length_of_audio_feature = voicevox_audio_feature_len(audio);
         ///
         ///  assert(frame_length_of_audio_query == frame_length_of_audio_feature);
         ///  ```
@@ -632,8 +631,6 @@ namespace VoicevoxCoreSharp.Core.Native
         ///  @param [in] is_stereo ステレオかどうか
         ///  @param [out] output_wav_length 出力のバイト長
         ///  @param [out] output_wav 出力先
-        ///
-        ///  @returns 結果コード
         ///
         ///  \safety{
         ///  - `pcm_length &gt; 0`のとき、`pcm`は長さ`pcm_length`にわたって&lt;a href="#voicevox-core-safety"&gt;読み込みについて有効&lt;/a&gt;でなければならない。
@@ -1112,6 +1109,11 @@ namespace VoicevoxCoreSharp.Core.Native
         ///
         ///  生成した中間表現を解放するには ::voicevox_audio_feature_delete を使う。
         ///
+        ///  &gt; [!WARNING]
+        ///  &gt; ストリーミング音声合成にはいくつか注意事項がある。ユーザーガイドの[ストリーミング音声合成]を参照。
+        ///
+        ///  [ストリーミング音声合成]: https://github.com/VOICEVOX/voicevox_core/blob/main/docs/guide/user/usage.md#ストリーミング音声合成
+        ///
         ///  @param [in] synthesizer 音声シンセサイザ
         ///  @param [in] audio_query_json AudioQueryのJSON文字列
         ///  @param [in] style_id スタイルID
@@ -1131,28 +1133,147 @@ namespace VoicevoxCoreSharp.Core.Native
         internal static extern VoicevoxResultCode voicevox_synthesizer_create_audio_feature(VoicevoxSynthesizer* synthesizer, byte* audio_query_json, uint style_id, VoicevoxSynthesisOptions options, VoicevoxAudioFeature** out_audio_feature);
 
         /// <summary>
-        ///  ::VoicevoxAudioFeature のフレーム数を取得する。
+        ///  ::VoicevoxAudioFeature の総フレーム数を取得する。
+        ///
+        ///  この ::VoicevoxAudioFeature
+        ///  を生成するときに用いた`AudioQuery`について、生成時と同じ疑問文の語尾上昇設定で
+        ///  ::voicevox_audio_query_frame_length により算出した値に等しい。
         ///
         ///  @param [in] audio_feature 音声合成用の中間表現
         ///
-        ///  @returns フレーム数
+        ///  @returns 総フレーム数
         ///
-        ///  \no-orig-impl{voicevox_audio_feature_frame_length}
+        ///  \orig-impl{voicevox_audio_feature_len}
         /// </summary>
-        [DllImport(__DllName, EntryPoint = "voicevox_audio_feature_frame_length", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        internal static extern nuint voicevox_audio_feature_frame_length(VoicevoxAudioFeature* audio_feature);
+        [DllImport(__DllName, EntryPoint = "voicevox_audio_feature_len", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        internal static extern nuint voicevox_audio_feature_len(VoicevoxAudioFeature* audio_feature);
 
         /// <summary>
-        ///  ::VoicevoxAudioFeature の一部区間から、16bit PCMで音声波形を生成する。
+        ///  ::voicevox_audio_feature_len で取得する長さが`0`かどうか。
+        ///
+        ///  @param [in] audio_feature 音声合成用の中間表現
+        ///
+        ///  @returns 長さが`0`なら`true`、それ以外は`false`
+        ///
+        ///  \orig-impl{voicevox_audio_feature_is_empty}
+        /// </summary>
+        [DllImport(__DllName, EntryPoint = "voicevox_audio_feature_is_empty", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        [return: MarshalAs(UnmanagedType.U1)]
+        internal static extern bool voicevox_audio_feature_is_empty(VoicevoxAudioFeature* audio_feature);
+
+        /// <summary>
+        ///  指定された範囲に対応した ::VoicevoxAudioFeatureSlice を返す。
+        ///
+        ///  `audio_feature`は複製されずにそのまま構造体に入る。解放は不要。
+        ///
+        ///  @param [in] audio_feature
+        ///  @param [in] start_inclusive 開始フレーム番号
+        ///  @param [in] end 終了フレーム番号
+        ///  @param [in] end_is_inclusive `end`を含むかどうか
+        ///  @param [in] clamp
+        ///  @param [in] allow_start_exceeds_end
+        ///  @param [out] output スライスの出力先
+        ///
+        ///  @returns 結果コード。エラーは
+        ///           \ref VOICEVOX_RESULT_START_OUT_OF_BOUNDS_ERROR
+        ///           、\ref VOICEVOX_RESULT_END_OUT_OF_BOUNDS_ERROR
+        ///           、または \ref VOICEVOX_RESULT_START_EXCEEDS_END_ERROR
+        ///
+        ///  \safety{
+        ///  - `output`は&lt;a href="#voicevox-core-safety"&gt;書き込みについて有効&lt;/a&gt;でなければならない。
+        ///  }
+        ///
+        ///  \orig-impl{voicevox_audio_feature_slice}
+        /// </summary>
+        [DllImport(__DllName, EntryPoint = "voicevox_audio_feature_slice", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        internal static extern VoicevoxResultCode voicevox_audio_feature_slice(VoicevoxAudioFeature* audio_feature, nuint start_inclusive, nuint end, [MarshalAs(UnmanagedType.U1)] bool end_is_inclusive, [MarshalAs(UnmanagedType.U1)] bool clamp, [MarshalAs(UnmanagedType.U1)] bool allow_start_exceeds_end, VoicevoxAudioFeatureSlice* output);
+
+        /// <summary>
+        ///  与えられた ::VoicevoxAudioFeature の全体を表す ::VoicevoxAudioFeatureSlice を返す。
+        ///
+        ///  `audio_feature`は複製されずにそのまま構造体に入る。解放は不要。
+        ///
+        ///  \orig-impl{voicevox_audio_feature_slice_new}
+        /// </summary>
+        [DllImport(__DllName, EntryPoint = "voicevox_audio_feature_slice_new", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        internal static extern VoicevoxAudioFeatureSlice voicevox_audio_feature_slice_new(VoicevoxAudioFeature* audio_feature, [MarshalAs(UnmanagedType.U1)] bool clamp, [MarshalAs(UnmanagedType.U1)] bool allow_start_exceeds_end);
+
+        /// <summary>
+        ///  ::VoicevoxAudioFeatureSlice が持つフレーム数を返す。
+        ///
+        ///  @param [in] audio_feature_slice
+        ///  @param [out] output フレーム数の出力先
+        ///
+        ///  @returns 結果コード。エラーは
+        ///           \ref VOICEVOX_RESULT_START_OUT_OF_BOUNDS_ERROR
+        ///           、\ref VOICEVOX_RESULT_END_OUT_OF_BOUNDS_ERROR
+        ///           、または \ref VOICEVOX_RESULT_START_EXCEEDS_END_ERROR
+        ///
+        ///  \safety{
+        ///  - `output`は&lt;a href="#voicevox-core-safety"&gt;書き込みについて有効&lt;/a&gt;でなければならない。
+        ///  }
+        ///
+        ///  \orig-impl{voicevox_audio_feature_slice_len}
+        /// </summary>
+        [DllImport(__DllName, EntryPoint = "voicevox_audio_feature_slice_len", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        internal static extern VoicevoxResultCode voicevox_audio_feature_slice_len(VoicevoxAudioFeatureSlice audio_feature_slice, nuint* output);
+
+        /// <summary>
+        ///  ::voicevox_audio_feature_slice_len で取得する長さが`0`かどうかを返す。
+        ///
+        ///  @param [in] audio_feature_slice
+        ///  @param [out] output 長さが`0`かどうかの出力先
+        ///
+        ///  @returns 結果コード。エラーは
+        ///           \ref VOICEVOX_RESULT_START_OUT_OF_BOUNDS_ERROR
+        ///           、\ref VOICEVOX_RESULT_END_OUT_OF_BOUNDS_ERROR
+        ///           、または \ref VOICEVOX_RESULT_START_EXCEEDS_END_ERROR
+        ///
+        ///  \safety{
+        ///  - `output`は&lt;a href="#voicevox-core-safety"&gt;書き込みについて有効&lt;/a&gt;でなければならない。
+        ///  }
+        ///
+        ///  \orig-impl{voicevox_audio_feature_slice_is_empty}
+        /// </summary>
+        [DllImport(__DllName, EntryPoint = "voicevox_audio_feature_slice_is_empty", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        internal static extern VoicevoxResultCode voicevox_audio_feature_slice_is_empty(VoicevoxAudioFeatureSlice audio_feature_slice, bool* output);
+
+        /// <summary>
+        ///  与えられた ::VoicevoxAudioFeatureSlice のサブスライスを返す。
+        ///
+        ///  `audio_feature_slice.audio_feature`は複製されずにそのまま構造体に入る。解放は不要。
+        ///
+        ///  @param [in] audio_feature_slice
+        ///  @param [in] start_inclusive 開始フレーム番号
+        ///  @param [in] end 終了フレーム番号
+        ///  @param [in] end_is_inclusive `end`を含むかどうか
+        ///  @param [in] clamp
+        ///  @param [in] allow_start_exceeds_end
+        ///  @param [out] output サブスライスの出力先
+        ///
+        ///  @returns 結果コード。エラーは
+        ///           \ref VOICEVOX_RESULT_START_OUT_OF_BOUNDS_ERROR
+        ///           、\ref VOICEVOX_RESULT_END_OUT_OF_BOUNDS_ERROR
+        ///           、または \ref VOICEVOX_RESULT_START_EXCEEDS_END_ERROR
+        ///
+        ///  \safety{
+        ///  - `output`は&lt;a href="#voicevox-core-safety"&gt;書き込みについて有効&lt;/a&gt;でなければならない。
+        ///  }
+        ///
+        ///  \orig-impl{voicevox_audio_feature_slice_slice}
+        /// </summary>
+        [DllImport(__DllName, EntryPoint = "voicevox_audio_feature_slice_slice", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        internal static extern VoicevoxResultCode voicevox_audio_feature_slice_slice(VoicevoxAudioFeatureSlice audio_feature_slice, nuint start_inclusive, nuint end, [MarshalAs(UnmanagedType.U1)] bool end_is_inclusive, [MarshalAs(UnmanagedType.U1)] bool clamp, [MarshalAs(UnmanagedType.U1)] bool allow_start_exceeds_end, VoicevoxAudioFeatureSlice* output);
+
+        /// <summary>
+        ///  ::VoicevoxAudioFeatureSlice から、16bit PCMで音声波形を生成する。
         ///
         ///  生成されたPCMデータが`0`バイトのとき、`output_pcm_length`には`0`が、`output_pcm`には ::voicevox_empty_bytes が書き込まれる。
         ///
         ///  生成した`1`バイト以上のPCMデータを解放するには ::voicevox_bytes_free を使う。
         ///
         ///  @param [in] synthesizer 音声シンセサイザ
-        ///  @param [in] audio_feature 音声合成用の中間表現
-        ///  @param [in] start_inclusive 開始フレーム番号
-        ///  @param [in] end_exclusive 終了フレーム番号（この番号は含まれない）
+        ///  @param [in] audio_feature_slice 音声合成用の中間表現
         ///  @param [out] output_pcm_length 出力のバイト長
         ///  @param [out] output_pcm 出力先
         ///
@@ -1166,7 +1287,7 @@ namespace VoicevoxCoreSharp.Core.Native
         ///  \orig-impl{voicevox_synthesizer_render}
         /// </summary>
         [DllImport(__DllName, EntryPoint = "voicevox_synthesizer_render", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        internal static extern VoicevoxResultCode voicevox_synthesizer_render(VoicevoxSynthesizer* synthesizer, VoicevoxAudioFeature* audio_feature, nuint start_inclusive, nuint end_exclusive, nuint* output_pcm_length, byte** output_pcm);
+        internal static extern VoicevoxResultCode voicevox_synthesizer_render(VoicevoxSynthesizer* synthesizer, VoicevoxAudioFeatureSlice audio_feature_slice, nuint* output_pcm_length, byte** output_pcm);
 
         /// <summary>
         ///  ::VoicevoxAudioFeature を&lt;b&gt;破棄&lt;/b&gt;(_destruct_)する。
@@ -1748,6 +1869,17 @@ namespace VoicevoxCoreSharp.Core.Native
     }
 
     [StructLayout(LayoutKind.Sequential)]
+    internal unsafe partial struct VoicevoxAudioFeatureSlice
+    {
+        public VoicevoxAudioFeature* audio_feature;
+        public nuint start_offset;
+        public nuint end;
+        [MarshalAs(UnmanagedType.U1)] public bool end_is_inclusive;
+        [MarshalAs(UnmanagedType.U1)] public bool clamp;
+        [MarshalAs(UnmanagedType.U1)] public bool allow_start_exceeds_end;
+    }
+
+    [StructLayout(LayoutKind.Sequential)]
     internal unsafe partial struct VoicevoxTtsOptions
     {
         [MarshalAs(UnmanagedType.U1)] public bool enable_interrogative_upspeak;
@@ -1802,6 +1934,9 @@ namespace VoicevoxCoreSharp.Core.Native
         VOICEVOX_RESULT_INVALID_FRAME_AUDIO_QUERY_ERROR = 33,
         VOICEVOX_RESULT_INVALID_FRAME_PHONEME_ERROR = 34,
         VOICEVOX_RESULT_INCOMPATIBLE_QUERIES_ERROR = 35,
+        VOICEVOX_RESULT_START_OUT_OF_BOUNDS_ERROR = 36,
+        VOICEVOX_RESULT_END_OUT_OF_BOUNDS_ERROR = 37,
+        VOICEVOX_RESULT_START_EXCEEDS_END_ERROR = 38,
     }
 
     internal enum VoicevoxOnExistingVoiceModelId : int

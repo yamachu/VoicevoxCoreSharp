@@ -2,6 +2,6 @@
     <PropertyGroup>
         <!-- ref: binding/voicevox_core/crates/voicevox_core/onnxruntime-recommended-version.txt -->
         <VoicevoxOnnxRuntimeVersion>1.23.2</VoicevoxOnnxRuntimeVersion>
-        <VoicevoxCoreCommitHash>b642d98c0a6f1048c787da4b42147a4574815a8a</VoicevoxCoreCommitHash>
+        <VoicevoxCoreCommitHash>68ae4b2cf3d134bd14a6e466f753f9cfaf7f441a</VoicevoxCoreCommitHash>
     </PropertyGroup>
 </Project>
