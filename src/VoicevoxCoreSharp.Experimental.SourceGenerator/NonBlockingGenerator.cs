@@ -113,7 +113,19 @@ namespace {methodInfo.Namespace}
             //     )
             // );
 
-            context.AddSource($"{methodInfo.ClassName}.{methodInfo.MethodName}.g.cs", SourceText.From(source, Encoding.UTF8));
+            var parameterTypes = string.Join("_", methodInfo.Parameters.Select(p => SanitizeHintName(p.Type)));
+            context.AddSource($"{methodInfo.ClassName}.{methodInfo.MethodName}.{parameterTypes}.g.cs", SourceText.From(source, Encoding.UTF8));
+        }
+
+        private static string SanitizeHintName(string value)
+        {
+            var result = new StringBuilder(value.Length);
+            foreach (var character in value)
+            {
+                result.Append(char.IsLetterOrDigit(character) ? character : '_');
+            }
+
+            return result.ToString();
         }
 
         private static string BuildMethodParameters(MethodInfo info)
